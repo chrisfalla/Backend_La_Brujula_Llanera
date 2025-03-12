@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha"
+    "dev": "nodemon server.cjs"
   },
   "keywords": [],
   "author": "",
