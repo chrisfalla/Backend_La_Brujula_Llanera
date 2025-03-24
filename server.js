@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import 'process'
+import process from 'process'; // Ensure process is imported
 
 import express from 'express';
 import cors from 'cors';

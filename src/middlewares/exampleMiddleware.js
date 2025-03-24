@@ -3,4 +3,4 @@ const exampleMiddleware = (req, res, next) => {
   next();
 };
 
-module.exports = exampleMiddleware;
+export default exampleMiddleware;
