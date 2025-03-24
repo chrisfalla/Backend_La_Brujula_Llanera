@@ -38,6 +38,6 @@ export const up = async (queryInterface, Sequelize) => {
   });
 };
 
-export const down = async (queryInterface, Sequelize) => {
+export const down = async (queryInterface) => {
   await queryInterface.dropTable('ProductoMasVendido');
 };

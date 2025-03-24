@@ -4,4 +4,4 @@ class ExampleService {
   }
 }
 
-module.exports = ExampleService;
+export default ExampleService;
