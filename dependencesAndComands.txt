@@ -1,0 +1,123 @@
+# Instalación y configuración inicial
+npm init -y
+
+# Dependencias principales
+# Instalación de Express
+npm install express
+
+# Instalación de PostgreSQL y relacionados
+npm install pg pg-hstore sequelize
+
+# Instalación de bcrypt para encriptación
+npm install bcrypt
+
+# Instalación de CORS
+npm install cors
+
+# Instalación de dotenv para variables de entorno
+npm install dotenv
+
+# Instalación de Supabase
+npm install @supabase/supabase-js
+
+# Dependencias de desarrollo
+npm install --save-dev eslint @eslint/js globals nodemon mocha sequelize-cli
+
+# Instalación de todo junto
+npm install express pg pg-hstore sequelize bcrypt cors dotenv @supabase/supabase-js
+npm install --save-dev eslint @eslint/js globals nodemon mocha sequelize-cli
+
+# Comandos de Sequelize
+# Inicializar Sequelize
+npx sequelize-cli init
+
+# Crear modelos/migraciones
+npx sequelize-cli model:generate --name User --attributes name:string,email:string,password:string
+
+# Ejecutar migraciones
+npx sequelize-cli db:migrate --migrations-path src/database/migrations
+
+# Deshacer la última migración
+npx sequelize-cli db:migrate:undo --migrations-path src/database/migrations
+
+# Ejecutar seeders
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-user.js
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-category.js
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-place.js
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-comentary.js
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-images.js
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-bestSellingProduct.js
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-category_image.js
+
+# Ejecutar todos los seeders
+npx sequelize-cli db:seed:all --seeders-path src/database/seeders
+
+# Deshacer seeders
+npx sequelize-cli db:seed:undo --seeders-path src/database/seeders --seed seeder-user.js
+npx sequelize-cli db:seed:undo:all --seeders-path src/database/seeders
+
+# Rollback completo y reinicio de IDs
+
+## Paso 1: Eliminar todos los seeders
+
+```bash
+# Eliminar todos los seeders
+npx sequelize-cli db:seed:undo:all --seeders-path src/database/seeders
+```
+
+
+## Paso 2: Reiniciar las secuencias de IDs en PostgreSQL
+
+Para que los IDs comiencen desde 1, necesitamos ejecutar comandos SQL directamente en la base de datos PostgreSQL. Puedes hacerlo a través de la interfaz de línea de comandos de PostgreSQL (`psql`) o desde una interfaz gráfica como pgAdmin.
+
+```sql:dependencesAndComands.txt
+-- Reiniciar secuencia para Usuarios
+ALTER SEQUENCE "Usuarios_id_Usuario_seq" RESTART WITH 1;
+
+-- Reiniciar secuencia para Categorias
+ALTER SEQUENCE "Categorias_id_Categoria_seq" RESTART WITH 1;
+
+-- Reiniciar secuencia para CategoriaImagen
+ALTER SEQUENCE "CategoriaImagen_id_Categoria_Imagen_seq" RESTART WITH 1;
+
+-- Reiniciar secuencia para Lugares
+ALTER SEQUENCE "Lugares_id_Lugar_seq" RESTART WITH 1;
+
+-- Reiniciar secuencia para Comentarios
+ALTER SEQUENCE "Comentarios_id_Comentario_seq" RESTART WITH 1;
+
+-- Reiniciar secuencia para ProductoMasVendido
+ALTER SEQUENCE "ProductoMasVendido_id_Producto_Mas_Vendido_seq" RESTART WITH 1;
+```
+
+
+## Paso 3: Ejecutar los seeders nuevamente en orden
+
+```bash
+# 1. Primero usuarios
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-user.js
+
+# 2. Luego categorías
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-category.js
+
+# 3. Luego categorías de imágenes
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-category_image.js
+
+# 4. Luego lugares
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-place.js
+
+# 5. Finalmente datos relacionados con lugares
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-comentary.js
+npx sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-bestSellingProduct.js
+```
+
+
+También puedes crear un script en `package.json` para ejecutar todos estos comandos en secuencia:
+
+```json
+"scripts": {
+  "seed:reset": "sequelize-cli db:seed:undo:all --seeders-path src/database/seeders && npm run seed:all",
+  "seed:all": "sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-user.js && sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-category.js && sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-category_image.js && sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-place.js && sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-comentary.js && sequelize-cli db:seed --seeders-path src/database/seeders --seed seeder-bestSellingProduct.js"
+}
+```
+
