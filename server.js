@@ -2,6 +2,9 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
+import router from './src/routes/UserRoute.js';
+import swaggerSpec from './swagger/swaggerConfig.js';
+import swaggerUi from 'swagger-ui-express';
 
 const app = express();
 
@@ -18,6 +21,8 @@ const posts = [
 
 app.use(cors());
 app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api", router);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
