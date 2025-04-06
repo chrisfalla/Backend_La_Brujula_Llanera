@@ -14,9 +14,24 @@ const options = {
         url: "http://localhost:3000",
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT", // Esto es solo informativo
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
-  apis: ["./src/routes/*.js"], // Ruta a los archivos de rutas donde están las anotaciones de Swagger
+  apis: ["./src/routes/*.js"],
 };
+
 
 const swaggerSpec = swaggerJSDoc(options);
 

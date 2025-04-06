@@ -11,9 +11,18 @@ const usuarios = [
 
 /**
  * @swagger
+ * tags:
+ *   name: Usuarios
+ *   description: Operaciones relacionadas con usuarios
+ */
+
+/**
+ * @swagger
  * /api/users:
  *   get:
  *     summary: Obtener todos los usuarios
+ *     tags:
+ *       - Usuarios
  *     responses:
  *       200:
  *         description: Lista de usuarios
@@ -27,6 +36,8 @@ router.get("/users", (req, res) => {
  * /api/users/{id}:
  *   get:
  *     summary: Obtener un usuario por ID
+ *     tags:
+ *       - Usuarios
  *     parameters:
  *       - in: path
  *         name: id
@@ -56,6 +67,8 @@ router.get("/users/:id", (req, res) => {
  * /api/users/byname/{name}:
  *   get:
  *     summary: Buscar usuario por nombre
+ *     tags:
+ *       - Usuarios
  *     parameters:
  *       - in: path
  *         name: name
