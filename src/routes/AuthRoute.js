@@ -1,13 +1,10 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import db from '../models/index.js';
 
 const router = express.Router();
-
-// Lista simulada de usuarios (en memoria)
-const users = [
-  { username: 'Juan', password: '1234' },
-  { username: 'Pedro', password: 'abcd' },
-];
+const { User } = db;
 
 // Middleware para autenticar JWT
 function authenticateToken(req, res, next) {
@@ -43,13 +40,14 @@ function authenticateToken(req, res, next) {
  *           schema:
  *             type: object
  *             required:
- *               - username
- *               - password
+ *               - correo
+ *               - contrasena
  *             properties:
- *               username:
+ *               correo:
  *                 type: string
- *                 example: Juan
- *               password:
+ *                 format: email
+ *                 example: juan@correo.com
+ *               contrasena:
  *                 type: string
  *                 example: 1234
  *     responses:
@@ -63,24 +61,33 @@ function authenticateToken(req, res, next) {
  *                 accessToken:
  *                   type: string
  *       400:
- *         description: El campo username o password es requerido
+ *         description: El campo correo o contraseña es requerido
  *       401:
  *         description: Usuario o contraseña inválido
  */
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
+router.post('/login', async (req, res) => {
+  const { correo, contrasena } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Username y password requeridos' });
+  if (!correo || !contrasena) {
+    return res.status(400).json({ error: 'Correo y contraseña son requeridos' });
   }
 
-  const user = users.find(u => u.username === username && u.password === password);
-
+  const user = await User.findOne({ where: { correo } });
   if (!user) {
     return res.status(401).json({ error: 'Usuario o contraseña inválido' });
   }
 
-  const accessToken = jwt.sign({ username: user.username }, process.env.ACCESS_TOKEN_SECRET);
+  const validPassword = await bcrypt.compare(contrasena, user.contrasena);
+  if (!validPassword) {
+    return res.status(401).json({ error: 'Usuario o contraseña inválido' });
+  }
+
+  const accessToken = jwt.sign(
+    { id: user.id_Usuario, correo: user.correo, nombre: user.nombre },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: '1h' }
+  );
+
   res.json({ accessToken });
 });
 
@@ -97,13 +104,18 @@ router.post('/login', (req, res) => {
  *           schema:
  *             type: object
  *             required:
- *               - username
- *               - password
+ *               - nombre
+ *               - correo
+ *               - contrasena
  *             properties:
- *               username:
+ *               nombre:
  *                 type: string
  *                 example: Maria
- *               password:
+ *               correo:
+ *                 type: string
+ *                 format: email
+ *                 example: maria@correo.com
+ *               contrasena:
  *                 type: string
  *                 example: pass123
  *     responses:
@@ -112,23 +124,28 @@ router.post('/login', (req, res) => {
  *       400:
  *         description: Datos incompletos o usuario ya existe
  */
-router.post('/register', (req, res) => {
-  const { username, password } = req.body;
+router.post('/register', async (req, res) => {
+  const { nombre, correo, contrasena } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Username y password requeridos' });
+  if (!nombre || !correo || !contrasena) {
+    return res.status(400).json({ error: 'Nombre, correo y contraseña son requeridos' });
   }
 
-  const userExists = users.find(u => u.username === username);
-  if (userExists) {
+  const existingUser = await User.findOne({ where: { correo } });
+  if (existingUser) {
     return res.status(400).json({ error: 'El usuario ya existe' });
   }
 
-  users.push({ username, password });
+  const hashedPassword = await bcrypt.hash(contrasena, 10);
+
+  await User.create({
+    nombre,
+    correo,
+    contrasena: hashedPassword
+  });
+
   res.status(201).json({ message: 'Usuario registrado exitosamente' });
 });
-
-
 
 /**
  * @swagger
@@ -148,17 +165,22 @@ router.post('/register', (req, res) => {
  *               items:
  *                 type: object
  *                 properties:
- *                   username:
+ *                   id_Usuario:
+ *                     type: integer
+ *                   nombre:
  *                     type: string
- *                   password:
+ *                   correo:
  *                     type: string
  *       401:
  *         description: Token no proporcionado
  *       403:
  *         description: Token inválido
  */
-router.get('/users', authenticateToken, (req, res) => {
-    res.json(users);
+router.get('/users', authenticateToken, async (req, res) => {
+  const users = await User.findAll({
+    attributes: ['id_Usuario', 'nombre', 'correo']
   });
+  res.json(users);
+});
 
 export default router;
