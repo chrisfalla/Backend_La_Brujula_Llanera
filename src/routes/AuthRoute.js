@@ -1,7 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import db from '../models/index.js';
+import db from '../database/models/index.js'; // ✅ Asegúrate de que esta ruta sea correcta
 
 const router = express.Router();
 const { User } = db;
