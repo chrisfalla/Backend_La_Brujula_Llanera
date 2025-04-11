@@ -25,7 +25,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000/api/v1",
+        url: "http://localhost:3000", // ✅ Ajusta la URL base para evitar duplicación de '/api'
         description: "Servidor de desarrollo local"
       },
       {
@@ -109,12 +109,8 @@ const options = {
     }
   },
   apis: [
-    // Rutas multiplataforma seguras
     path.join(__dirname, '..', 'src', 'routes', '*.js'),
-    path.join(__dirname, '..', 'src', 'routes', '*.yaml'),
-    
-    // Ruta alternativa si la anterior falla (para versiones antiguas de Node)
-    `${path.join(__dirname, '..', 'src', 'routes')}/*.js`
+    path.join(__dirname, '..', 'src', 'routes', '*.yaml')
   ]
 };
 
