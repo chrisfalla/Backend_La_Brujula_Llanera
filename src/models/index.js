@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import Sequelize from 'sequelize';
 import process from 'node:process';
-import configFile from '../../config/config.js';
+import configFile from '../../config/config.js'; // ✅ Ruta correcta al archivo de configuración
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,15 +25,16 @@ async function initializeModels() {
     .readdirSync(__dirname)
     .filter(file => {
       return (
-        file.indexOf('.') !== 0 &&
-        file !== basename &&
-        file.slice(-3) === '.js' &&
-        file.indexOf('.test.js') === -1
+        file.indexOf('.') !== 0 && // Excluye archivos ocultos
+        file !== basename && // Excluye este archivo (index.js)
+        file.slice(-3) === '.js' // Solo incluye archivos .js
       );
     });
 
   for (const file of files) {
-    const model = (await import(path.join(__dirname, file))).default(sequelize, Sequelize.DataTypes);
+    console.log(`Cargando modelo desde archivo: ${file}`);
+    const modelPath = path.join(__dirname, file);
+    const model = (await import(`file://${modelPath}`)).default(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   }
 
@@ -48,5 +49,11 @@ async function initializeModels() {
 }
 
 await initializeModels();
+
+if (!db.Categorie) {
+  console.error("❌ El modelo 'Categorie' no se cargó correctamente. Verifica su definición en 'categorie.js'.");
+} else {
+  console.log("✅ Modelo 'Categorie' cargado correctamente.");
+}
 
 export default db;
