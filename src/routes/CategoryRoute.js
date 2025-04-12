@@ -72,7 +72,7 @@ router.get('/name', async (req, res) => {
 
 /**
  * @swagger
- * /categories:
+ * /categories/create:
  *   post:
  *     summary: Crear una nueva categoría
  *     tags: [Categories]
@@ -108,6 +108,6 @@ router.get('/name', async (req, res) => {
  *       500:
  *         description: Error del servidor
  */
-router.post('/', createCategoryController);
+router.post('/create', createCategoryController);
 
 export default router;
