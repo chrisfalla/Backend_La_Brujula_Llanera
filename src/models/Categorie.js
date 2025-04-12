@@ -12,7 +12,7 @@ export default (sequelize, DataTypes) => {
     },
   }, {
     tableName: 'Categorias',
-    timestamps: false,
+    timestamps: true, // Cambiado a true para manejar createdAt y updatedAt
   });
 
   return Categorie;
