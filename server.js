@@ -7,7 +7,7 @@ import authRouter from './src/routes/AuthRoute.js';
 import postRouter from './src/routes/postsRoute.js';
 import swaggerSpec from './swagger/swaggerConfig.js';
 import swaggerUi from 'swagger-ui-express';
-import categoryRouter from './src/routes/CategoryRoute.js'; // Importa correctamente el archivo de rutas
+import categoryRouter from './src/routes/CategoryRoute.js'; 
 
 const app = express();
 

@@ -1,5 +1,6 @@
 import express from 'express';
-import { findCategoryByName, getAllCategories } from '../services/CategoryService.js';
+import { findCategoryByName, getAllCategories, createCategory } from '../services/CategoryService.js';
+import { createCategoryController } from '../controllers/CategoryController.js';
 
 const router = express.Router();
 
@@ -68,5 +69,45 @@ router.get('/name', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+/**
+ * @swagger
+ * /categories/create:
+ *   post:
+ *     summary: Crear una nueva categoría
+ *     tags: [Categories]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nombre de la categoría
+ *                 example: "Noticias Locales"
+ *     responses:
+ *       201:
+ *         description: Categoría creada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 1
+ *                 name:
+ *                   type: string
+ *                   example: "Noticias Locales"
+ *       400:
+ *         description: Datos inválidos o faltantes
+ *       500:
+ *         description: Error del servidor
+ */
+router.post('/create', createCategoryController);
 
 export default router;
