@@ -2,7 +2,7 @@
 'use strict';
 
 const up = async (queryInterface, Sequelize) => {
-  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS dbo;');
+  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS public;');
   await queryInterface.createTable('ImageByPlace', {
     idImageByPlace: {
       type: Sequelize.INTEGER,
@@ -20,12 +20,12 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'ImageCategorie',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idImageCategorie'
       },
       onUpdate: 'CASCADE',
-      onDelete: 'RESTRICT'
+      onDelete: 'CASCADE'
     },
     idPlaceFk: {
       type: Sequelize.INTEGER,
@@ -33,7 +33,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'Place',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idPlace'
       },
@@ -49,21 +49,21 @@ const up = async (queryInterface, Sequelize) => {
       allowNull: false
     }
   }, {
-    schema: 'dbo',
+    schema: 'public',
     timestamps: true
   });
 
   // Agregar índices para búsquedas eficientes
   await queryInterface.addIndex({
     tableName: 'ImageByPlace',
-    schema: 'dbo'
+    schema: 'public'
   }, ['idImageCategorieFk'], {
     name: 'idx_imagebyplace_imagecategorie'
   });
 
   await queryInterface.addIndex({
     tableName: 'ImageByPlace',
-    schema: 'dbo'
+    schema: 'public'
   }, ['idPlaceFk'], {
     name: 'idx_imagebyplace_place'
   });
@@ -72,7 +72,7 @@ const up = async (queryInterface, Sequelize) => {
 const down = async (queryInterface) => {
   await queryInterface.dropTable({
     tableName: 'ImageByPlace',
-    schema: 'dbo'
+    schema: 'public'
   });
 };
 

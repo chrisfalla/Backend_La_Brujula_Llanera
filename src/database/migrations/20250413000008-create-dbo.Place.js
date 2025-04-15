@@ -2,8 +2,8 @@
 'use strict';
 
 const up = async (queryInterface, Sequelize) => {
-  // Crear el esquema dbo si no existe
-  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS dbo;');
+  // Crear el esquema public si no existe
+  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS public;');
   
   await queryInterface.createTable('Place', {
     idPlace: {
@@ -30,7 +30,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'Categorie',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idCategorie'
       },
@@ -46,14 +46,14 @@ const up = async (queryInterface, Sequelize) => {
       allowNull: false
     }
   }, {
-    schema: 'dbo'
+    schema: 'public'
   });
 
   // Agregar índice para búsquedas por categoría
   try {
     await queryInterface.addIndex({
       tableName: 'Place',
-      schema: 'dbo'
+      schema: 'public'
     }, ['idCategorie'], {
       name: 'idx_place_categorie'
     });
@@ -68,7 +68,7 @@ const up = async (queryInterface, Sequelize) => {
 const down = async (queryInterface) => {
   await queryInterface.dropTable({
     tableName: 'Place',
-    schema: 'dbo'
+    schema: 'public'
   });
 };
 

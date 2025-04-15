@@ -2,7 +2,7 @@
 'use strict';
 
 const up = async (queryInterface, Sequelize) => {
-  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS dbo;');
+  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS public;');
   await queryInterface.createTable('AddressByPlace', {
     idAddressByPlace: {
       type: Sequelize.INTEGER,
@@ -16,7 +16,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'Place',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idPlace'
       },
@@ -29,7 +29,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'Address',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idAddress'
       },
@@ -45,7 +45,7 @@ const up = async (queryInterface, Sequelize) => {
       allowNull: false
     }
   }, {
-    schema: 'dbo',
+    schema: 'public',
     timestamps: true
   });
 
@@ -53,7 +53,7 @@ const up = async (queryInterface, Sequelize) => {
   try {
     await queryInterface.addIndex({
       tableName: 'AddressByPlace',
-      schema: 'dbo'
+      schema: 'public'
     }, ['idPlaceFk', 'idAddressFk'], {
       name: 'idx_addressbyplace_place_address'
     });
@@ -68,7 +68,7 @@ const up = async (queryInterface, Sequelize) => {
   try {
     await queryInterface.addConstraint({
       tableName: 'AddressByPlace',
-      schema: 'dbo'
+      schema: 'public'
     }, {
       fields: ['idPlaceFk', 'idAddressFk'],
       type: 'unique',
@@ -85,7 +85,7 @@ const up = async (queryInterface, Sequelize) => {
 const down = async (queryInterface) => {
   await queryInterface.dropTable({
     tableName: 'AddressByPlace',
-    schema: 'dbo'
+    schema: 'public'
   });
 };
 

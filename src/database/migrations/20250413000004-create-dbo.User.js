@@ -1,8 +1,8 @@
-// Migration: Create dbo.User table with Role relationship
+// Migration: Create public.User table with Role relationship
 'use strict';
 
 const up = async (queryInterface, Sequelize) => {
-  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS dbo;');
+  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS public;');
   await queryInterface.createTable('User', {
     idUser: {
       type: Sequelize.INTEGER,
@@ -51,7 +51,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'Role',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idRole'
       },
@@ -67,7 +67,7 @@ const up = async (queryInterface, Sequelize) => {
       allowNull: false
     }
   }, {
-    schema: 'dbo',
+    schema: 'public',
     timestamps: true
   });
 
@@ -76,7 +76,7 @@ const up = async (queryInterface, Sequelize) => {
     // Agregar índice para búsquedas por email
     await queryInterface.addIndex({
       tableName: 'User',
-      schema: 'dbo'
+      schema: 'public'
     }, ['email'], {
       name: 'idx_user_email'
     });
@@ -91,7 +91,7 @@ const up = async (queryInterface, Sequelize) => {
     // Agregar índice para búsquedas por rol
     await queryInterface.addIndex({
       tableName: 'User',
-      schema: 'dbo'
+      schema: 'public'
     }, ['idRoleFk'], {
       name: 'idx_user_role'
     });
@@ -106,7 +106,7 @@ const up = async (queryInterface, Sequelize) => {
 const down = async (queryInterface) => {
   await queryInterface.dropTable({
     tableName: 'User',
-    schema: 'dbo'
+    schema: 'public'
   });
 };
 

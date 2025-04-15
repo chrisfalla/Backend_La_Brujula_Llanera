@@ -2,10 +2,10 @@
 'use strict';
 
 const up = async (queryInterface, Sequelize) => {
-  // Crear el esquema dbo si no existe
-  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS dbo;');
+  // Crear el esquema public si no existe
+  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS public;');
 
-  // Luego crear la tabla en el esquema dbo
+  // Luego crear la tabla en el esquema public
   await queryInterface.createTable('Categorie', {
     idCategorie: {
       type: Sequelize.INTEGER,
@@ -32,18 +32,18 @@ const up = async (queryInterface, Sequelize) => {
       allowNull: false
     }
   }, {
-    schema: 'dbo'
+    schema: 'public'
   });
 };
 
 const down = async (queryInterface) => {
   await queryInterface.dropTable({
     tableName: 'Categorie',
-    schema: 'dbo'
+    schema: 'public'
   });
 
   // Opcionalmente eliminar el esquema si está vacío
-  // await queryInterface.sequelize.query('DROP SCHEMA IF EXISTS dbo CASCADE;');
+  // await queryInterface.sequelize.query('DROP SCHEMA IF EXISTS public CASCADE;');
 };
 
 export { up, down };

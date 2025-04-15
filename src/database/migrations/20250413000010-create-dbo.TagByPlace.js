@@ -2,7 +2,7 @@
 'use strict';
 
 const up = async (queryInterface, Sequelize) => {
-  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS dbo;');
+  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS public;');
   await queryInterface.createTable('TagByPlace', {
     idTagByPlace: {
       type: Sequelize.INTEGER,
@@ -16,7 +16,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'Place',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idPlace'
       },
@@ -29,7 +29,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'Tag',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idTag'
       },
@@ -45,14 +45,14 @@ const up = async (queryInterface, Sequelize) => {
       allowNull: false
     }
   }, {
-    schema: 'dbo',
+    schema: 'public',
     timestamps: true
   });
 
   // Agregar índice compuesto para búsquedas eficientes
   await queryInterface.addIndex({
     tableName: 'TagByPlace',
-    schema: 'dbo'
+    schema: 'public'
   }, ['idPlaceFk', 'idTagFk'], {
     name: 'idx_tagbyplace_place_tag'
   });
@@ -60,7 +60,7 @@ const up = async (queryInterface, Sequelize) => {
   // Agregar restricción de unicidad
   await queryInterface.addConstraint({
     tableName: 'TagByPlace',
-    schema: 'dbo'
+    schema: 'public'
   }, {
     fields: ['idPlaceFk', 'idTagFk'],
     type: 'unique',
@@ -71,7 +71,7 @@ const up = async (queryInterface, Sequelize) => {
 const down = async (queryInterface) => {
   await queryInterface.dropTable({
     tableName: 'TagByPlace',
-    schema: 'dbo'
+    schema: 'public'
   });
 };
 

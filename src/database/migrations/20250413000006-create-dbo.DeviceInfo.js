@@ -2,7 +2,7 @@
 'use strict';
 
 const up = async (queryInterface, Sequelize) => {
-  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS dbo;');
+  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS public;');
   await queryInterface.createTable('DeviceInfo', {
     idDeviceInfo: {
       type: Sequelize.INTEGER,
@@ -27,7 +27,7 @@ const up = async (queryInterface, Sequelize) => {
       allowNull: false
     }
   }, {
-    schema: 'dbo',
+    schema: 'public',
     timestamps: true
   });
 };
@@ -35,7 +35,7 @@ const up = async (queryInterface, Sequelize) => {
 const down = async (queryInterface) => {
   await queryInterface.dropTable({
     tableName: 'DeviceInfo',
-    schema: 'dbo'
+    schema: 'public'
   });
 };
 

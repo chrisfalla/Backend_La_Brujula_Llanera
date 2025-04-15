@@ -2,7 +2,7 @@
 'use strict';
 
 const up = async (queryInterface, Sequelize) => {
-  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS dbo;');
+  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS public;');
   await queryInterface.createTable('LogVisit', {
     idLogVisit: {
       type: Sequelize.INTEGER,
@@ -20,12 +20,12 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'DeviceInfo',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idDeviceInfo'
       },
       onUpdate: 'CASCADE',
-      onDelete: 'RESTRICT'
+      onDelete: 'CASCADE'
     },
     idPlaceFk: {
       type: Sequelize.INTEGER,
@@ -33,7 +33,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'Place',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idPlace'
       },
@@ -46,7 +46,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'User',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idUser'
       },
@@ -62,35 +62,35 @@ const up = async (queryInterface, Sequelize) => {
       allowNull: false
     }
   }, {
-    schema: 'dbo',
+    schema: 'public',
     timestamps: true
   });
 
   // Agregar índices para búsquedas eficientes
   await queryInterface.addIndex({
     tableName: 'LogVisit',
-    schema: 'dbo'
+    schema: 'public'
   }, ['idDeviceInfoFk'], {
     name: 'idx_logvisit_deviceinfo'
   });
   
   await queryInterface.addIndex({
     tableName: 'LogVisit',
-    schema: 'dbo'
+    schema: 'public'
   }, ['idPlaceFk'], {
     name: 'idx_logvisit_place'
   });
   
   await queryInterface.addIndex({
     tableName: 'LogVisit',
-    schema: 'dbo'
+    schema: 'public'
   }, ['idUserFk'], {
     name: 'idx_logvisit_user'
   });
   
   await queryInterface.addIndex({
     tableName: 'LogVisit',
-    schema: 'dbo'
+    schema: 'public'
   }, ['deviceDateTime'], {
     name: 'idx_logvisit_datetime'
   });
@@ -99,7 +99,7 @@ const up = async (queryInterface, Sequelize) => {
 const down = async (queryInterface) => {
   await queryInterface.dropTable({
     tableName: 'LogVisit',
-    schema: 'dbo'
+    schema: 'public'
   });
 };
 

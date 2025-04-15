@@ -2,7 +2,7 @@
 'use strict';
 
 const up = async (queryInterface, Sequelize) => {
-  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS dbo;');
+  await queryInterface.sequelize.query('CREATE SCHEMA IF NOT EXISTS public;');
   await queryInterface.createTable('Review', {
     idReview: {
       type: Sequelize.INTEGER,
@@ -12,7 +12,7 @@ const up = async (queryInterface, Sequelize) => {
     },
     comment: {
       type: Sequelize.TEXT,
-      allowNull: true
+      allowNull: false
     },
     ratingValue: {
       type: Sequelize.INTEGER,
@@ -28,7 +28,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'Place',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idPlace'
       },
@@ -41,7 +41,7 @@ const up = async (queryInterface, Sequelize) => {
       references: {
         model: {
           tableName: 'User',
-          schema: 'dbo'
+          schema: 'public'
         },
         key: 'idUser'
       },
@@ -62,28 +62,28 @@ const up = async (queryInterface, Sequelize) => {
       allowNull: false
     }
   }, {
-    schema: 'dbo',
+    schema: 'public',
     timestamps: true
   });
 
   // Agregar índices para búsquedas eficientes
   await queryInterface.addIndex({
     tableName: 'Review',
-    schema: 'dbo'
+    schema: 'public'
   }, ['idPlaceFk'], {
     name: 'idx_review_place'
   });
   
   await queryInterface.addIndex({
     tableName: 'Review',
-    schema: 'dbo'
+    schema: 'public'
   }, ['idUserFk'], {
     name: 'idx_review_user'
   });
 
   await queryInterface.addIndex({
     tableName: 'Review',
-    schema: 'dbo'
+    schema: 'public'
   }, ['idPlaceFk', 'idUserFk'], {
     name: 'idx_review_place_user'
   });
@@ -92,7 +92,7 @@ const up = async (queryInterface, Sequelize) => {
 const down = async (queryInterface) => {
   await queryInterface.dropTable({
     tableName: 'Review',
-    schema: 'dbo'
+    schema: 'public'
   });
 };
 
