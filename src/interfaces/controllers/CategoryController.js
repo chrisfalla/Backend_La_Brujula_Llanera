@@ -1,4 +1,4 @@
-import { findCategoryByName, createCategory } from '../services/CategoryService.js';
+import { findCategoryByName, createCategory } from '../../infrastructure/repositories/CategoryService.js';
 
 export const searchCategory = async (req, res) => {
   const { name } = req.query;

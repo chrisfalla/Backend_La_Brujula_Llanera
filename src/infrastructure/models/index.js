@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import Sequelize from 'sequelize';
 import process from 'node:process';
-import configFile from '../../config/config.js'; // ✅ Ruta correcta al archivo de configuración
+import configFile from '../../../config/config.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

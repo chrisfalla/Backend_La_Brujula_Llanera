@@ -2,12 +2,13 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import process from 'node:process';
-import router from './src/routes/UserRoute.js';
-import authRouter from './src/routes/AuthRoute.js';
-import postRouter from './src/routes/postsRoute.js';
-import swaggerSpec from './swagger/swaggerConfig.js';
+import router from './src/interfaces/routes/UserRoute.js';
+import authRouter from './src/interfaces/routes/AuthRoute.js';
+import postRouter from './src/interfaces/routes/postsRoute.js';
+import swaggerSpec from './src/interfaces/docs/swagger/swaggerConfig.js';
 import swaggerUi from 'swagger-ui-express';
-import categoryRouter from './src/routes/CategoryRoute.js'; 
+import categoryRouter from './src/interfaces/routes/CategoryRoute.js'; 
+
 
 const app = express();
 
