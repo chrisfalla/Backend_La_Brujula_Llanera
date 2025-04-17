@@ -245,6 +245,26 @@ images.forEach((row, idx) => {
   });
 });
 
+// --- Favoritos (Favorites) ---
+const favorites = [
+  { idUserFk: 1, idPlaceFk: 1 },
+  { idUserFk: 1, idPlaceFk: 2 },
+  { idUserFk: 2, idPlaceFk: 3 },
+  { idUserFk: 2, idPlaceFk: 1 },
+  { idUserFk: 3, idPlaceFk: 4 },
+  { idUserFk: 3, idPlaceFk: 5 }
+];
+favorites.forEach((row, idx) => {
+  data.push({
+    Seeder: '20250416000014-seed-favorites.js',
+    Entidad: 'Favorites',
+    'Campo/Columna': 'idUserFk, idPlaceFk',
+    Valor: `Usuario ${row.idUserFk} - Lugar ${row.idPlaceFk}`,
+    Descripción: 'Relación de favorito entre usuario y lugar',
+    Index: idx + 1
+  });
+});
+
 // --- Escritura Excel ---
 const worksheet = xlsx.utils.json_to_sheet(data);
 const workbook = xlsx.utils.book_new();
