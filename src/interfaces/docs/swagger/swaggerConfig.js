@@ -109,8 +109,8 @@ const options = {
     }
   },
   apis: [
-    path.join(__dirname, '..', 'src', 'routes', '*.js'),
-    path.join(__dirname, '..', 'src', 'routes', '*.yaml')
+    path.join(__dirname, '..', '..', 'routes', '*.js'),
+    path.join(__dirname, '..', '..', 'routes', '*.yaml')
   ]
 };
 
@@ -124,6 +124,9 @@ const generateSwaggerSpec = () => {
     }
 
     console.log("✅ Especificación Swagger generada correctamente");
+    console.log("📂 Paths leídos por Swagger:", options.apis);
+    console.dir(spec.paths, { depth: null });
+
     return spec;
   } catch (error) {
     console.error("❌ Error al generar la especificación Swagger:", error.message);
