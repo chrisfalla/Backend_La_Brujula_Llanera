@@ -7,20 +7,20 @@ const categoryRouter = Router();
  * @swagger
  * tags:
  *   name: Categories
- *   description: Operaciones sobre categorías
+ *   description: Operations on categories
  */
 
 /**
  * @swagger
  * /categories:
  *   get:
- *     summary: Obtiene todas las categorías
+ *     summary: Get all categories
  *     tags: [Categories]
  *     responses:
  *       200:
- *         description: Lista de categorías
+ *         description: List of categories
  *       500:
- *         description: Error al obtener las categorías
+ *         description: Error while getting the categories
  */
 categoryRouter.get('/', CategoryController.getAllCategories);
 
@@ -28,20 +28,20 @@ categoryRouter.get('/', CategoryController.getAllCategories);
  * @swagger
  * /categories/{id}:
  *   get:
- *     summary: Obtiene una categoría por ID
+ *     summary: Get a category by ID
  *     tags: [Categories]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID de la categoría
+ *         description: ID of the Category
  *     responses:
  *       200:
- *         description: Categoría encontrada
+ *         description: Category was found
  *       404:
- *         description: Categoría no encontrada
+ *         description: Category not found
  *       500:
- *         description: Error al obtener la categoría
+ *         description: Error while getting the Category
  */
 categoryRouter.get('/:id', CategoryController.getCategoryById);
 
@@ -49,7 +49,7 @@ categoryRouter.get('/:id', CategoryController.getCategoryById);
  * @swagger
  * /categories:
  *   post:
- *     summary: Crea una nueva categoría
+ *     summary: Create a new category
  *     tags: [Categories]
  *     requestBody:
  *       required: true
@@ -60,15 +60,15 @@ categoryRouter.get('/:id', CategoryController.getCategoryById);
  *             properties:
  *               name:
  *                 type: string
- *                 description: Nombre de la categoría
+ *                 description: Name of the Category
  *               isActive:
  *                 type: boolean
- *                 description: Estado de la categoría
+ *                 description: Status of the Category
  *     responses:
  *       201:
- *         description: Categoría creada con éxito
+ *         description: Category created successfully
  *       500:
- *         description: Error al crear la categoría
+ *         description: Error while creating the category
  */
 categoryRouter.post('/', CategoryController.createCategory);
 
@@ -76,13 +76,13 @@ categoryRouter.post('/', CategoryController.createCategory);
  * @swagger
  * /categories/{id}:
  *   put:
- *     summary: Actualiza una categoría existente
+ *     summary: Update a category by ID
  *     tags: [Categories]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID de la categoría
+ *         description: ID of the Category
  *     requestBody:
  *       required: true
  *       content:
@@ -92,17 +92,17 @@ categoryRouter.post('/', CategoryController.createCategory);
  *             properties:
  *               name:
  *                 type: string
- *                 description: Nombre de la categoría
+ *                 description: Name of the Category
  *               isActive:
  *                 type: boolean
- *                 description: Estado de la categoría
+ *                 description: Status of the Category
  *     responses:
  *       200:
- *         description: Categoría actualizada con éxito
+ *         description: Category updated successfully
  *       404:
- *         description: Categoría no encontrada
+ *         description: Category not found
  *       500:
- *         description: Error al actualizar la categoría
+ *         description: Something went wrong while updating the category
  */
 categoryRouter.put('/:id', CategoryController.updateCategory);
 
@@ -110,21 +110,22 @@ categoryRouter.put('/:id', CategoryController.updateCategory);
  * @swagger
  * /categories/{id}:
  *   delete:
- *     summary: Elimina una categoría
+ *     summary: Delete a category by ID
  *     tags: [Categories]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID de la categoría
+ *         description: ID of the category
  *     responses:
  *       200:
- *         description: Categoría eliminada con éxito
+ *         description: Category Deleted successfully
  *       404:
- *         description: Categoría no encontrada
+ *         description: Category not found
  *       500:
- *         description: Error al eliminar la categoría
+ *         description: Somenthing went wrong while deleting the category
  */
 categoryRouter.delete('/:id', CategoryController.deleteCategory);
 
 export default categoryRouter;
+

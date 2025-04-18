@@ -27,4 +27,8 @@ export class CategoryUseCase {
     const categoryRepository = new CategoryRepository();
     return await categoryRepository.delete(id);
   }
+  static async getCategoryByName(name) {
+    const categoryRepository = new CategoryRepository();
+    return await categoryRepository.getByName(name);
+  }
 }

@@ -25,6 +25,6 @@ export const CategoryModel = sequelize.define('Category', {
     defaultValue: DataTypes.NOW, 
   },
 }, {
-  tableName: 'categories', 
+  tableName: 'Category', 
   timestamps: true,
 });
