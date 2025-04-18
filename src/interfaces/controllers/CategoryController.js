@@ -1,4 +1,4 @@
-import { CategoryUseCase } from '../../application/use-cases/CategoryUseCase.js'; // Importa el caso de uso
+import { CategoryUseCase } from '../../application/use-cases/CategoryUseCase.js'; 
 
 export class CategoryController {
   static async getAllCategories(req, res) {

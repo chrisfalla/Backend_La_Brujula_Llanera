@@ -1,4 +1,4 @@
-export class CategoryRepository {
+export class ICategoryRepository {
     async getAll() { throw new Error('Not implemented'); }
     async getById(id) { throw new Error('Not implemented'); }
     async create(category) { throw new Error('Not implemented'); }

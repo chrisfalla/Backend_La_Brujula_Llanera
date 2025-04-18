@@ -1,9 +1,9 @@
-import { CategoryRepository } from '../../domain/repositories/CategoryRepository.js';
+import { ICategoryRepository } from '../../domain/repositories/ICategoryRepository.js';
 import { CategoryModel } from '../models/CategoryModel.js';
 import { Category } from '../../domain/entities/Category.js';
 
 
-export class CategoryRepositoryImpl extends CategoryRepository {
+export class CategoryRepository extends ICategoryRepository {
   async getAll() {
     const records = await CategoryModel.findAll();
     return records.map(record => new Category(record.dataValues));

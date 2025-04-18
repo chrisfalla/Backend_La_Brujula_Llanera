@@ -13,8 +13,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use("/api", router); // Usuarios
-app.use("/categories", categoryRouter); // ✅ Rutas de categorías correctamente registradas
+app.use("/api", router);
+app.use("/categories", categoryRouter);
 
 // Ruta base
 app.get('/', (req, res) => {
