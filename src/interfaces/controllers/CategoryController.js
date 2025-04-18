@@ -1,42 +1,67 @@
-import { findCategoryByName, createCategory } from '../../infrastructure/repositories/CategoryService.js';
+import { CategoryUseCase } from '../../application/use-cases/CategoryUseCase.js'; // Importa el caso de uso
 
-export const searchCategory = async (req, res) => {
-  const { name } = req.query;
-
-  if (!name) {
-    return res.status(400).json({ error: 'Category name is required' });
-  }
-
-  try {
-    const category = await findCategoryByName(name);
-
-    if (!category) {
-      return res.status(404).json({ error: 'Category not found' });
+export class CategoryController {
+  static async getAllCategories(req, res) {
+    try {
+      const categories = await CategoryUseCase.getAllCategories();
+      res.status(200).json(categories);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al obtener las categorías.' });
     }
-
-    res.json(category);
-  } catch (error) {
-    console.error('Error searching category:', error);
-    res.status(500).json({ error: 'Internal server error' });
   }
-};
 
-export const createCategoryController = async (req, res) => {
-  try {
-    const { name } = req.body;
-
-    // Validación: asegurarse de que el nombre esté presente
-    if (!name) {
-      return res.status(400).json({ error: 'El nombre de la categoría es requerido' });
+  static async getCategoryById(req, res) {
+    try {
+      const { id } = req.params;
+      const category = await CategoryUseCase.getCategoryById(id);
+      if (!category) {
+        return res.status(404).json({ message: 'Categoría no encontrada.' });
+      }
+      res.status(200).json(category);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al obtener la categoría.' });
     }
-
-    // Llamada al servicio con los datos validados
-    const newCategory = await createCategory({ name });
-
-    // Respuesta al cliente
-    res.status(201).json(newCategory);
-  } catch (error) {
-    console.error('Error creating category:', error.message);
-    res.status(500).json({ error: 'Error interno del servidor' });
   }
-};
+
+  static async createCategory(req, res) {
+    try {
+      const { name, isActive } = req.body;
+      const category = await CategoryUseCase.createCategory(name, isActive);
+      res.status(201).json(category);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al crear la categoría.' });
+    }
+  }
+
+  static async updateCategory(req, res) {
+    try {
+      const { id } = req.params;
+      const { name, isActive } = req.body;
+      const updated = await CategoryUseCase.updateCategory(id, name, isActive);
+      if (!updated) {
+        return res.status(404).json({ message: 'Categoría no encontrada.' });
+      }
+      res.status(200).json({ message: 'Categoría actualizada con éxito.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al actualizar la categoría.' });
+    }
+  }
+
+  static async deleteCategory(req, res) {
+    try {
+      const { id } = req.params;
+      const deleted = await CategoryUseCase.deleteCategory(id);
+      if (!deleted) {
+        return res.status(404).json({ message: 'Categoría no encontrada.' });
+      }
+      res.status(200).json({ message: 'Categoría eliminada con éxito.' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al eliminar la categoría.' });
+    }
+  }
+}
