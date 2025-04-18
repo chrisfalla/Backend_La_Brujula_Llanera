@@ -1,80 +1,55 @@
-import express from 'express';
-import { findCategoryByName, getAllCategories, createCategory } from '../../infrastructure/repositories/CategoryService.js'
-import { createCategoryController } from '../controllers/CategoryController.js';
+import { Router } from 'express';
+import { CategoryController } from '../controllers/CategoryController.js';
 
-const router = express.Router();
+const categoryRouter = Router();
 
 /**
  * @swagger
  * tags:
  *   name: Categories
- *   description: Operaciones relacionadas con categorías
+ *   description: Operations on categories
  */
 
 /**
  * @swagger
- * /categories/:
+ * /categories:
  *   get:
- *     summary: Obtener todas las categorías
+ *     summary: Get all categories
  *     tags: [Categories]
  *     responses:
  *       200:
- *         description: Lista de categorías
+ *         description: List of categories
+ *       500:
+ *         description: Error while getting the categories
  */
-router.get('/', async (req, res) => {
-  try {
-    const categories = await getAllCategories();
-    res.json(categories);
-  } catch (error) {
-    console.error('Error fetching categories:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+categoryRouter.get('/', CategoryController.getAllCategories);
 
 /**
  * @swagger
- * /categories/name:
+ * /categories/{id}:
  *   get:
- *     summary: Buscar una categoría por nombre
+ *     summary: Get a category by ID
  *     tags: [Categories]
  *     parameters:
- *       - in: query
- *         name: name
- *         schema:
- *           type: string
+ *       - in: path
+ *         name: id
  *         required: true
- *         description: Nombre de la categoría a buscar
+ *         description: ID of the Category
  *     responses:
  *       200:
- *         description: Detalles de la categoría
+ *         description: Category was found
  *       404:
- *         description: Categoría no encontrada
+ *         description: Category not found
+ *       500:
+ *         description: Error while getting the Category
  */
-router.get('/name', async (req, res) => {
-  const { name } = req.query;
-
-  if (!name) {
-    return res.status(400).json({ error: 'Category name is required' });
-  }
-
-  try {
-    const category = await findCategoryByName(name.trim());
-    if (!category) {
-      return res.status(404).json({ error: 'Category not found' });
-    }
-
-    res.json(category);
-  } catch (error) {
-    console.error('Error searching category:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+categoryRouter.get('/:id', CategoryController.getCategoryById);
 
 /**
  * @swagger
- * /categories/create:
+ * /categories:
  *   post:
- *     summary: Crear una nueva categoría
+ *     summary: Create a new category
  *     tags: [Categories]
  *     requestBody:
  *       required: true
@@ -82,32 +57,75 @@ router.get('/name', async (req, res) => {
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - name
  *             properties:
  *               name:
  *                 type: string
- *                 description: Nombre de la categoría
- *                 example: "Noticias Locales"
+ *                 description: Name of the Category
+ *               isActive:
+ *                 type: boolean
+ *                 description: Status of the Category
  *     responses:
  *       201:
- *         description: Categoría creada exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                   example: 1
- *                 name:
- *                   type: string
- *                   example: "Noticias Locales"
- *       400:
- *         description: Datos inválidos o faltantes
+ *         description: Category created successfully
  *       500:
- *         description: Error del servidor
+ *         description: Error while creating the category
  */
-router.post('/create', createCategoryController);
+categoryRouter.post('/', CategoryController.createCategory);
 
-export default router;
+/**
+ * @swagger
+ * /categories/{id}:
+ *   put:
+ *     summary: Update a category by ID
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the Category
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Name of the Category
+ *               isActive:
+ *                 type: boolean
+ *                 description: Status of the Category
+ *     responses:
+ *       200:
+ *         description: Category updated successfully
+ *       404:
+ *         description: Category not found
+ *       500:
+ *         description: Something went wrong while updating the category
+ */
+categoryRouter.put('/:id', CategoryController.updateCategory);
+
+/**
+ * @swagger
+ * /categories/{id}:
+ *   delete:
+ *     summary: Delete a category by ID
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the category
+ *     responses:
+ *       200:
+ *         description: Category Deleted successfully
+ *       404:
+ *         description: Category not found
+ *       500:
+ *         description: Somenthing went wrong while deleting the category
+ */
+categoryRouter.delete('/:id', CategoryController.deleteCategory);
+
+export default categoryRouter;
+

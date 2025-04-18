@@ -3,18 +3,16 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Configuración segura para __dirname en ES Modules (Windows/Linux/macOS)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Configuración extendida de Swagger con ajustes para Windows
 const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "API La Brújula Llanera - Documentación",
+      title: "La Brújula Llanera API - Documentation",
       version: "1.0.0",
-      description: "API para el sistema de gestión de La Brújula Llanera",
+      description: "API for the La Brújula Llanera management system",
       contact: {
         name: "Equipo de Desarrollo",
         email: "soporte@labrujulallanera.com"
@@ -25,7 +23,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000", // ✅ Ajusta la URL base para evitar duplicación de '/api'
+        url: "http://localhost:3000",
         description: "Servidor de desarrollo local"
       },
       {
@@ -122,11 +120,6 @@ const generateSwaggerSpec = () => {
     if (!spec || !spec.info) {
       throw new Error("La especificación generada es inválida");
     }
-
-    console.log("✅ Especificación Swagger generada correctamente");
-    console.log("📂 Paths leídos por Swagger:", options.apis);
-    console.dir(spec.paths, { depth: null });
-
     return spec;
   } catch (error) {
     console.error("❌ Error al generar la especificación Swagger:", error.message);
