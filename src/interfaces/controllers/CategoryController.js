@@ -7,7 +7,7 @@ export class CategoryController {
       res.status(200).json(categories);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error al obtener las categorías.' });
+      res.status(500).json({ message: 'Error while getting the Categories.' });
     }
   }
 
@@ -16,12 +16,12 @@ export class CategoryController {
       const { id } = req.params;
       const category = await CategoryUseCase.getCategoryById(id);
       if (!category) {
-        return res.status(404).json({ message: 'Categoría no encontrada.' });
+        return res.status(404).json({ message: 'Category not found.' });
       }
       res.status(200).json(category);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error al obtener la categoría.' });
+      res.status(500).json({ message: 'Error while getting the Category.' });
     }
   }
 
@@ -32,7 +32,7 @@ export class CategoryController {
       res.status(201).json(category);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error al crear la categoría.' });
+      res.status(500).json({ message: 'Error while creating the Category.' });
     }
   }
 
@@ -42,12 +42,12 @@ export class CategoryController {
       const { name, isActive } = req.body;
       const updated = await CategoryUseCase.updateCategory(id, name, isActive);
       if (!updated) {
-        return res.status(404).json({ message: 'Categoría no encontrada.' });
+        return res.status(404).json({ message: 'Category not found.' });
       }
-      res.status(200).json({ message: 'Categoría actualizada con éxito.' });
+      res.status(200).json({ message: 'Category upated successfully.' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error al actualizar la categoría.' });
+      res.status(500).json({ message: 'Error while updating the Category.' });
     }
   }
 
@@ -56,12 +56,12 @@ export class CategoryController {
       const { id } = req.params;
       const deleted = await CategoryUseCase.deleteCategory(id);
       if (!deleted) {
-        return res.status(404).json({ message: 'Categoría no encontrada.' });
+        return res.status(404).json({ message: 'Category not found' });
       }
-      res.status(200).json({ message: 'Categoría eliminada con éxito.' });
+      res.status(200).json({ message: 'Category updated successfully' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error al eliminar la categoría.' });
+      res.status(500).json({ message: 'Error while removing the Category' });
     }
   }
 }
