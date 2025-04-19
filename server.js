@@ -5,6 +5,7 @@ import process from 'node:process';
 import swaggerSpec from './src/interfaces/docs/swagger/swaggerConfig.js';
 import swaggerUi from 'swagger-ui-express';
 import categoryRouter from './src/interfaces/routes/CategoryRoute.js'; 
+import tagRouter from './src/interfaces/routes/TagRoute.js';
 
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/categories", categoryRouter);
+app.use("/tags", tagRouter);
 
 // Ruta base
 app.get('/', (req, res) => {
