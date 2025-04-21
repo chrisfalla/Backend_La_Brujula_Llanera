@@ -22,13 +22,14 @@ export class CategoryController {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error while getting the Category.' });
+      console.log("entra aqui");
     }
   }
 
   static async createCategory(req, res) {
     try {
-      const { name, isActive } = req.body;
-      const category = await CategoryUseCase.createCategory(name, isActive);
+      const { name, isActive, isDefault } = req.body;
+      const category = await CategoryUseCase.createCategory(name, isActive, isDefault);
       res.status(201).json(category);
     } catch (error) {
       console.error(error);
@@ -39,8 +40,8 @@ export class CategoryController {
   static async updateCategory(req, res) {
     try {
       const { id } = req.params;
-      const { name, isActive } = req.body;
-      const updated = await CategoryUseCase.updateCategory(id, name, isActive);
+      const { name, isActive, isDefault } = req.body;
+      const updated = await CategoryUseCase.updateCategory(id, name, isActive, isDefault);
       if (!updated) {
         return res.status(404).json({ message: 'Category not found.' });
       }
@@ -64,4 +65,18 @@ export class CategoryController {
       res.status(500).json({ message: 'Error while removing the Category' });
     }
   }
+  static async getDefaultCategory(req, res){
+    try {
+      console.log('Entrando a getDefaultCategory');
+      const category = await CategoryUseCase.getDefaultCategory();
+      if (!category) {
+        return res.status(404).json({ message: 'Category not found.' });
+      }
+      res.status(200).json(category);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error while getting the Category.' });
+    }
+  }
+
 }

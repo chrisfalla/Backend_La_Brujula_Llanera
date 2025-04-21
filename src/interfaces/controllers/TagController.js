@@ -1,4 +1,4 @@
-import { TagUseCase } from '../../application/TagUseCase.js';
+import { TagUseCase } from '../../application/use-cases/TagUseCase.js';
 
 export class TagController {
   static async getAllTags(req, res) {

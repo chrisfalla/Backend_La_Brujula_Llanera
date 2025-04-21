@@ -10,6 +10,7 @@ const categoryRouter = Router();
  *   description: Operations on categories
  */
 
+
 /**
  * @swagger
  * /categories:
@@ -26,24 +27,17 @@ categoryRouter.get('/', CategoryController.getAllCategories);
 
 /**
  * @swagger
- * /categories/{id}:
+ * /categories/default:
  *   get:
- *     summary: Get a category by ID
+ *     summary: Get Default Categories
  *     tags: [Categories]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: ID of the Category
  *     responses:
  *       200:
- *         description: Category was found
- *       404:
- *         description: Category not found
+ *         description: List with Default categories
  *       500:
- *         description: Error while getting the Category
+ *         description: Error while getting the categories
  */
-categoryRouter.get('/:id', CategoryController.getCategoryById);
+categoryRouter.get('/default', CategoryController.getDefaultCategory);  // Asegúrate de que esta ruta sea la primera
 
 /**
  * @swagger
@@ -64,6 +58,9 @@ categoryRouter.get('/:id', CategoryController.getCategoryById);
  *               isActive:
  *                 type: boolean
  *                 description: Status of the Category
+ *               isDefault:
+ *                 type: boolean
+ *                 description: Default Category
  *     responses:
  *       201:
  *         description: Category created successfully
@@ -71,6 +68,28 @@ categoryRouter.get('/:id', CategoryController.getCategoryById);
  *         description: Error while creating the category
  */
 categoryRouter.post('/', CategoryController.createCategory);
+
+/**
+ * @swagger
+ * /categories/{id}:
+ *   get:
+ *     summary: Get a category by ID
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the Category
+ *     responses:
+ *       200:
+ *         description: Category was found
+ *       404:
+ *         description: Category not found
+ *       500:
+ *         description: Error while getting the Category
+ */
+categoryRouter.get('/:id', CategoryController.getCategoryById);  // Se mantiene como está
+
 
 /**
  * @swagger
@@ -96,6 +115,9 @@ categoryRouter.post('/', CategoryController.createCategory);
  *               isActive:
  *                 type: boolean
  *                 description: Status of the Category
+ *               isDefault:
+ *                 type: boolean
+ *                 description: Default Category
  *     responses:
  *       200:
  *         description: Category updated successfully
@@ -128,4 +150,3 @@ categoryRouter.put('/:id', CategoryController.updateCategory);
 categoryRouter.delete('/:id', CategoryController.deleteCategory);
 
 export default categoryRouter;
-

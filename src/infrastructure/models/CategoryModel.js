@@ -24,6 +24,10 @@ export const CategoryModel = sequelize.define('Category', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW, 
   },
+  isDefault: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true, 
+  },
 }, {
   tableName: 'Category', 
   timestamps: true,

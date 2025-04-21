@@ -1,4 +1,4 @@
-import { TagRepository } from "../infrastructure/repositories/TagRepository.js";
+import { TagRepository } from "../../infrastructure/repositories/TagRepository.js";
 
 export class TagUseCase {
   static async getAllTags() {
