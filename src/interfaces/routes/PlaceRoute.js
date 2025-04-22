@@ -1,17 +1,7 @@
 import express from 'express';
 import { PlaceController } from '../controllers/PlaceController.js';
-import { PlaceRepository } from '../../infrastructure/repositories/PlaceRepository.js';
-import { ReviewRepository } from "../../infrastructure/repositories/ReviewRepository.js";
-import { GetTopRatedPlaces } from "../../application/use-cases/GetTopRatedPlaces.js";
-import { ImageByPlaceRepository } from '../../infrastructure/repositories/ImageByPlaceRepository.js';
 
 const router = express.Router();
-
-const placeRepo = new PlaceRepository();
-const reviewRepo = new ReviewRepository();
-const imageByPlaceRepo = new ImageByPlaceRepository();
-const useCase = new GetTopRatedPlaces(placeRepo, reviewRepo, imageByPlaceRepo);
-const controller = new PlaceController(useCase);
 
 /**
  * @swagger
@@ -51,7 +41,6 @@ const controller = new PlaceController(useCase);
  *       500:
  *         description: Error del servidor
  */
-router.get("/top-rated/:idCategory?", (req, res) => controller.getTopRatedPlaces(req, res));
-
+router.get("/top-rated/:idCategory?", PlaceController.getTopRatedPlaces);
 
 export default router;

@@ -1,17 +1,18 @@
-export class GetTopRatedPlaces {
-  constructor(placeRepo, reviewRepo, imageRepo) {
-    this.placeRepo = placeRepo;
-    this.reviewRepo = reviewRepo;
-    this.imageRepo = imageRepo;
-  }
+import { PlaceRepository } from '../../infrastructure/repositories/PlaceRepository.js';
+import { ReviewRepository } from "../../infrastructure/repositories/ReviewRepository.js";
+import { ImageByPlaceRepository } from '../../infrastructure/repositories/ImageByPlaceRepository.js';
 
+export class GetTopRatedPlaces {
   async execute(idCategory) {
-    const places = await this.placeRepo.getPlacesByCategory(idCategory);
+    const placeRepository = new PlaceRepository();
+    const reviewRepository = new ReviewRepository();
+    const imageRepository = new ImageByPlaceRepository();
+    const places = await placeRepository.getPlacesByCategory(idCategory);
     if (!places.length) return [];
 
     const placeIds = places.map(p => p.idPlace);
-    const reviews = await this.reviewRepo.getReviewsByPlaceIds(placeIds);
-    const images = await this.imageRepo.getImagesByPlaceIds(placeIds);
+    const reviews = await reviewRepository.getReviewsByPlaceIds(placeIds);
+    const images = await imageRepository.getImagesByPlaceIds(placeIds);
 
     const ratingMap = new Map();
     for (const review of reviews) {
