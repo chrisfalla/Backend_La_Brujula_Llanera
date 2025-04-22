@@ -41,11 +41,9 @@ export class CategoryRepository extends ICategoryRepository {
     return deleted > 0;
   }
   async getDefault() {
-    console.log('Buscando categorías con isDefault: true');
     const records = await CategoryModel.findAll({
       where: { isDefault: true },
     });
-    console.log(records);  // Para ver el contenido exacto de los registros
     return records.map(record => new Category(record.dataValues));
   }
   

@@ -67,7 +67,6 @@ export class CategoryController {
   }
   static async getDefaultCategory(req, res){
     try {
-      console.log('Entrando a getDefaultCategory');
       const category = await CategoryUseCase.getDefaultCategory();
       if (!category) {
         return res.status(404).json({ message: 'Category not found.' });
