@@ -31,4 +31,8 @@ export class TagUseCase {
     const tagRepository = new TagRepository();
     return await tagRepository.getByName(name);
   }
+  static async getDefaultTags() {
+    const tagRepository = new TagRepository();
+    return await tagRepository.getDefault();
+  }
 }

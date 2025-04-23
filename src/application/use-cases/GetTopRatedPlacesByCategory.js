@@ -2,7 +2,7 @@ import { PlaceRepository } from '../../infrastructure/repositories/PlaceReposito
 import { ReviewRepository } from "../../infrastructure/repositories/ReviewRepository.js";
 import { ImageByPlaceRepository } from '../../infrastructure/repositories/ImageByPlaceRepository.js';
 
-export class GetTopRatedPlaces {
+export class GetTopRatedPlacesByCategory {
   async execute(idCategory) {
     const placeRepository = new PlaceRepository();
     const reviewRepository = new ReviewRepository();

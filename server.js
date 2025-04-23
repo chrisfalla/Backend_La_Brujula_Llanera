@@ -6,7 +6,7 @@ import swaggerSpec from './src/interfaces/docs/swagger/swaggerConfig.js';
 import swaggerUi from 'swagger-ui-express';
 import categoryRouter from './src/interfaces/routes/CategoryRoute.js'; 
 import tagRouter from './src/interfaces/routes/TagRoute.js';
-import placeRouter from './src/interfaces/routes/PlaceRoute.js'; // Importa las rutas de lugares
+import placeRouter from './src/interfaces/routes/PlaceRoute.js'; 
 
 
 const app = express();

@@ -6,7 +6,6 @@ export class Category {
       this.createdAt = createdAt;
       this.updatedAt = updatedAt;
       this.isDefault = isDefault;
-
     }
   }
   

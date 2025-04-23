@@ -24,6 +24,23 @@ const tagRouter = Router();
  */
 tagRouter.get('/', TagController.getAllTags);
 
+
+/**
+ * @swagger
+ * /tags/default:
+ *   get:
+ *     summary: Get default Tags
+ *     tags: [Tags]
+ *     responses:
+ *       200:
+ *         description: List of default Tags
+ *       500:
+ *         description: Error while getting the default  Tags
+ */
+
+tagRouter.get('/default', TagController.getDefaultTags);
+
+
 /**
  * @swagger
  * /tags/{id}:
@@ -43,6 +60,8 @@ tagRouter.get('/', TagController.getAllTags);
  *       500:
  *         description: Error while getting the Tag
  */
+
+
 tagRouter.get('/:id', TagController.getTagById);
 
 /**

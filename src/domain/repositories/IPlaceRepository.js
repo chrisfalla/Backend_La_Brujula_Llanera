@@ -2,4 +2,10 @@ export class IPlaceRepository {
     async getPlacesByCategory(idCategory) {
         throw new Error("Method not implemented.");
       }
+    async getPlacesByTags(placeIds) {
+        throw new Error("Method not implemented.");
+      }
+    async getPlacesByIds(placeIds) { 
+        throw new Error("Method not implemented.");
+    }
 }

@@ -64,4 +64,13 @@ export class TagController {
       res.status(500).json({ message: 'Error while Removing the Tag' });
     }
   }
+  static async getDefaultTags(req, res) {
+    try {
+      const tags = await TagUseCase.getDefaultTags();
+      res.status(200).json(tags);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error while getting Tags' });
+    }
+  }
 }
