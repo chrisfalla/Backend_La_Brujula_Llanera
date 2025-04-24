@@ -10,7 +10,7 @@ const router = express.Router();
  *     summary: Obtiene los lugares mejor valorados filtrados por múltiples tags
  *     tags: [Places]
  *     requestBody:
- *       required: true
+ *       required: false
  *       content:
  *         application/json:
  *           schema:

@@ -19,10 +19,10 @@ export class PlaceController {
   }
   static async getTopRatedPlacesByTags(req, res) {
     try {
-      const { tags } = req.body;
+      let { tags } = req.body;
 
       if (!Array.isArray(tags) || tags.length === 0) {
-        return res.status(400).json({ error: "Tags must be a non-empty array" });
+        tags = [1, 2];
       }
 
       const getTopRatedPlacesByTags = new GetTopRatedPlacesByTags();
