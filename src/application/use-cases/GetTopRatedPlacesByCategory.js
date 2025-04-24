@@ -1,18 +1,22 @@
 import { PlaceRepository } from '../../infrastructure/repositories/PlaceRepository.js';
 import { ReviewRepository } from "../../infrastructure/repositories/ReviewRepository.js";
 import { ImageByPlaceRepository } from '../../infrastructure/repositories/ImageByPlaceRepository.js';
+import { ImageCategoryRepository } from '../../infrastructure/repositories/ImageCategoryRepository.js';
 
 export class GetTopRatedPlacesByCategory {
   async execute(idCategory) {
     const placeRepository = new PlaceRepository();
     const reviewRepository = new ReviewRepository();
     const imageRepository = new ImageByPlaceRepository();
+    const imageCategoryRepository = new ImageCategoryRepository();
+    const imageCategory = await imageCategoryRepository.getImageCategoryByName("Principal");
     const places = await placeRepository.getPlacesByCategory(idCategory);
+    if (!imageCategory) return []; 
     if (!places.length) return [];
 
     const placeIds = places.map(p => p.idPlace);
     const reviews = await reviewRepository.getReviewsByPlaceIds(placeIds);
-    const images = await imageRepository.getImagesByPlaceIds(placeIds);
+    const images = await imageRepository.getImagesByPlaceIds(placeIds, imageCategory.idImageCategory);
 
     const ratingMap = new Map();
     for (const review of reviews) {
@@ -36,11 +40,10 @@ export class GetTopRatedPlacesByCategory {
 
     const topPlaceIds = topRatings.map(r => r.placeId);
 
-    // Preparamos un mapa para acceder rápidamente a una imagen por lugar
     const imageMap = new Map();
     for (const img of images) {
       if (!imageMap.has(img.idPlaceFk)) {
-        imageMap.set(img.idPlaceFk, img.urlImage); // Solo la primera imagen
+        imageMap.set(img.idPlaceFk, img.urlImage); 
       }
     }
 
