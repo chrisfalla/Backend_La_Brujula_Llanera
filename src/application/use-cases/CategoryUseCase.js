@@ -1,4 +1,4 @@
-import { CategoryRepository } from '../../infrastructure/repositories/CategoryRepository.js'; // Repositorio de categorías
+import { CategoryRepository } from '../../infrastructure/repositories/CategoryRepository.js'; 
 
 export class CategoryUseCase {
   static async getAllCategories() {

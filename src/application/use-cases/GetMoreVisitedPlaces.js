@@ -4,7 +4,7 @@ import { ImageByPlaceRepository } from "../../infrastructure/repositories/ImageB
 import { ImageCategoryRepository } from "../../infrastructure/repositories/ImageCategoryRepository.js";
 
 export class GetMoreVisitedPlaces {
-    async execute(){
+    async execute() {
         const logVisitedRepository = new LogVisitedRepository();
         const placeRepository = new PlaceRepository();
         const imageByPlaceRepository = new ImageByPlaceRepository();
@@ -12,17 +12,35 @@ export class GetMoreVisitedPlaces {
 
         const logVisits = await logVisitedRepository.getMoreVisitedPlaces();
         const imageCategory = await imageCategoryRepository.getImageCategoryByName("Principal");
-        if (!imageCategory) return [];  
+        if (!imageCategory) return [];
 
-        const places = await placeRepository.getPlacesByIds(logVisits.map(logVisit => logVisit.idPlace));
-        const imagesByPlace = await imageByPlaceRepository.getImagesByPlaces(places.map(place => place.idPlace));
-        
+        const placeIds = logVisits.map(log => log.idPlaceFk);
+        const places = await placeRepository.getPlacesByIds(placeIds);
+        if (!places.length) return [];
 
-        return {
-            logVisits,
-            places,
-            imagesByPlace,
-            imageCategories
-        };
+        const images = await imageByPlaceRepository.getImagesByPlaceIds(placeIds, imageCategory.idImageCategory);
+
+        const imageMap = new Map();
+        images.forEach(img => {
+            if (!imageMap.has(img.idPlaceFk)) {
+                imageMap.set(img.idPlaceFk, img); 
+            }
+        });
+
+        const visitMap = new Map();
+        logVisits.forEach(log => {
+            visitMap.set(log.idPlaceFk, parseInt(log.visitCount, 10));
+        });
+
+        return places.map(place => {
+            const image = imageMap.get(place.idPlace); 
+            return {
+                name: place.name,
+                idPlace: place.idPlace,
+                visitCount: visitMap.get(place.idPlace) || 0, 
+                imageUrl: image ? image.urlImage : null, 
+                imageCategoryId: image ? image.idImageCategorieFk : null
+            };
+        });
     }
 }

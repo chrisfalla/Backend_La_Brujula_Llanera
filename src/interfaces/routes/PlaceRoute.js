@@ -1,5 +1,6 @@
 import express from 'express';
 import { PlaceController } from '../controllers/PlaceController.js';
+import { LogVisitedController } from '../controllers/LogVisitedController.js';
 
 const router = express.Router();
 
@@ -93,5 +94,45 @@ router.post("/top-rated-by-tags", PlaceController.getTopRatedPlacesByTags)
  *         description: Error del servidor
  */
 router.get("/top-rated/:idCategory?", PlaceController.getTopRatedPlacesByCategory);
+
+
+/**
+ * @swagger
+ * /places/log-visited/more-visited:
+ *   get:
+ *     summary: Get the most visited places with their image and visit tags.
+ *     tags:
+ *       - Places
+ *     responses:
+ *       200:
+ *         description: A list of most visited places.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     example: "Parque Central"
+ *                   idPlace:
+ *                     type: integer
+ *                     example: 1
+ *                   idImagen:
+ *                     type: integer
+ *                     example: 10
+ *                   tagsAmount:
+ *                     type: integer
+ *                     example: 152
+ *       404:
+ *         description: No popular places found.
+ *       500:
+ *         description: Server error.
+ */
+
+router.get("/log-visited/more-visited", LogVisitedController.getMoreVisitedPlaces);
+
+
 
 export default router;
