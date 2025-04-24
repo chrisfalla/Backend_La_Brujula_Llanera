@@ -1,16 +1,22 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/sequelize.js'; 
 
-export const TagModel = sequelize.define('Tag', {
-    idTag: {
+export const TagByPlaceModel = sequelize.define('TagByPlace', {
+    idTagByPlace: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        field: 'idTag',
+        field: 'idTagByPlace',
     },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false, 
+    idPlaceFk: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'idPlaceFk',
+    },
+    idTagFk: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'idTagFk',
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -19,12 +25,8 @@ export const TagModel = sequelize.define('Tag', {
     updatedAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW, 
-    },
-    isDefault: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false, 
     }
 }, {
-    tableName: 'Tag', 
+    tableName: 'TagByPlace', 
     timestamps: true,
 });

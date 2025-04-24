@@ -36,5 +36,11 @@ export class TagRepository extends ITagRepository {
     });
     return deleted > 0;
   }
+  async getDefault() {
+    const records = await TagModel.findAll(
+      { where: { isDefault: true } 
+    });
+    return records.map(record => new Tag(record.dataValues));
+  }
  
 }

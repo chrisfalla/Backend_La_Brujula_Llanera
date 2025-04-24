@@ -18,6 +18,7 @@ export class CategoryRepository extends ICategoryRepository {
     const created = await CategoryModel.create({
       name: category.name,
       isActive: category.isActive,
+      isDefault: category.isDefault,
     });
     return new Category(created.dataValues);
   }
@@ -26,6 +27,7 @@ export class CategoryRepository extends ICategoryRepository {
     const [updated] = await CategoryModel.update({
       name: category.name,
       isActive: category.isActive,
+      isDefault: category.isDefault,
     }, {
       where: { idCategory: id },
     });
@@ -38,5 +40,11 @@ export class CategoryRepository extends ICategoryRepository {
     });
     return deleted > 0;
   }
- 
+  async getDefault() {
+    const records = await CategoryModel.findAll({
+      where: { isDefault: true },
+    });
+    return records.map(record => new Category(record.dataValues));
+  }
+  
 }

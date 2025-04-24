@@ -1,20 +1,28 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/sequelize.js'; 
 
-export const CategoryModel = sequelize.define('Category', {
-  idCategory: {
+export const PlaceModel = sequelize.define('Place', {
+  idPlace: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    field: 'idCategory',
+    field: 'idPlace',
   },
   name: {
     type: DataTypes.STRING,
     allowNull: false, 
   },
-  isActive: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true, 
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false, 
+  },
+  phoneNumber: {
+    type: DataTypes.STRING,
+    allowNull: false, 
+  },
+  idCategorie: {
+    type: DataTypes.INTEGER,
+    allowNull: false, 
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -24,11 +32,7 @@ export const CategoryModel = sequelize.define('Category', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW, 
   },
-  isDefault: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true, 
-  },
 }, {
-  tableName: 'Category', 
+  tableName: 'Place', 
   timestamps: true,
 });

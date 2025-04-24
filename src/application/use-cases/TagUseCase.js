@@ -1,4 +1,4 @@
-import { TagRepository } from "../infrastructure/repositories/TagRepository.js";
+import { TagRepository } from "../../infrastructure/repositories/TagRepository.js";
 
 export class TagUseCase {
   static async getAllTags() {
@@ -30,5 +30,9 @@ export class TagUseCase {
   static async getTagByName(name) {
     const tagRepository = new TagRepository();
     return await tagRepository.getByName(name);
+  }
+  static async getDefaultTags() {
+    const tagRepository = new TagRepository();
+    return await tagRepository.getDefault();
   }
 }
