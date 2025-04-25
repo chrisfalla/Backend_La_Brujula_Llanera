@@ -2,6 +2,7 @@ import { LogVisitedRepository } from "../../infrastructure/repositories/LogVisit
 import { PlaceRepository } from "../../infrastructure/repositories/PlaceRepository.js";
 import { ImageByPlaceRepository } from "../../infrastructure/repositories/ImageByPlaceRepository.js";
 import { ImageCategoryRepository } from "../../infrastructure/repositories/ImageCategoryRepository.js";
+import { MoreVisitedPlacesDTO } from "../DTOs/MoreVisitedPlacesDTO.js";
 
 export class GetMoreVisitedPlaces {
     async execute() {
@@ -34,13 +35,13 @@ export class GetMoreVisitedPlaces {
 
         return places.map(place => {
             const image = imageMap.get(place.idPlace); 
-            return {
-                name: place.name,
-                idPlace: place.idPlace,
-                visitCount: visitMap.get(place.idPlace) || 0, 
-                imageUrl: image ? image.urlImage : null, 
-                imageCategoryId: image ? image.idImageCategorieFk : null
-            };
+            return new MoreVisitedPlacesDTO(
+                place.name,
+                place.idPlace,
+                visitMap.get(place.idPlace) || 0,
+                imageCategory.name,
+                image ? image.urlImage : null
+            );
         });
     }
 }
