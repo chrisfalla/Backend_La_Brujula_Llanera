@@ -101,6 +101,7 @@ export class GetTopRatedPlacesByTags {
                 addressMap.get(p.idPlace) || null,
                 imageMap.get(p.idPlace) || null, 
                 imageCategory.name,
+                tagMap.get(p.idPlace) || [],
                 (tagMap.get(p.idPlace) || []).map(idTag => tagNameMap.get(idTag)).filter(Boolean),
                 avgObj ? avgObj.avg : 0,
             );
