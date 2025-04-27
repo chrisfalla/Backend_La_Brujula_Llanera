@@ -1,14 +1,31 @@
 import { CategoryRepository } from '../../infrastructure/repositories/CategoryRepository.js'; 
+import { CategoryDTO } from '../DTOs/CategoryDTO.js';
 
 export class CategoryUseCase {
   static async getAllCategories() {
     const categoryRepository = new CategoryRepository();
-    return await categoryRepository.getAll();
+    const categories = await categoryRepository.getAll();
+    return categories.map(category => 
+        new CategoryDTO(category.name, category.idCategory, category.icon, category.isDefault));
   }
 
   static async getCategoryById(id) {
     const categoryRepository = new CategoryRepository();
-    return await categoryRepository.getById(id);
+    const category = await categoryRepository.getById(id);
+    return new CategoryDTO(category.name, category.idCategory, category.icon, category.isDefault);
+  }
+
+  static async getCategoryByName(name) {
+    const categoryRepository = new CategoryRepository();
+    const categoriesByName = await categoryRepository.getByName(name);
+    return categoriesByName.map(category => 
+      new CategoryDTO(category.name, category.idCategory, category.icon, category.isDefault));
+  }
+
+  static async getDefaultCategory() {
+    const categoryRepository = new CategoryRepository();
+    const defaultCategory = await categoryRepository.getDefault();
+    return defaultCategory.map(category => new CategoryDTO(category.name, category.idCategory, category.icon, category.isDefault));
   }
 
   static async createCategory(name, isActive, isDefault) {
@@ -26,13 +43,5 @@ export class CategoryUseCase {
   static async deleteCategory(id) {
     const categoryRepository = new CategoryRepository();
     return await categoryRepository.delete(id);
-  }
-  static async getCategoryByName(name) {
-    const categoryRepository = new CategoryRepository();
-    return await categoryRepository.getByName(name);
-  }
-  static async getDefaultCategory() {
-    const categoryRepository = new CategoryRepository();
-    return await categoryRepository.getDefault();
   }
 }

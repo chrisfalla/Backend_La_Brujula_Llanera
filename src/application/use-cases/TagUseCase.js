@@ -1,14 +1,29 @@
 import { TagRepository } from "../../infrastructure/repositories/TagRepository.js";
+import { TagDTO } from "../DTOs/TagDTO.js";
 
 export class TagUseCase {
   static async getAllTags() {
     const tagRepository = new TagRepository();
-    return await tagRepository.getAll();
+    const tags = await tagRepository.getAll();
+    return tags.map(tag => new TagDTO(tag.idTag, tag.name, tag.isDefault));
   }
 
   static async getTagById(id) {
     const tagRepository = new TagRepository();
-    return await tagRepository.getById(id);
+    const tag = await tagRepository.getById(id);
+    return new TagDTO(tag.idTag, tag.name, tag.isDefault);
+  }
+
+  static async getTagByName(name) {
+    const tagRepository = new TagRepository();
+    const tagByName = await tagRepository.getByName(name);
+    return tagByName.map(tag => new TagDTO(tag.idTag, tag.name, tag.isDefault));
+  }
+
+  static async getDefaultTags() {
+    const tagRepository = new TagRepository();
+    const defaultTags = await tagRepository.getDefault();
+    return defaultTags.map(tag => new TagDTO(tag.idTag, tag.name, tag.isDefault));
   }
 
   static async createTag(name) {
@@ -26,13 +41,5 @@ export class TagUseCase {
   static async deleteTag(id) {
     const tagRepository = new TagRepository();
     return await tagRepository.delete(id);
-  }
-  static async getTagByName(name) {
-    const tagRepository = new TagRepository();
-    return await tagRepository.getByName(name);
-  }
-  static async getDefaultTags() {
-    const tagRepository = new TagRepository();
-    return await tagRepository.getDefault();
   }
 }

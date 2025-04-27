@@ -2,6 +2,7 @@ import { PlaceRepository } from '../../infrastructure/repositories/PlaceReposito
 import { ReviewRepository } from "../../infrastructure/repositories/ReviewRepository.js";
 import { ImageByPlaceRepository } from '../../infrastructure/repositories/ImageByPlaceRepository.js';
 import { ImageCategoryRepository } from '../../infrastructure/repositories/ImageCategoryRepository.js';
+import { RatingStarsByCategory } from '../DTOs/RatingStarsByCategory.js';
 
 export class GetTopRatedPlacesByCategory {
   async execute(idCategory) {
@@ -51,11 +52,13 @@ export class GetTopRatedPlacesByCategory {
       .filter(p => topPlaceIds.includes(p.idPlace))
       .map(p => {
         const avgObj = topRatings.find(r => r.placeId === p.idPlace);
-        return {
-          ...p,
-          average: avgObj ? avgObj.avg : 0,
-          image: imageMap.get(p.idPlace) || null
-        };
+        return new RatingStarsByCategory(
+          p.idPlace,
+          avgObj ? avgObj.avg : 0,
+          p.name,
+          imageCategory.name,
+          imageMap.get(p.idPlace) || null
+        );
       });
   }
 }

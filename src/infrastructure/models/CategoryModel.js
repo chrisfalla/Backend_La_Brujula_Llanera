@@ -28,6 +28,10 @@ export const CategoryModel = sequelize.define('Category', {
     type: DataTypes.BOOLEAN,
     defaultValue: true, 
   },
+  icon: {
+    type: DataTypes.STRING,
+    allowNull: true, 
+  },
 }, {
   tableName: 'Category', 
   timestamps: true,

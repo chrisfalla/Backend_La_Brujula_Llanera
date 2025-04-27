@@ -3,6 +3,10 @@ import { PlaceRepository } from '../../infrastructure/repositories/PlaceReposito
 import { ImageByPlaceRepository } from '../../infrastructure/repositories/ImageByPlaceRepository.js';
 import { ReviewRepository } from '../../infrastructure/repositories/ReviewRepository.js';
 import { ImageCategoryRepository } from '../../infrastructure/repositories/ImageCategoryRepository.js';
+import { AddressRepository } from '../../infrastructure/repositories/AddressRepository.js';
+import { AddressByPlaceRepository } from '../../infrastructure/repositories/AddressByPlaceRepository.js';  
+import { TagRepository } from '../../infrastructure/repositories/TagRepository.js';  
+import { RatingStarsByTagsDTO } from '../DTOs/RatingStarsByTagsDTO.js';
 
 export class GetTopRatedPlacesByTags {
     async execute(tagIds) {
@@ -11,6 +15,10 @@ export class GetTopRatedPlacesByTags {
         const imageRepository = new ImageByPlaceRepository();
         const reviewRepository = new ReviewRepository();
         const imageCategoryRepository = new ImageCategoryRepository();
+        const addressRepository = new AddressRepository();
+        const addresByPlaceRepository = new AddressByPlaceRepository();
+        const tagRepository = new TagRepository();
+        
 
         const imageCategory = await imageCategoryRepository.getImageCategoryByName("Principal");
         if (!imageCategory) return [];  
@@ -19,6 +27,31 @@ export class GetTopRatedPlacesByTags {
         if (!tagPlaceRelations.length) return []; 
 
         const placeIds = tagPlaceRelations.map(rel => rel.idPlaceFk);
+        const tagsId = tagPlaceRelations.map(rel => rel.idTagFk);
+        const tags = await tagRepository.getByIds(tagsId);
+        if (!tags.length) return [];
+        const tagNameMap = new Map();
+        tags.forEach(tag => {
+            const tagName = tags.find(t => t.idTag === tag.idTag);
+            if (!tagNameMap.has(tag.idTag)) {
+                tagNameMap.set(tag.idTag, tagName.name);
+            }
+        }
+        );
+
+        const addressByPlaceRelations = await addresByPlaceRepository.getAddressByPlaceIds(placeIds);
+        const addressIds = addressByPlaceRelations.map(rel => rel.idAddressFk);
+        const addresses = await addressRepository.getAddressByIds(addressIds);
+        if (!addresses.length) return [];
+
+        // Crear un mapa para acceder rápidamente a la descripción por id
+        const addressMap = new Map();
+        addressByPlaceRelations.forEach(rel => {
+            const address = addresses.find(a => a.idAddress === rel.idAddressFk);
+            if (address) {
+                addressMap.set(rel.idPlaceFk, address.description);
+            }
+        });
 
         const placesDetails = await placeRepository.getPlacesByIds(placeIds);
         if (!placesDetails.length) return [];
@@ -59,16 +92,19 @@ export class GetTopRatedPlacesByTags {
             tagMap.get(rel.idPlaceFk).push(rel.idTagFk);
         });
 
-      
         const topPlaces = placesDetails.filter(p => topPlaceIds.includes(p.idPlace));
         const result = topPlaces.map(p => {
             const avgObj = topRatings.find(r => r.placeId === p.idPlace);
-            return {
-                ...p,
-                average: avgObj ? avgObj.avg : 0,
-                image: imageMap.get(p.idPlace) || null, 
-                idTags: tagMap.get(p.idPlace) || []  
-            };
+            return new RatingStarsByTagsDTO(
+                p.idPlace,
+                p.name,
+                addressMap.get(p.idPlace) || null,
+                imageMap.get(p.idPlace) || null, 
+                imageCategory.name,
+                tagMap.get(p.idPlace) || [],
+                (tagMap.get(p.idPlace) || []).map(idTag => tagNameMap.get(idTag)).filter(Boolean),
+                avgObj ? avgObj.avg : 0,
+            );
         });
 
         return result;
