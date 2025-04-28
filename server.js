@@ -4,7 +4,6 @@ import cors from 'cors';
 import process from 'node:process';
 import swaggerSpec from './src/interfaces/docs/swagger/swaggerConfig.js';
 import swaggerUi from 'swagger-ui-express';
-import categoryRouter from './src/interfaces/routes/CategoryRoute.js'; 
 import tagRouter from './src/interfaces/routes/TagRoute.js';
 import placeRouter from './src/interfaces/routes/PlaceRoute.js'; 
 import FavoriteRoute from './src/interfaces/routes/FavoriteRoute.js'; 
@@ -12,6 +11,11 @@ import FavoriteController from './src/interfaces/controllers/FavoriteController.
 import FavoriteUseCase from './src/application/use-cases/FavoriteUseCase.js';
 import FavoriteRepository from './src/infrastructure/repositories/FavoriteRepository.js'; 
 import FavoriteModel from './src/infrastructure/models/FavoriteModel.js';
+import categoryRouter from './src/interfaces/routes/CategoryRoute.js'; 
+import CategoryController from './src/interfaces/controllers/CategoryController.js';
+import CategoryUseCase from './src/application/use-cases/CategoryUseCase.js';
+import CategoryRepository from './src/infrastructure/repositories/CategoryRepository.js';
+import CategoryModel from './src/infrastructure/models/CategoryModel.js';
 
 const app = express();
 
@@ -23,13 +27,21 @@ const favoriteUseCase = new FavoriteUseCase(favoriteRepository);
 const favoriteController = new FavoriteController(favoriteUseCase);
 const favoriteRoute = new FavoriteRoute(favoriteController);
 
+// Category
+
+const categoryModel = CategoryModel;
+const categoryRepository = new CategoryRepository(categoryModel);
+const categoryUseCase = new CategoryUseCase(categoryRepository);
+const categoryController = new CategoryController(categoryUseCase);
+const categoryRoute = new categoryRouter(categoryController);
+
 
 // Routes 
 
 app.use(cors());
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use("/categories", categoryRouter);
+app.use("/categories", categoryRoute.getRouter());
 app.use("/tags", tagRouter);
 app.use('/places', placeRouter);
 app.use('/favorites', favoriteRoute.getRouter());
