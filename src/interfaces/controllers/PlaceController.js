@@ -1,17 +1,13 @@
 export default class PlaceController {
-  constructor(getTopRatedPlacesByCategory, getTopRatedPlacesByTags, getMoreVisitedPlaces) {
-    this.getTopRatedPlacesByCategory = getTopRatedPlacesByCategory;
-    this.getTopRatedPlacesByTags = getTopRatedPlacesByTags;
+  constructor(PromotedPlacesByCategory, PromotedPlacesByTag, getMoreVisitedPlaces) {
+    this.getTopRatedPlacesByCategory = PromotedPlacesByCategory;
+    this.getTopRatedPlacesByTags = PromotedPlacesByTag;
     this.getMoreVisitedPlaces = getMoreVisitedPlaces;
     
   }
   async getTopRatedPlacesByCategoryUC(req, res) {
     try {
       let idCategory = parseInt(req.params.idCategory);
-      if (isNaN(idCategory)) {
-        idCategory = 1; 
-      }
-
       const result = await this.getTopRatedPlacesByCategory.execute(idCategory);
       res.json(result);
     } catch (err) {
@@ -21,10 +17,6 @@ export default class PlaceController {
   async getTopRatedPlacesByTagsUC(req, res) {
     try {
       let { tags } = req.body;
-
-      if (!Array.isArray(tags) || tags.length === 0) {
-        tags = [1, 2];
-      }
       const result = await this.getTopRatedPlacesByTags.execute(tags);
       res.json(result);
     } catch (err) {

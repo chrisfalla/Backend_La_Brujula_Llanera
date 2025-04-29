@@ -1,6 +1,6 @@
-import RatingStarsByTagsDTO from '../DTOs/RatingStarsByTagsDTO.js';
+import PromotedPlacesByTagDTO from '../DTOs/PromotedPlacesByTagDTO.js';
 
-export default class GetTopRatedPlacesByTags {
+export default class PromotedPlacesByTag {
     constructor(tagByPlaceRepository, placeRepository, imageByPlaceRepository, reviewRepository, imageCategoryRepository, addressRepository, addresByPlaceRepository, tagRepository) {
         this.tagByPlaceRepository = tagByPlaceRepository;
         this.placeRepository = placeRepository;
@@ -87,7 +87,7 @@ export default class GetTopRatedPlacesByTags {
         
         const result = topPlaces.map(p => {
             const avgObj = topRatings.find(r => r.placeId === p.idPlace);
-            return new RatingStarsByTagsDTO(
+            return new PromotedPlacesByTagDTO(
                 p.idPlace,
                 p.name,
                 addressMap.get(p.idPlace) || null,
