@@ -1,9 +1,12 @@
-import { IAddressByPlace } from "../../domain/repositories/IAddressByPlace.js";
-import { AddressByPlaceModel } from "../models/AddressByPlaceModel.js";
+import IAddressByPlace from "../../domain/repositories/IAddressByPlace.js";
 
-export class AddressByPlaceRepository extends IAddressByPlace {
+export default class AddressByPlaceRepository extends IAddressByPlace {
+    constructor(addressByPlaceModel) {
+        super();
+        this.addressByPlaceModel = addressByPlaceModel;
+    }
     async getAddressByPlaceIds(idPlace) {
-        const addressByPlace = await AddressByPlaceModel.findAll({
+        const addressByPlace = await this.addressByPlaceModel.findAll({
             where: {
                 idPlaceFk: idPlace,
             },

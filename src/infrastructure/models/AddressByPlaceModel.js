@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/sequelize.js';
 
-export const AddressByPlaceModel = sequelize.define('AddressByPlace', {
+const AddressByPlaceModel = sequelize.define('AddressByPlace', {
     idAddressByPlace: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -30,3 +30,5 @@ export const AddressByPlaceModel = sequelize.define('AddressByPlace', {
     tableName: 'AddressByPlace',
     timestamps: true,
     });
+
+export default AddressByPlaceModel;
