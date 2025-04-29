@@ -1,11 +1,9 @@
-export default class CategoryController {
-  constructor(categoryUseCase) {
-    this.categoryUseCase = categoryUseCase;
-  }
+import { CategoryUseCase } from '../../application/use-cases/CategoryUseCase.js'; 
 
-  async getAllCategories(req, res) {
+export class CategoryController {
+  static async getAllCategories(req, res) {
     try {
-      const categories = await this.categoryUseCase.getAllCategories();
+      const categories = await CategoryUseCase.getAllCategories();
       res.status(200).json(categories);
     } catch (error) {
       console.error(error);
@@ -13,10 +11,10 @@ export default class CategoryController {
     }
   }
 
-  async getCategoryById(req, res) {
+  static async getCategoryById(req, res) {
     try {
       const { id } = req.params;
-      const category = await this.categoryUseCase.getCategoryById(id);
+      const category = await CategoryUseCase.getCategoryById(id);
       if (!category) {
         return res.status(404).json({ message: 'Category not found.' });
       }
@@ -28,10 +26,10 @@ export default class CategoryController {
     }
   }
 
-  async createCategory(req, res) {
+  static async createCategory(req, res) {
     try {
       const { name, isActive, isDefault } = req.body;
-      const category = await this.categoryUseCase.createCategory(name, isActive, isDefault);
+      const category = await CategoryUseCase.createCategory(name, isActive, isDefault);
       res.status(201).json(category);
     } catch (error) {
       console.error(error);
@@ -39,11 +37,11 @@ export default class CategoryController {
     }
   }
 
-  async updateCategory(req, res) {
+  static async updateCategory(req, res) {
     try {
       const { id } = req.params;
       const { name, isActive, isDefault } = req.body;
-      const updated = await this.categoryUseCase.updateCategory(id, name, isActive, isDefault);
+      const updated = await CategoryUseCase.updateCategory(id, name, isActive, isDefault);
       if (!updated) {
         return res.status(404).json({ message: 'Category not found.' });
       }
@@ -54,10 +52,10 @@ export default class CategoryController {
     }
   }
 
-  async deleteCategory(req, res) {
+  static async deleteCategory(req, res) {
     try {
       const { id } = req.params;
-      const deleted = await this.categoryUseCase.deleteCategory(id);
+      const deleted = await CategoryUseCase.deleteCategory(id);
       if (!deleted) {
         return res.status(404).json({ message: 'Category not found' });
       }
@@ -67,10 +65,9 @@ export default class CategoryController {
       res.status(500).json({ message: 'Error while removing the Category' });
     }
   }
-
-  async getDefaultCategory(req, res){
+  static async getDefaultCategory(req, res){
     try {
-      const category = await this.categoryUseCase.getDefaultCategory();
+      const category = await CategoryUseCase.getDefaultCategory();
       if (!category) {
         return res.status(404).json({ message: 'Category not found.' });
       }

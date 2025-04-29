@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
 
-const ReviewModel = sequelize.define(
+export const ReviewModel = sequelize.define(
   "Review",
   {
     idReview: {
@@ -46,5 +46,3 @@ const ReviewModel = sequelize.define(
     timestamps: true,
   }
 );
-
-export default ReviewModel;

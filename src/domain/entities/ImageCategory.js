@@ -1,4 +1,4 @@
-export default class ImageCategory {
+export class ImageCategory {
     constructor(idImageCategory, name, createdAt, updatedAt) {
         this.idImageCategory = idImageCategory;
         this.name = name;

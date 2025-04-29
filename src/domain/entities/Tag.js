@@ -1,4 +1,4 @@
-export default class Tag {
+export class Tag {
     constructor({ idTag, name, createdAt, updatedAt, isDefault }) {
       this.idTag = idTag;
       this.name = name;

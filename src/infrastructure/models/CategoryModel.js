@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/sequelize.js'; 
 
-const CategoryModel = sequelize.define('Category', {
+export const CategoryModel = sequelize.define('Category', {
   idCategory: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -28,13 +28,7 @@ const CategoryModel = sequelize.define('Category', {
     type: DataTypes.BOOLEAN,
     defaultValue: true, 
   },
-  icon: {
-    type: DataTypes.STRING,
-    allowNull: true, 
-  },
 }, {
   tableName: 'Category', 
   timestamps: true,
 });
-
-export default CategoryModel;

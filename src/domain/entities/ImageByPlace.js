@@ -1,4 +1,4 @@
-export default class ImageByPlace{
+export class ImageByPlace{
     constructor(idImageByPlace, urlImage, idImageCategorieFk, idPlaceFk, createdAt, updatedAt) {
         this.idImageByPlace = idImageByPlace;
         this.urlImage = urlImage;
