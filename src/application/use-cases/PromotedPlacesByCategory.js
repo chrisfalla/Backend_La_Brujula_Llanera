@@ -1,22 +1,28 @@
-import RatingStarsByCategory from '../DTOs/RatingStarsByCategory.js';
+import PromotedPlacesByCategoryDTO from '../DTOs/PromotedPlacesByCategoryDTO.js';
 
-export default class GetTopRatedPlacesByCategory {
+export default class PromotedPlacesByCategory {
   constructor(placeRepository, reviewRepository, imageByPlaceRepository, imageCategoryRepository) {
     this.placeRepository = placeRepository;
     this.reviewRepository = reviewRepository;
     this.imageByPlaceRepository = imageByPlaceRepository;
     this.imageCategoryRepository = imageCategoryRepository;
   }
+
   async execute(idCategory) {
     const imageCategory = await this.imageCategoryRepository.getImageCategoryByName("Principal");
     const places = await this.placeRepository.getPlacesByCategory(idCategory);
-    if (!imageCategory) return []; 
+
+    if (!imageCategory) return [];
     if (!places.length) return [];
 
-    const placeIds = places.map(p => p.idPlace);
+    // Ordenar places alfabéticamente por nombre
+    const sortedPlaces = [...places].sort((a, b) => a.name.localeCompare(b.name)).slice(0, 2);
+    const placeIds = sortedPlaces.map(p => p.idPlace);
+
     const reviews = await this.reviewRepository.getReviewsByPlaceIds(placeIds);
     const images = await this.imageByPlaceRepository.getImagesByPlaceIds(placeIds, imageCategory.idImageCategory);
 
+    // Calcular promedio de ratings
     const ratingMap = new Map();
     for (const review of reviews) {
       const { idPlaceFk, ratingValue } = review;
@@ -28,35 +34,28 @@ export default class GetTopRatedPlacesByCategory {
       data.count += 1;
     }
 
-    const avgRatings = [...ratingMap.entries()].map(([placeId, { total, count }]) => ({
-      placeId,
-      avg: total / count,
-    }));
+    const avgRatings = new Map();
+    for (const [placeId, { total, count }] of ratingMap.entries()) {
+      avgRatings.set(placeId, total / count);
+    }
 
-    const topRatings = avgRatings
-      .sort((a, b) => b.avg - a.avg)
-      .slice(0, 2);
-
-    const topPlaceIds = topRatings.map(r => r.placeId);
-
+    // Mapear places a DTO incluyendo promedio si existe
     const imageMap = new Map();
     for (const img of images) {
       if (!imageMap.has(img.idPlaceFk)) {
-        imageMap.set(img.idPlaceFk, img.urlImage); 
+        imageMap.set(img.idPlaceFk, img.urlImage);
       }
     }
 
-    return places
-      .filter(p => topPlaceIds.includes(p.idPlace))
-      .map(p => {
-        const avgObj = topRatings.find(r => r.placeId === p.idPlace);
-        return new RatingStarsByCategory(
-          p.idPlace,
-          avgObj ? avgObj.avg : 0,
-          p.name,
-          imageCategory.name,
-          imageMap.get(p.idPlace) || null
-        );
-      });
+    return sortedPlaces.map(p => {
+      const avg = avgRatings.get(p.idPlace) || 0;
+      return new PromotedPlacesByCategoryDTO(
+        p.idPlace,
+        avg,
+        p.name,
+        imageCategory.name,
+        imageMap.get(p.idPlace) || null
+      );
+    });
   }
 }

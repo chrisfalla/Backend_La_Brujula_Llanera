@@ -1,36 +1,30 @@
 export default class PlaceController {
-  constructor(getTopRatedPlacesByCategory, getTopRatedPlacesByTags, getMoreVisitedPlaces) {
-    this.getTopRatedPlacesByCategory = getTopRatedPlacesByCategory;
-    this.getTopRatedPlacesByTags = getTopRatedPlacesByTags;
+  constructor(PromotedPlacesByCategory, PromotedPlacesByTag, getMoreVisitedPlaces) {
+    this.PromotedPlacesByCategory = PromotedPlacesByCategory;
+    this.PromotedPlacesByTag = PromotedPlacesByTag;
     this.getMoreVisitedPlaces = getMoreVisitedPlaces;
     
   }
-  async getTopRatedPlacesByCategoryUC(req, res) {
+  async PromotedPlacesByCategoryCT(req, res) {
     try {
       let idCategory = parseInt(req.params.idCategory);
-      if (isNaN(idCategory)) {
-        idCategory = 1; 
-      }
-
-      const result = await this.getTopRatedPlacesByCategory.execute(idCategory);
+      const result = await this.PromotedPlacesByCategory.execute(idCategory);
       res.json(result);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
   }
-  async getTopRatedPlacesByTagsUC(req, res) {
+  async PromotedPlacesByTagCT(req, res) {
     try {
-      let { tags } = req.body;
+      let { tagId } = req.body; 
+      const result = await this.PromotedPlacesByTag.execute(tagId); // Pasar solo el tagId
 
-      if (!Array.isArray(tags) || tags.length === 0) {
-        tags = [1, 2];
-      }
-      const result = await this.getTopRatedPlacesByTags.execute(tags);
       res.json(result);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
-  }
+}
+
   async getMoreVisitedPlacesUC(req, res) {
     try {
         const logVisits = await this.getMoreVisitedPlaces.execute();

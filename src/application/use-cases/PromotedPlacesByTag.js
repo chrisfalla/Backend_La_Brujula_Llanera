@@ -1,6 +1,6 @@
-import RatingStarsByTagsDTO from '../DTOs/RatingStarsByTagsDTO.js';
+import PromotedPlacesByTagDTO from '../DTOs/PromotedPlacesByTagDTO.js';
 
-export default class GetTopRatedPlacesByTags {
+export default class PromotedPlacesByTag {
     constructor(tagByPlaceRepository, placeRepository, imageByPlaceRepository, reviewRepository, imageCategoryRepository, addressRepository, addresByPlaceRepository, tagRepository) {
         this.tagByPlaceRepository = tagByPlaceRepository;
         this.placeRepository = placeRepository;
@@ -11,25 +11,20 @@ export default class GetTopRatedPlacesByTags {
         this.addresByPlaceRepository = addresByPlaceRepository;
         this.tagRepository = tagRepository;
     }
-    async execute(tagIds) {
+
+    async execute(tagId) {
         const imageCategory = await this.imageCategoryRepository.getImageCategoryByName("Principal");
         if (!imageCategory) return [];  
 
-        const tagPlaceRelations = await this.tagByPlaceRepository.getPlacesByTagIds(tagIds);
+        const tagPlaceRelations = await this.tagByPlaceRepository.getPlacesByTagId(tagId);
         if (!tagPlaceRelations.length) return []; 
 
         const placeIds = tagPlaceRelations.map(rel => rel.idPlaceFk);
-        const tagsId = tagPlaceRelations.map(rel => rel.idTagFk);
 
-        const tags = await this.tagRepository.getByIds(tagsId);
-        if (!tags.length) return [];
+        const tag = await this.tagRepository.getById(tagId);
+        if (!tag) return []; 
 
-        const tagNameMap = new Map();
-        tags.forEach(tag => {
-            if (!tagNameMap.has(tag.idTag)) {
-                tagNameMap.set(tag.idTag, tag.name);
-            }
-        });
+        const tagName = tag.name;
 
         const addressByPlaceRelations = await this.addresByPlaceRepository.getAddressByPlaceIds(placeIds);
         const addressIds = addressByPlaceRelations.map(rel => rel.idAddressFk);
@@ -72,31 +67,26 @@ export default class GetTopRatedPlacesByTags {
             avg: total / count,
         }));
 
-        const topRatings = avgRatings.sort((a, b) => b.avg - a.avg).slice(0, 3);
-        const topPlaceIds = topRatings.map(r => r.placeId);
+        const sortedPlaces = placesDetails
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .slice(0, 3);
 
-        const tagMap = new Map(); 
-        tagPlaceRelations.forEach(rel => {
-            if (!tagMap.has(rel.idPlaceFk)) {
-                tagMap.set(rel.idPlaceFk, []);
-            }
-            tagMap.get(rel.idPlaceFk).push(rel.idTagFk);
-        });
-
-        const topPlaces = placesDetails.filter(p => topPlaceIds.includes(p.idPlace));
-        
-        const result = topPlaces.map(p => {
-            const avgObj = topRatings.find(r => r.placeId === p.idPlace);
-            return new RatingStarsByTagsDTO(
-                p.idPlace,
-                p.name,
-                addressMap.get(p.idPlace) || null,
-                imageMap.get(p.idPlace) || null, 
-                imageCategory.name,
-                tagMap.get(p.idPlace) || [],
-                (tagMap.get(p.idPlace) || []).map(idTag => tagNameMap.get(idTag)).filter(Boolean),
-                avgObj ? avgObj.avg : 0,
-            );
+        const result = sortedPlaces.map(p => {
+            const avgObj = avgRatings.find(r => r.placeId === p.idPlace);
+            return {
+                place: new PromotedPlacesByTagDTO(
+                    p.idPlace,
+                    p.name,
+                    addressMap.get(p.idPlace) || null,
+                    imageMap.get(p.idPlace) || null, 
+                    imageCategory.name,
+                    avgObj ? avgObj.avg : 0
+                ),
+                tagInfo: {
+                    idTag: tagId,
+                    tagName: tagName
+                }
+            };
         });
 
         return result;

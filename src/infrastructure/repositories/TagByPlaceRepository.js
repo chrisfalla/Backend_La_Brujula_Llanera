@@ -5,8 +5,10 @@ export default class TagByPlaceRepository extends ITagByPlaceRepository {
     super();
     this.tagByPlaceModel = tagByPlaceModel;
   }
-  async getPlacesByTagIds(tagIds) {
-    const result = await this.tagByPlaceModel.findAll({ where: { idTagFk: tagIds } });
+  async getPlacesByTagId(idTag) {
+    const result = await this.tagByPlaceModel.findAll({
+      where: { idTagFk: idTag }
+    });
     return result.map(r => r.toJSON());
   }
 }
