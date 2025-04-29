@@ -21,7 +21,7 @@ import TagRepository from './src/infrastructure/repositories/TagRepository.js';
 import TagModel from './src/infrastructure/models/TagModel.js';
 import HomeRoute from './src/interfaces/routes/HomeRoute.js';
 import TagByPlaceRepository from './src/infrastructure/repositories/TagByPlaceRepository.js';
-import PlaceController from './src/interfaces/controllers/PlaceController.js';
+import PlaceController from './src/interfaces/controllers/HomeController.js';
 import GetTopRatedPlacesByCategory from './src/application/use-cases/PromotedPlacesByCategory.js';
 import GetTopRatedPlacesByTags from './src/application/use-cases/PromotedPlacesByTag.js';
 import GetMoreVisitedPlaces from './src/application/use-cases/GetMoreVisitedPlaces.js';

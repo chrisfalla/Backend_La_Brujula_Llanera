@@ -1,28 +1,30 @@
 export default class PlaceController {
   constructor(PromotedPlacesByCategory, PromotedPlacesByTag, getMoreVisitedPlaces) {
-    this.getTopRatedPlacesByCategory = PromotedPlacesByCategory;
-    this.getTopRatedPlacesByTags = PromotedPlacesByTag;
+    this.PromotedPlacesByCategory = PromotedPlacesByCategory;
+    this.PromotedPlacesByTag = PromotedPlacesByTag;
     this.getMoreVisitedPlaces = getMoreVisitedPlaces;
     
   }
-  async getTopRatedPlacesByCategoryUC(req, res) {
+  async PromotedPlacesByCategoryCT(req, res) {
     try {
       let idCategory = parseInt(req.params.idCategory);
-      const result = await this.getTopRatedPlacesByCategory.execute(idCategory);
+      const result = await this.PromotedPlacesByCategory.execute(idCategory);
       res.json(result);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
   }
-  async getTopRatedPlacesByTagsUC(req, res) {
+  async PromotedPlacesByTagCT(req, res) {
     try {
-      let { tags } = req.body;
-      const result = await this.getTopRatedPlacesByTags.execute(tags);
+      let { tagId } = req.body; 
+      const result = await this.PromotedPlacesByTag.execute(tagId); // Pasar solo el tagId
+
       res.json(result);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
-  }
+}
+
   async getMoreVisitedPlacesUC(req, res) {
     try {
         const logVisits = await this.getMoreVisitedPlaces.execute();
