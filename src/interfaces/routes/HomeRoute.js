@@ -15,11 +15,11 @@ export default class HomeRoute{
 
     }
     initializeRoutes() {
-        this.getMoreVisitedPlaces();
-        this.postRatedByTags();
         this.getRatedByCategory();
+        this.PromotedPlacesByTag();
+        this.PromotedPlacesByCategory();
     }
-    getMoreVisitedPlaces(){
+    PromotedPlacesByCategory(){
         /**
          * @swagger
          * /home/log-visited/more-visited:
@@ -56,12 +56,13 @@ export default class HomeRoute{
          */
         this.router.get("/log-visited/more-visited", (req, res) => this.placeController.getMoreVisitedPlacesUC(req, res));
     }
-    postRatedByTags(){
+
+    PromotedPlacesByTag(){
         /**
          * @swagger
          * /home/top-rated-by-tags:
          *   post:
-         *     summary: Obtiene los lugares mejor valorados filtrados por múltiples tags
+         *     summary: Obtiene los lugares mejor valorados filtrados por un tag
          *     tags: [Home]
          *     requestBody:
          *       required: false
@@ -70,16 +71,14 @@ export default class HomeRoute{
          *           schema:
          *             type: object
          *             properties:
-         *               tags:
-         *                 type: array
-         *                 items:
-         *                   type: integer
-         *                 description: IDs de los tags a filtrar
+         *               tagId:
+         *                 type: integer
+         *                 description: ID del tag a filtrar
          *             example:
-         *               tags: [1, 2, 3]
+         *               tagId: 1
          *     responses:
          *       200:
-         *         description: Lista de lugares mejor valorados con los tags especificados
+         *         description: Lista de lugares mejor valorados con el tag especificado
          *         content:
          *           application/json:
          *             schema:
@@ -102,8 +101,9 @@ export default class HomeRoute{
          *       500:
          *         description: Error del servidor
          */
-        this.router.post("/top-rated-by-tags", (req, res) => this.placeController.getTopRatedPlacesByTagsUC(req, res));
-    }
+        this.router.post("/top-rated-by-tags", (req, res) => this.placeController.PromotedPlacesByTagCT(req, res));
+    }    
+    
     getRatedByCategory(){
         /**
          * @swagger
@@ -143,7 +143,7 @@ export default class HomeRoute{
          *       500:
          *         description: Error del servidor
          */
-        this.router.get("/top-rated/:idCategory?", (req, res) => this.placeController.getTopRatedPlacesByCategoryUC(req, res));
+        this.router.get("/top-rated/:idCategory?", (req, res) => this.placeController.PromotedPlacesByCategoryCT(req, res));
     }
     getRouter() {
         return this.router;

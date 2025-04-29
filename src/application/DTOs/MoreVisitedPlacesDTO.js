@@ -3,7 +3,7 @@ export default class MoreVisitedPlacesDTO {
         this.placeName = name;
         this.idPlace = idPlace;
         this.visitCount = visitCount;
-        this.categoryName = categoryName;
+        this.imageCategoryName = categoryName;
         this.imageUrl = imageUrl;
     }
 }   
