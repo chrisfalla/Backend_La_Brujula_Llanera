@@ -1,9 +1,10 @@
-import { TagUseCase } from '../../application/use-cases/TagUseCase.js';
-
-export class TagController {
-  static async getAllTags(req, res) {
+export default class TagController {
+  constructor(tagUseCase){
+    this.tagUseCase = tagUseCase;
+  }
+  async getAllTags(req, res) {
     try {
-      const tags = await TagUseCase.getAllTags();
+      const tags = await this.tagUseCase.getAllTags();
       res.status(200).json(tags);
     } catch (error) {
       console.error(error);
@@ -11,10 +12,10 @@ export class TagController {
     }
   }
 
-  static async getTagById(req, res) {
+  async getTagById(req, res) {
     try {
       const { id } = req.params;
-      const tag = await TagUseCase.getTagById(id);
+      const tag = await this.tagUseCase.getTagById(id);
       if (!tag) {
         return res.status(404).json({ message: 'Category not found.' });
       }
@@ -25,10 +26,10 @@ export class TagController {
     }
   }
 
-  static async createTag(req, res) {
+  async createTag(req, res) {
     try {
       const { name } = req.body;
-      const tag = await TagUseCase.createTag(name);
+      const tag = await this.tagUseCase.createTag(name);
       res.status(201).json(tag);
     } catch (error) {
       console.error(error);
@@ -36,11 +37,11 @@ export class TagController {
     }
   }
 
-  static async updateTag(req, res) {
+  async updateTag(req, res) {
     try {
       const { id } = req.params;
       const { name } = req.body;
-      const updated = await TagUseCase.updateTag(id, name);
+      const updated = await this.tagUseCase.updateTag(id, name);
       if (!updated) {
         return res.status(404).json({ message: 'Tag not found' });
       }
@@ -51,10 +52,10 @@ export class TagController {
     }
   }
 
-  static async deleteTag(req, res) {
+  async deleteTag(req, res) {
     try {
       const { id } = req.params;
-      const deleted = await TagUseCase.deleteTag(id);
+      const deleted = await this.tagUseCase.deleteTag(id);
       if (!deleted) {
         return res.status(404).json({ message: 'Tag not found' });
       }
@@ -64,9 +65,9 @@ export class TagController {
       res.status(500).json({ message: 'Error while Removing the Tag' });
     }
   }
-  static async getDefaultTags(req, res) {
+  async getDefaultTags(req, res) {
     try {
-      const tags = await TagUseCase.getDefaultTags();
+      const tags = await this.tagUseCase.getDefaultTags();
       res.status(200).json(tags);
     } catch (error) {
       console.error(error);

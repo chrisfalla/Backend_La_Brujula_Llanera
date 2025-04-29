@@ -1,10 +1,13 @@
-import { ILogVisitRepository } from "../../domain/repositories/ILogVisitRepository.js";
-import { LogVisitModel } from "../models/LogVisitModel.js";
+import ILogVisitRepository from "../../domain/repositories/ILogVisitRepository.js";
 import { fn, col } from 'sequelize'; 
 
-export class LogVisitedRepository extends ILogVisitRepository {
+export default class LogVisitedRepository extends ILogVisitRepository {
+    constructor(logVisitModel) {
+        super();
+        this.logVisitModel = logVisitModel;
+    }
     async getMoreVisitedPlaces() {
-        const result = await LogVisitModel.findAll({
+        const result = await this.logVisitModel.findAll({
             attributes: ['idPlaceFk', [fn('COUNT', col('idPlaceFk')), 'visitCount']],
             group: ['idPlaceFk'],
             order: [[fn('COUNT', col('idPlaceFk')), 'DESC']],

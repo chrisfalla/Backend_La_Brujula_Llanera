@@ -1,24 +1,22 @@
-import { LogVisitedRepository } from "../../infrastructure/repositories/LogVisitedRepository.js";
-import { PlaceRepository } from "../../infrastructure/repositories/PlaceRepository.js";
-import { ImageByPlaceRepository } from "../../infrastructure/repositories/ImageByPlaceRepository.js";
-import { ImageCategoryRepository } from "../../infrastructure/repositories/ImageCategoryRepository.js";
+import MoreVisitedPlacesDTO from "../DTOs/MoreVisitedPlacesDTO.js";
 
-export class GetMoreVisitedPlaces {
+export default class GetMoreVisitedPlaces {
+    constructor(logVisitedRepository, placeRepository, imageByPlaceRepository, imageCategoryRepository) {
+        this.logVisitedRepository = logVisitedRepository;
+        this.placeRepository = placeRepository;
+        this.imageByPlaceRepository = imageByPlaceRepository;
+        this.imageCategoryRepository = imageCategoryRepository;
+    }
     async execute() {
-        const logVisitedRepository = new LogVisitedRepository();
-        const placeRepository = new PlaceRepository();
-        const imageByPlaceRepository = new ImageByPlaceRepository();
-        const imageCategoryRepository = new ImageCategoryRepository();
-
-        const logVisits = await logVisitedRepository.getMoreVisitedPlaces();
-        const imageCategory = await imageCategoryRepository.getImageCategoryByName("Principal");
+        const logVisits = await this.logVisitedRepository.getMoreVisitedPlaces();
+        const imageCategory = await this.imageCategoryRepository.getImageCategoryByName("Principal");
         if (!imageCategory) return [];
 
         const placeIds = logVisits.map(log => log.idPlaceFk);
-        const places = await placeRepository.getPlacesByIds(placeIds);
+        const places = await this.placeRepository.getPlacesByIds(placeIds);
         if (!places.length) return [];
 
-        const images = await imageByPlaceRepository.getImagesByPlaceIds(placeIds, imageCategory.idImageCategory);
+        const images = await this.imageByPlaceRepository.getImagesByPlaceIds(placeIds, imageCategory.idImageCategory);
 
         const imageMap = new Map();
         images.forEach(img => {
@@ -34,13 +32,13 @@ export class GetMoreVisitedPlaces {
 
         return places.map(place => {
             const image = imageMap.get(place.idPlace); 
-            return {
-                name: place.name,
-                idPlace: place.idPlace,
-                visitCount: visitMap.get(place.idPlace) || 0, 
-                imageUrl: image ? image.urlImage : null, 
-                imageCategoryId: image ? image.idImageCategorieFk : null
-            };
+            return new MoreVisitedPlacesDTO(
+                place.name,
+                place.idPlace,
+                visitMap.get(place.idPlace) || 0,
+                imageCategory.name,
+                image ? image.urlImage : null
+            );
         });
     }
 }

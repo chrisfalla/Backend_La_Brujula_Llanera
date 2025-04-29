@@ -1,24 +1,22 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../database/sequelize.js";
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../database/sequelize.js';
 
-const ImageByPlaceModel = sequelize.define("ImageByPlace", {
-    idImageByPlace: {
+const AddressByPlaceModel = sequelize.define('AddressByPlace', {
+    idAddressByPlace: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        field: "idImageByPlace",
-    },
-    urlImage: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    idImageCategorieFk: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        field: 'idAddressByPlace',
     },
     idPlaceFk: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        field: 'idPlaceFk',
+    },
+    idAddressFk: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'idAddressFk',
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -29,8 +27,8 @@ const ImageByPlaceModel = sequelize.define("ImageByPlace", {
         defaultValue: DataTypes.NOW,
     },
     }, {
-    tableName: "ImageByPlace",
+    tableName: 'AddressByPlace',
     timestamps: true,
-})
+    });
 
-export default ImageByPlaceModel;
+export default AddressByPlaceModel;
