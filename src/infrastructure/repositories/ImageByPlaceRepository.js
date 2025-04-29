@@ -1,8 +1,12 @@
-import { ImageByPlaceModel } from '../models/ImageByPlaceModel.js';
+import IImageByPlaceRepository from "../../domain/repositories/IImageByPlaceRepository.js";
 
-export class ImageByPlaceRepository {
+export default class ImageByPlaceRepository extends IImageByPlaceRepository {
+  constructor(imageByPlaceModel) {
+    super();
+    this.imageByPlaceModel = imageByPlaceModel;
+  }
   async getImagesByPlaceIds(placeIds, idImageCategory) {
-    const result = await ImageByPlaceModel.findAll({
+    const result = await this.imageByPlaceModel.findAll({
       where: {
         idPlaceFk: placeIds,
         idImageCategorieFk: idImageCategory

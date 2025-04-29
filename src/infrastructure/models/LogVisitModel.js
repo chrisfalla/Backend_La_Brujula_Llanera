@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/sequelize.js'; 
 
-export const LogVisitModel = sequelize.define('LogVisit', {
+const LogVisitModel = sequelize.define('LogVisit', {
     idLogVisit: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -36,3 +36,5 @@ export const LogVisitModel = sequelize.define('LogVisit', {
     tableName: 'LogVisit', 
     timestamps: true,
     });
+
+export default LogVisitModel;

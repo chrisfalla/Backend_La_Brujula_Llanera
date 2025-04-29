@@ -1,4 +1,4 @@
-export class Address {
+export default class Address {
     constructor(idAddress, latitud, longintude, description, createdAt, updatedAt) {
         this.idAddress = idAddress;
         this.latitud = latitud;

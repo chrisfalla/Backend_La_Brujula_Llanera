@@ -1,4 +1,4 @@
-export class AddressByPlace {
+export default class AddressByPlace {
     constructor(idAddressByPlace, idPlaceFk, idAddressFk, createdAt, updatedAt) {
         this.idAddressByPlace = idAddressByPlace;
         this.idPlaceFk = idPlaceFk;

@@ -1,4 +1,4 @@
-export class CategoryDTO {
+export default class CategoryDTO {
     constructor(name, idCategory, icon, isDefult) {
         this.name = name;
         this.idCategory = idCategory;

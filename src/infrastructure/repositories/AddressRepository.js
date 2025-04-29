@@ -1,9 +1,12 @@
-import { AddressModel } from "../models/AddressModel.js";
-import { IAddressRepository } from "../../domain/repositories/IAddressRepository.js";
+import IAddressRepository from "../../domain/repositories/IAddressRepository.js";
 
-export class AddressRepository extends IAddressRepository {
+export default class AddressRepository extends IAddressRepository {
+    constructor(addressModel) {
+        super();
+        this.addressModel = addressModel;
+    }
     async getAddressByIds(idAddress) {
-        const address = await AddressModel.findAll({
+        const address = await this.addressModel.findAll({
             where: {
                 idAddress: idAddress,
             },

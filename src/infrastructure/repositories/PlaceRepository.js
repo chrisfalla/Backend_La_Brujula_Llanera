@@ -1,15 +1,18 @@
-import {IPlaceRepository} from '../../domain/repositories/IPlaceRepository.js'; 
-import { PlaceModel } from '../models/PlaceModel.js';
+import IPlaceRepository from '../../domain/repositories/IPlaceRepository.js'; 
 import { Op } from 'sequelize';
 
 
-export class PlaceRepository extends IPlaceRepository {
+export default class PlaceRepository extends IPlaceRepository {
+  constructor(placeModel) {
+    super();
+    this.placeModel = placeModel;
+  }
   async getPlacesByCategory(idCategory) {
-    const result = await PlaceModel.findAll({ where: { idCategorie: idCategory } });
+    const result = await this.placeModel.findAll({ where: { idCategorie: idCategory } });
     return result.map(place => place.toJSON());
   }
   async getPlacesByIds(placeIds) {
-    const result = await PlaceModel.findAll({
+    const result = await this.placeModel.findAll({
       where: {
         idPlace: {
           [Op.in]: placeIds

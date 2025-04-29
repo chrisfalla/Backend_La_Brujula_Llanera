@@ -1,4 +1,4 @@
-export class TagByPlace {
+export default class TagByPlace {
     constructor({ idTagByPlace, idPlaceFk, idTagFk, createdAt, updatedAt }) {
         this.idTagByPlace = idTagByPlace;
         this.idPlaceFk = idPlaceFk;

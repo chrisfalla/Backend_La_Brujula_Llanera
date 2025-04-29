@@ -1,4 +1,4 @@
-export class RatingStarsByTagsDTO {
+export default class RatingStarsByTagsDTO {
     constructor(placeId ,placeName, placeAddess, imageUrl, imageCategoryName, tagIds, tagName, ratingStars) {
         this.idPlace = placeId;
         this.placeName = placeName;

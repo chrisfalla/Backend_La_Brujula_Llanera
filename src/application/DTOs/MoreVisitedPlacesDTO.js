@@ -1,4 +1,4 @@
-export class MoreVisitedPlacesDTO {
+export default class MoreVisitedPlacesDTO {
     constructor(name, idPlace, visitCount, categoryName, imageUrl) {
         this.placeName = name;
         this.idPlace = idPlace;
