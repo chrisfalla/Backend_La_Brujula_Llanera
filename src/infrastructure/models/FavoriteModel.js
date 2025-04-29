@@ -1,18 +1,14 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
 
-const ImageByPlaceModel = sequelize.define("ImageByPlace", {
-    idImageByPlace: {
+const FavoriteModel = sequelize.define("Favorite", {
+    idFavorite: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        field: "idImageByPlace",
+        field: "idFavorite",
     },
-    urlImage: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    idImageCategorieFk: {
+    idUserFk: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
@@ -28,9 +24,9 @@ const ImageByPlaceModel = sequelize.define("ImageByPlace", {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     },
-    }, {
-    tableName: "ImageByPlace",
+}, {
+    tableName: "Favorite",
     timestamps: true,
-})
+});
 
-export default ImageByPlaceModel;
+export default FavoriteModel;

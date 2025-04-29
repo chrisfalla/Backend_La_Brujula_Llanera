@@ -1,4 +1,4 @@
-export class IPlaceRepository {
+export default class IPlaceRepository {
     async getPlacesByCategory(idCategory) {
         throw new Error("Method not implemented.");
       }

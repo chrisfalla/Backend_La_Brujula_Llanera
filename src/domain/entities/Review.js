@@ -1,4 +1,4 @@
-export class Review{
+export default class Review{
     constructor({ idReview, comment, ratingValue, idPlaceFk, idUserFk, dateTime, createdAt, updatedAt}){
         this.idReview = idReview;
         this.comment = comment;

@@ -1,38 +1,41 @@
-import { CategoryRepository } from '../../infrastructure/repositories/CategoryRepository.js'; 
-
-export class CategoryUseCase {
-  static async getAllCategories() {
-    const categoryRepository = new CategoryRepository();
-    return await categoryRepository.getAll();
+import CategoryDTO from '../DTOs/CategoryDTO.js';
+export default class CategoryUseCase {
+  constructor(categoryRepository) {
+    this.categoryRepository = categoryRepository;
+  }
+  async getAllCategories() {
+    const categories = await this.categoryRepository.getAll();
+    return categories.map(category => 
+        new CategoryDTO(category.name, category.idCategory, category.icon, category.isDefault));
   }
 
-  static async getCategoryById(id) {
-    const categoryRepository = new CategoryRepository();
-    return await categoryRepository.getById(id);
+  async getCategoryById(id) {
+    const category = await this.categoryRepository.getById(id);
+    return new CategoryDTO(category.name, category.idCategory, category.icon, category.isDefault);
   }
 
-  static async createCategory(name, isActive, isDefault) {
-    const categoryRepository = new CategoryRepository();
+  async getCategoryByName(name) {
+    const categoriesByName = await this.categoryRepository.getByName(name);
+    return categoriesByName.map(category => 
+      new CategoryDTO(category.name, category.idCategory, category.icon, category.isDefault));
+  }
+
+  async getDefaultCategory() {
+    const defaultCategory = await this.categoryRepository.getDefault();
+    return defaultCategory.map(category => new CategoryDTO(category.name, category.idCategory, category.icon, category.isDefault));
+  }
+
+  async createCategory(name, isActive, isDefault) {
     const newCategory = { name, isActive, isDefault };
-    return await categoryRepository.create(newCategory);
+    return await this.categoryRepository.create(newCategory);
   }
 
-  static async updateCategory(id, name, isActive, isDefault) {
-    const categoryRepository = new CategoryRepository();
+  async updateCategory(id, name, isActive, isDefault) {
     const updatedCategory = { name, isActive, isDefault };
-    return await categoryRepository.update(id, updatedCategory);
+    return await this.categoryRepository.update(id, updatedCategory);
   }
 
-  static async deleteCategory(id) {
-    const categoryRepository = new CategoryRepository();
-    return await categoryRepository.delete(id);
-  }
-  static async getCategoryByName(name) {
-    const categoryRepository = new CategoryRepository();
-    return await categoryRepository.getByName(name);
-  }
-  static async getDefaultCategory() {
-    const categoryRepository = new CategoryRepository();
-    return await categoryRepository.getDefault();
+  async deleteCategory(id) {
+    return await this.categoryRepository.delete(id);
   }
 }

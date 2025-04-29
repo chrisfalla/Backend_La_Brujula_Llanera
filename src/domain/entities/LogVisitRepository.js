@@ -1,4 +1,4 @@
-export class LogVisist {
+export default class LogVisist {
     constructor(idLogVisit, idPlaceFk, idUserFk, visitDate, createdAt, updatedAt) {
         this.idLogVisit = idLogVisit;
         this.deviceDateTime = idPlaceFk;

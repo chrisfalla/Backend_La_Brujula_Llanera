@@ -1,9 +1,12 @@
-import { IImageCategoryRepository } from '../../domain/repositories/IImageCategoryRepository.js';
-import { ImageCategoryModel } from '../models/ImageCategoryModel.js';
+import IImageCategoryRepository from '../../domain/repositories/IImageCategoryRepository.js';
 
-export class ImageCategoryRepository extends IImageCategoryRepository {
+export default class ImageCategoryRepository extends IImageCategoryRepository {
+    constructor(imageCategoryModel) {
+        super();
+        this.imageCategoryModel = imageCategoryModel;
+    }
     async getImageCategoryByName(name) {
-        const result = await ImageCategoryModel.findOne({
+        const result = await this.imageCategoryModel.findOne({
             where: { name },
             attributes: ['idImageCategory', 'name']
         });

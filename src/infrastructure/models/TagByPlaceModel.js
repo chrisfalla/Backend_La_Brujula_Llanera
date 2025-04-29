@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../database/sequelize.js'; 
 
-export const TagByPlaceModel = sequelize.define('TagByPlace', {
+const TagByPlaceModel = sequelize.define('TagByPlace', {
     idTagByPlace: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -30,3 +30,5 @@ export const TagByPlaceModel = sequelize.define('TagByPlace', {
     tableName: 'TagByPlace', 
     timestamps: true,
 });
+
+export default TagByPlaceModel;

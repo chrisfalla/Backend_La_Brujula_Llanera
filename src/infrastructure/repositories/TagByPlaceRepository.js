@@ -1,10 +1,12 @@
-import { TagByPlaceModel } from '../models/TagByPlaceModel.js';
-import { ITagByPlaceRepository } from '../../domain/repositories/ITagByPlaceRepository.js';
+import ITagByPlaceRepository from '../../domain/repositories/ITagByPlaceRepository.js';
 
-
-export class TagByPlaceRepository extends ITagByPlaceRepository {
+export default class TagByPlaceRepository extends ITagByPlaceRepository {
+  constructor(tagByPlaceModel) {
+    super();
+    this.tagByPlaceModel = tagByPlaceModel;
+  }
   async getPlacesByTagIds(tagIds) {
-    const result = await TagByPlaceModel.findAll({ where: { idTagFk: tagIds } });
+    const result = await this.tagByPlaceModel.findAll({ where: { idTagFk: tagIds } });
     return result.map(r => r.toJSON());
   }
 }
