@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
 
-const ImageCategoryModel = sequelize.define("ImageCategory", {
+export const ImageCategoryModel = sequelize.define("ImageCategory", {
     idImageCategory: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -24,5 +24,3 @@ const ImageCategoryModel = sequelize.define("ImageCategory", {
     tableName: "ImageCategorie",
     timestamps: true,
 });
-
-export default ImageCategoryModel;

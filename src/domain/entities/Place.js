@@ -1,4 +1,4 @@
-export default class Place{
+export class Place{
     constructor({ idPlace, name, description, phoneNumber, idCategorie, createdAt, updatedAt}) {
         this.idPlace = idPlace;
         this.name = name;

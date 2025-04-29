@@ -1,3 +1,3 @@
-export default class IImageCategoryRepository{
+export class IImageCategoryRepository{
     async getImageCategories(){ throw new Error("Method not implemented."); }
 }

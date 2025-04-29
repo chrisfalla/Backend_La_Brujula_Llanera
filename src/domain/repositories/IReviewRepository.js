@@ -1,4 +1,4 @@
-export default class IReviewRepository {
+export class IReviewRepository {
     async getReviewsByPlaceIds(placeIds) {
         throw new Error("Method not implemented.");
       }
