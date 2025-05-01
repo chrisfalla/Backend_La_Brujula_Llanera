@@ -9,7 +9,7 @@ export default class PromotedPlacesByCategory {
   }
 
   async execute(idCategory) {
-    const imageCategory = await this.imageCategoryRepository.getImageCategoryByName("Principal");
+    const imageCategory = await this.imageCategoryRepository.getImageCategoryByName("SmallCard");
     const places = await this.placeRepository.getPlacesByCategory(idCategory);
 
     if (!imageCategory) return [];

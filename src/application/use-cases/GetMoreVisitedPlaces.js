@@ -9,7 +9,7 @@ export default class GetMoreVisitedPlaces {
     }
     async execute() {
         const logVisits = await this.logVisitedRepository.getMoreVisitedPlaces();
-        const imageCategory = await this.imageCategoryRepository.getImageCategoryByName("Principal");
+        const imageCategory = await this.imageCategoryRepository.getImageCategoryByName("MostVisited");
         if (!imageCategory) return [];
 
         const placeIds = logVisits.map(log => log.idPlaceFk);

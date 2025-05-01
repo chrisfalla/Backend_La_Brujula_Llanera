@@ -13,7 +13,7 @@ export default class PromotedPlacesByTag {
     }
 
     async execute(tagId) {
-        const imageCategory = await this.imageCategoryRepository.getImageCategoryByName("Principal");
+        const imageCategory = await this.imageCategoryRepository.getImageCategoryByName("Logo");
         if (!imageCategory) return [];  
 
         const tagPlaceRelations = await this.tagByPlaceRepository.getPlacesByTagId(tagId);
