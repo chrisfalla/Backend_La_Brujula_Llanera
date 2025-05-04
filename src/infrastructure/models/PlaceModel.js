@@ -32,6 +32,10 @@ const PlaceModel = sequelize.define('Place', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW, 
   },
+  idSocialMedia: {
+    type: DataTypes.INTEGER,
+    allowNull: true, 
+  },
 }, {
   tableName: 'Place', 
   timestamps: true,

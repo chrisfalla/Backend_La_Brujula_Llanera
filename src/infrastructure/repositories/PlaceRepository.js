@@ -21,5 +21,8 @@ export default class PlaceRepository extends IPlaceRepository {
     });
     return result.map(place => place.toJSON());
   }
-  
+  async getPlaceById(idPlace) {
+    const result = await this.placeModel.findByPk(idPlace);
+    return result ? result.toJSON() : null;
+  }
 }
