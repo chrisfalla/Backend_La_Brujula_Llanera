@@ -1,7 +1,6 @@
 export default class ImageDTO {
-    constructor(idImageCategory, imageCategory, galleryImages) {
-        this.idImageCategory = idImageCategory;
-        this.imageCategory = imageCategory;
-        this.galleryImages = galleryImages;
+    constructor(imageId, urlImage) {
+      this.imageId = imageId;
+      this.url = urlImage; 
     }
-}
+  }
