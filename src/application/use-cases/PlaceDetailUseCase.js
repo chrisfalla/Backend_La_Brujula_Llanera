@@ -2,12 +2,13 @@ import PlaceDetailDTO from '../DTOs/PlaceDetailDTO.js';
 import ImageDTO from '../DTOs/ImageDTO.js';
 
 export default class PlaceDetailUseCase {
-  constructor(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, reviewRepository) {
+  constructor(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, reviewRepository, socialMediaByPlaceRepository) {
     this.placeRepository = placeRepository;
     this.categoryRepository = categoryRepository;
     this.imageCategoryRepository = imageCategoryRepository;
     this.imageByPlaceRepository = imageByPlaceRepository;
     this.reviewRepository = reviewRepository;
+    this.socialMediaByPlaceRepository = socialMediaByPlaceRepository;
   }
 
   async execute(idPlace) {
@@ -20,22 +21,28 @@ export default class PlaceDetailUseCase {
 
     const profileImageByPlace = await this.imageByPlaceRepository.getImageByPlaceId(place.idPlace, profileImage.idImageCategory);
     const galleryImagesByPlace = await this.imageByPlaceRepository.getImagesByPlaceId(place.idPlace, galleryImage.idImageCategory);
+    const socialMediaByPlace = await this.socialMediaByPlaceRepository.getSocialMediaByPlace(place.idPlace);
     
     const ratingStars = await this.reviewRepository.getPlaceRatingById(place.idPlace);
 
-    // Unificar todas las imágenes en una sola lista
     const allImages = [
       new ImageDTO(profileImage.idImageCategory, profileImageByPlace.urlImage),
       ...galleryImagesByPlace.map(image => new ImageDTO(galleryImage.idImageCategory, image.urlImage))
     ];
 
+    const socialMedia = socialMediaByPlace.map(social => ({
+      typeSocialMediaId: social.idSocialMedia,
+      value: social.value
+    }));
+
     return new PlaceDetailDTO(
       place.idPlace,
       place.name,
       ratingStars?.averageRating || 0,
-      allImages,
       placeCategory.name,
-      place.description
+      place.description,
+      allImages,
+      socialMedia
     );
   }
 }
