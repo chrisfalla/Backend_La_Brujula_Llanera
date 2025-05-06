@@ -40,6 +40,12 @@ import TagByPlaceModel from './src/infrastructure/models/TagByPlaceModel.js';
 import AddressByPlaceModel from './src/infrastructure/models/AddressByPlaceModel.js';
 import AddressModel from './src/infrastructure/models/AddressModel.js';
 import LogVisitModel from './src/infrastructure/models/LogVisitModel.js';
+import PlaceDetailUseCase from './src/application/use-cases/PlaceDetailUseCase.js';
+import PlaceDetailController from './src/interfaces/controllers/PlaceDetailsController.js';
+import PlaceDetailRoute  from './src/interfaces/routes/PlaceDetailsRoute.js';
+import SocialMediaByPlaceRepository from './src/infrastructure/repositories/SocialMediaByPlaceRepository.js';
+import SocialMediaByPlaceModel from './src/infrastructure/models/SocialMediaByPlaceModel.js';
+import { compareSync } from 'bcrypt';
 
 const app = express();
 
@@ -56,6 +62,7 @@ const addressModel = AddressModel
 const logVisitModel = LogVisitModel
 const categoryModel = CategoryModel;
 const favoriteModel = FavoriteModel;
+const socialMediaByPlaceModel = SocialMediaByPlaceModel;
 
 const tagRepository = new TagRepository(tagModel);
 const tagUseCase = new TagUseCase(tagRepository);
@@ -86,6 +93,11 @@ const favoriteUseCase = new FavoriteUseCase(favoriteRepository);
 const favoriteController = new FavoriteController(favoriteUseCase);
 const favoriteRoute = new FavoriteRoute(favoriteController);
 
+const socialMediaByPlaceRepository = new SocialMediaByPlaceRepository(socialMediaByPlaceModel);
+const placeDetailUseCase = new PlaceDetailUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, reviewRepository, socialMediaByPlaceRepository);
+const placeDetailController = new PlaceDetailController(placeDetailUseCase);
+const placeDetailRoute = new PlaceDetailRoute(placeDetailController);
+
 
 // Routes 
 app.use(cors());
@@ -95,6 +107,7 @@ app.use("/categories", categoryRoute.getRouter());
 app.use("/tags", tagRoute.getRouter());
 app.use('/home', homeRoute.getRouter());
 app.use('/favorites', favoriteRoute.getRouter());
+app.use('/placeDetail', placeDetailRoute.getRouter());
 
 // Ruta base
 app.get('/', (req, res) => {
