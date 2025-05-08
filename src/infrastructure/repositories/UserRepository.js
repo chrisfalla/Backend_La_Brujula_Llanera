@@ -65,6 +65,6 @@ export default class UserRepository extends IUserRepository {
         if (!user) {
             return null;
         }
-        return new UserDTO(user.email, user.password);
+        return new UserDTO(user.idUser, user.email, user.password);
     }
 }

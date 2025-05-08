@@ -12,7 +12,7 @@ export default class LoginUserUseCase {
         if (user.password !== password) {
             throw new Error('Invalid password');
         }
-        return new UserDTO(user.email, user.password);
+        return new UserDTO(user.idUser,user.email, user.password);
     }
 
 }
