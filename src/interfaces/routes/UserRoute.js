@@ -15,6 +15,7 @@ class UserRoute {
 
   initializeRoutes() {
     this.loginUser();
+    this.registerUser();
   }
   loginUser(){
     /**
@@ -45,7 +46,53 @@ class UserRoute {
      */
     this.router.post('/login', (req, res) => this.userController.loginUser(req, res));
   }
-  
+  registerUser(){
+    /**
+     * @swagger
+     * /user/register:
+     *   post:
+     *     summary: Register user
+     *     tags: [User]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               names:
+     *                 type: string
+     *               email:
+     *                 type: string
+     *               idGender:
+     *                 type: integer
+     *               phone:
+     *                 type: string
+     *               birthday:
+     *                 type: string
+     *                 format: date
+     *               avatar:
+     *                 type: integer
+     *               password:
+     *                 type: string
+     *             required:
+     *               - names
+     *               - email
+     *               - idGender
+     *               - phone
+     *               - birthday
+     *               - avatar
+     *               - password
+     *     responses:
+     *       200:
+     *         description: User registered successfully
+     *       400:
+     *         description: Bad Request - Invalid data provided
+     *       500:
+     *         description: Internal server error
+    */
+    this.router.post('/register', (req, res) => this.userController.registerUser(req, res));
+  }
   getRouter() {
     return this.router;
   }

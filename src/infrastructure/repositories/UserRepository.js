@@ -22,7 +22,8 @@ export default class UserRepository extends IUserRepository {
             newUser.idRoleFk,
             newUser.createdAt,
             newUser.updatedAt,
-            newUser.password
+            newUser.password,
+            newUser.idGender
         );
     }
     async getUserById(idUser) {
@@ -43,7 +44,8 @@ export default class UserRepository extends IUserRepository {
             user.idRoleFk,
             user.createdAt,
             user.updatedAt,
-            user.password
+            user.password,
+            user.idGender
         );
     }
     async updateUser(user) {

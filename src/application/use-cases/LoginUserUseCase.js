@@ -1,18 +1,23 @@
-import UserDTO from "../DTOs/UserDTO.js"
+import LogInDTO from "../DTOs/LogInDTO.js";
+import bcrypt from 'bcrypt';
 
 export default class LoginUserUseCase {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
-    async login(email, password){
+    async login(email, password) {
         const user = await this.userRepository.getUserByEmail(email);
         if (!user) {
             throw new Error('User not found');
         }
-        if (user.password !== password) {
+    
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
             throw new Error('Invalid password');
         }
-        return new UserDTO(user.idUser,user.email, user.password);
+    
+        return new LogInDTO(user.idUser, user.email);
     }
+    
 
 }

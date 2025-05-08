@@ -13,11 +13,6 @@ const UserModel = sequelize.define('User', {
         allowNull: false,
         field: 'names',
     },
-    lastNames: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-        field: 'lastNames',
-    },
     phone: {
         type: DataTypes.STRING(15),
         allowNull: false,
@@ -68,7 +63,12 @@ const UserModel = sequelize.define('User', {
         type: DataTypes.STRING(15),
         allowNull: false,
         field: 'password',
-    }  
+    },
+    idGender: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'idGender',
+    } 
 }, {
     tableName: 'User', 
 });
