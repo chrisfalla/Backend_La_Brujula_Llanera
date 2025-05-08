@@ -46,6 +46,11 @@ import PlaceDetailRoute  from './src/interfaces/routes/PlaceDetailsRoute.js';
 import SocialMediaByPlaceRepository from './src/infrastructure/repositories/SocialMediaByPlaceRepository.js';
 import SocialMediaByPlaceModel from './src/infrastructure/models/SocialMediaByPlaceModel.js';
 import { compareSync } from 'bcrypt';
+import UserModel from './src/infrastructure/models/UserModel.js';
+import UserRepository from './src/infrastructure/repositories/UserRepository.js';
+import UserController from './src/interfaces/controllers/UserController.js';
+import UserRoute from './src/interfaces/routes/UserRoute.js';
+import LoginUserUseCase from './src/application/use-cases/LoginUserUseCase.js';
 
 const app = express();
 
@@ -63,6 +68,7 @@ const logVisitModel = LogVisitModel
 const categoryModel = CategoryModel;
 const favoriteModel = FavoriteModel;
 const socialMediaByPlaceModel = SocialMediaByPlaceModel;
+const userModel = UserModel;
 
 const tagRepository = new TagRepository(tagModel);
 const tagUseCase = new TagUseCase(tagRepository);
@@ -98,6 +104,11 @@ const placeDetailUseCase = new PlaceDetailUseCase(placeRepository, categoryRepos
 const placeDetailController = new PlaceDetailController(placeDetailUseCase);
 const placeDetailRoute = new PlaceDetailRoute(placeDetailController);
 
+const userRepository = new UserRepository(userModel);
+const loginUserUseCase = new LoginUserUseCase(userRepository);
+const userController = new UserController(loginUserUseCase);
+const userRoute = new UserRoute(userController);
+
 
 // Routes 
 app.use(cors());
@@ -108,6 +119,7 @@ app.use("/tags", tagRoute.getRouter());
 app.use('/home', homeRoute.getRouter());
 app.use('/favorites', favoriteRoute.getRouter());
 app.use('/placeDetail', placeDetailRoute.getRouter());
+app.use('/user', userRoute.getRouter());
 
 // Ruta base
 app.get('/', (req, res) => {
