@@ -8,4 +8,7 @@ export default class IPlaceRepository {
     async getPlacesByIds(placeIds) { 
         throw new Error("Method not implemented.");
     }
+    async getPlaceById(placeId) {
+        throw new Error("Method not implemented.");
+    }
 }

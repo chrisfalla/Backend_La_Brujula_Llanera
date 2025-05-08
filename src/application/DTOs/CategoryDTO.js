@@ -3,6 +3,6 @@ export default class CategoryDTO {
         this.name = name;
         this.idCategory = idCategory;
         this.icon = icon;
-        this.isDefult = isDefult
+        this.isDefault = isDefult
     }
 }

@@ -16,10 +16,6 @@ const PlaceModel = sequelize.define('Place', {
     type: DataTypes.TEXT,
     allowNull: false, 
   },
-  phoneNumber: {
-    type: DataTypes.STRING,
-    allowNull: false, 
-  },
   idCategorie: {
     type: DataTypes.INTEGER,
     allowNull: false, 
@@ -31,7 +27,7 @@ const PlaceModel = sequelize.define('Place', {
   updatedAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW, 
-  },
+  }
 }, {
   tableName: 'Place', 
   timestamps: true,

@@ -16,4 +16,26 @@ export default class ImageByPlaceRepository extends IImageByPlaceRepository {
 
     return result.map(img => img.toJSON());
   }
+  async getImageByPlaceId(placeId, idImageCategory){
+    const result = await this.imageByPlaceModel.findOne({
+      where: {
+        idPlaceFk: placeId,
+        idImageCategorieFk: idImageCategory
+      },
+      order: [['createdAt', 'ASC']]
+    });
+
+    return result ? result.toJSON() : null;
+  }
+  async getImagesByPlaceId(placeId, idImageCategory){
+    const result = await this.imageByPlaceModel.findAll({
+      where: {
+        idPlaceFk: placeId,
+        idImageCategorieFk: idImageCategory
+      },
+      order: [['createdAt', 'ASC']]
+    });
+
+    return result.map(img => img.toJSON());
+  }
 }
