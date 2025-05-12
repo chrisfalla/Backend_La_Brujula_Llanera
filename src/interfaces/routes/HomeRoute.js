@@ -61,21 +61,16 @@ export default class HomeRoute{
         /**
          * @swagger
          * /home/top-rated-by-tags:
-         *   post:
+         *   get:
          *     summary: Obtiene los lugares mejor valorados filtrados por un tag
          *     tags: [Home]
-         *     requestBody:
-         *       required: false
-         *       content:
-         *         application/json:
-         *           schema:
-         *             type: object
-         *             properties:
-         *               tagId:
-         *                 type: integer
-         *                 description: ID del tag a filtrar
-         *             example:
-         *               tagId: 1
+         *     parameters:
+         *       - in: query
+         *         name: tagId
+         *         schema:
+         *           type: integer
+         *         required: true
+         *         description: ID del tag a filtrar
          *     responses:
          *       200:
          *         description: Lista de lugares mejor valorados con el tag especificado
@@ -101,7 +96,7 @@ export default class HomeRoute{
          *       500:
          *         description: Error del servidor
          */
-        this.router.post("/top-rated-by-tags", (req, res) => this.placeController.PromotedPlacesByTagCT(req, res));
+        this.router.get("/top-rated-by-tags", (req, res) => this.placeController.PromotedPlacesByTagCT(req, res));
     }    
     
     getRatedByCategory(){
