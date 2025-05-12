@@ -15,7 +15,7 @@ export default class UserController {
             if (!user) {
                 return res.status(401).json({ message: 'Invalid email or password' });
             }
-            const token = generateAccessToken({ id: user.idUser });
+            const token = generateAccessToken({ idUser: user.idUser });
 
             return res.status(200).json({ message: 'Login successful', token });
         } catch (error) {
@@ -38,7 +38,8 @@ export default class UserController {
             if (!user) {
                 return res.status(400).json({ message: 'Error while creating user' });
             }
-            return res.status(201).json({ message: 'User registered successfully' });
+            const token = generateAccessToken({ idUser: user.idUser });
+            return res.status(201).json({ message: 'User registered successfully', token });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: 'Error while registering user' });
