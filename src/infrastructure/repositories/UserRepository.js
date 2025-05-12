@@ -69,4 +69,11 @@ export default class UserRepository extends IUserRepository {
         }
         return new UserDTO(user.idUser, user.email, user.password);
     }
+    async changePassword(idUser, newPassword) {
+        const updatedUser = await this.userModel.update(
+            { password: newPassword },
+            { where: { idUser } }
+        );
+        return updatedUser;
+    }
 }

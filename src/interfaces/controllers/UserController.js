@@ -3,9 +3,10 @@ import { generateAccessToken } from "../../application/utils/jwt.js";
 import bcrypt from 'bcrypt';
 
 export default class UserController {
-    constructor(loginUserUseCase, registerUserUseCase) {
+    constructor(loginUserUseCase, registerUserUseCase, forgotPasswordUseCase) {
         this.loginUserUseCase = loginUserUseCase;
         this.registerUserUseCase = registerUserUseCase;
+        this.forgotPasswordUseCase = forgotPasswordUseCase;
     }
     async loginUser(req, res) {
         try {
@@ -41,6 +42,20 @@ export default class UserController {
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: 'Error while registering user' });
+        }
+    }
+    async forgotPassword(req, res) {
+        try {
+            const { idUser, newPassword } = req.body;
+            const newHashsedPassword = await bcrypt.hash(newPassword, 10);
+            const user = await this.forgotPasswordUseCase.forgotPassword(idUser, newHashsedPassword);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            return res.status(200).json({ message: 'Password Updated Successfully' });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: 'Error while resetting password' });
         }
     }
 }

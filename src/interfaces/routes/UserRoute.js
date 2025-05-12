@@ -16,6 +16,7 @@ class UserRoute {
   initializeRoutes() {
     this.loginUser();
     this.registerUser();
+    this.forgotPassword();
   }
   loginUser(){
     /**
@@ -92,6 +93,35 @@ class UserRoute {
      *         description: Internal server error
     */
     this.router.post('/register', (req, res) => this.userController.registerUser(req, res));
+  }
+  forgotPassword(){
+    /**
+     * @swagger
+     * /user/forgot-password:
+     *   post:
+     *     summary: Forgot password
+     *     tags: [User]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               idUser:
+     *                 type: integer
+     *               newPassword:
+     *                 type: string
+     *             required:
+     *               - idUser
+     *               - newPassword
+     *     responses:
+     *       200:
+     *         description: Password updated successfully
+     *       404:
+     *         description: User not found
+    */
+    this.router.post('/forgot-password', (req, res) => this.userController.forgotPassword(req, res));
   }
   getRouter() {
     return this.router;
