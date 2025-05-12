@@ -1,6 +1,3 @@
-import PlaceDetailDTO from '../DTOs/PlaceDetailDTO.js';
-import ImageDTO from '../DTOs/ImageDTO.js';
-
 export default class PlaceDetailUseCase {
   constructor(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, reviewRepository, socialMediaByPlaceRepository) {
     this.placeRepository = placeRepository;
@@ -18,31 +15,38 @@ export default class PlaceDetailUseCase {
     const profileImage = await this.imageCategoryRepository.getImageCategoryByName("ProfileDetail");
     const galleryImage = await this.imageCategoryRepository.getImageCategoryByName("Gallery");
     if (!galleryImage) return [];
-
+  
     const profileImageByPlace = await this.imageByPlaceRepository.getImageByPlaceId(place.idPlace, profileImage.idImageCategory);
     const galleryImagesByPlace = await this.imageByPlaceRepository.getImagesByPlaceId(place.idPlace, galleryImage.idImageCategory);
     const socialMediaByPlace = await this.socialMediaByPlaceRepository.getSocialMediaByPlace(place.idPlace);
     
     const ratingStars = await this.reviewRepository.getPlaceRatingById(place.idPlace);
-
+  
     const allImages = [
-      new ImageDTO(profileImage.idImageCategory, profileImageByPlace.urlImage),
-      ...galleryImagesByPlace.map(image => new ImageDTO(galleryImage.idImageCategory, image.urlImage))
+      { categoryId: profileImage.idImageCategory, url: profileImageByPlace.urlImage },
+      ...galleryImagesByPlace.map(image => ({
+        categoryId: galleryImage.idImageCategory,
+        url: image.urlImage
+      }))
     ];
-
+  
     const socialMedia = socialMediaByPlace.map(social => ({
       typeSocialMediaId: social.idSocialMedia,
       value: social.value
     }));
-
-    return new PlaceDetailDTO(
-      place.idPlace,
-      place.name,
-      ratingStars?.averageRating || 0,
-      placeCategory.name,
-      place.description,
-      allImages,
-      socialMedia
-    );
+  
+    const result = {
+      idPlace: place.idPlace,
+      placeName: place.name,
+      categoryName: placeCategory.name,
+      placeDescription: place.description,
+      placeRatingStars: ratingStars?.averageRating || 0,
+      images: allImages,
+      socialMedia: socialMedia
+    };
+  
+    console.log(result); // Aquí puedes ver todos los atributos
+  
+    return result;
   }
 }
