@@ -16,14 +16,19 @@ export default class PlaceController {
   }
   async PromotedPlacesByTagCT(req, res) {
     try {
-      let { tagId } = req.body; 
-      const result = await this.PromotedPlacesByTag.execute(tagId); // Pasar solo el tagId
-
+      const tagId = parseInt(req.query.tagId, 10);
+  
+      if (isNaN(tagId)) {
+        return res.status(400).json({ error: "Invalid or missing tagId" });
+      }
+  
+      const result = await this.PromotedPlacesByTag.execute(tagId);
+  
       res.json(result);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
-}
+  }
 
   async getMoreVisitedPlacesUC(req, res) {
     try {
