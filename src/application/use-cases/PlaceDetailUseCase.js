@@ -1,3 +1,5 @@
+import PlaceDetailDTO from "../DTOs/PlaceDetailDTO.js";
+
 export default class PlaceDetailUseCase {
   constructor(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, reviewRepository, socialMediaByPlaceRepository) {
     this.placeRepository = placeRepository;
