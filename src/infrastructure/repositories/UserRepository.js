@@ -10,8 +10,6 @@ export default class UserRepository extends IUserRepository {
     async createUser(user) {
         const newUser = await this.userModel.create(user);
         const userData = newUser.dataValues;
-        console.log("newUser2");
-        console.log(userData); 
         return new User(
             userData.idUser,
             userData.names,
@@ -30,24 +28,24 @@ export default class UserRepository extends IUserRepository {
     }
     async getUserById(idUser) {
         const user = await this.userModel.findByPk(idUser);
+        const userData = user.dataValues;
         if (!user) {
             return null;
         }
         return new User(
-            user.idUser,
-            user.names,
-            user.lastNames,
-            user.phone,
-            user.email,
-            user.birthday,
-            user.hasAceptedTC,
-            user.isBlocked,
-            user.avatar,
-            user.idRoleFk,
-            user.createdAt,
-            user.updatedAt,
-            user.password,
-            user.idGender
+            userData.idUser,
+            userData.names,
+            userData.phone,
+            userData.email,
+            userData.birthday,
+            userData.hasAceptedTC,
+            userData.isBlocked,
+            userData.avatar,
+            userData.idRoleFk,
+            userData.createdAt,
+            userData.updatedAt,
+            userData.password,
+            userData.idGender
         );
     }
     async updateUser(user) {
