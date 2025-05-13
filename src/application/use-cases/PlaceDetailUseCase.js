@@ -38,9 +38,9 @@ export default class PlaceDetailUseCase {
     return new PlaceDetailDTO(
       place.idPlace,
       place.name,
-      ratingStars?.averageRating || 0,
       placeCategory.name,
       place.description,
+      ratingStars?.averageRating || 0,
       allImages,
       socialMedia
     );

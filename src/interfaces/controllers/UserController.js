@@ -1,4 +1,5 @@
 import CreateUserDTO from "../../application/DTOs/CreateUserDTO.js";
+import UserDetailDTO from "../../application/DTOs/UserDetailDTO.js";
 import { generateAccessToken } from "../../application/utils/jwt.js";
 import bcrypt from 'bcrypt';
 
@@ -33,13 +34,25 @@ export default class UserController {
             const saltRounds = 10;
             const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-            const newUser = new CreateUserDTO(names, phone, email, birthday, hasAceptedTC, isBlocked, avatar, idRoleFk, hashedPassword, idGender);
+            const newUser = new CreateUserDTO({
+                names,
+                phone,
+                email,
+                birthday,
+                hasAceptedTC,
+                isBlocked,
+                avatar,
+                idRoleFk,
+                password: hashedPassword,
+                idGender
+            });
             const user = await this.registerUserUseCase.register(newUser);
             if (!user) {
                 return res.status(400).json({ message: 'Error while creating user' });
             }
+            const userDetail = new UserDetailDTO(user.idUser, user.names, user.phone, user.email, user.birthday, user.Avatar, user.idRoleFk, user.idGender);  
             const token = generateAccessToken({ idUser: user.idUser });
-            return res.status(201).json({ message: 'User registered successfully', token });
+            return res.status(201).json({ message: 'User registered successfully', token , user: userDetail });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ message: 'Error while registering user' });

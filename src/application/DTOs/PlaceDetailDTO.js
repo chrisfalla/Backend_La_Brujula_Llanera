@@ -1,5 +1,5 @@
 export default class PlaceDetailDTO {
-    constructor(idPlace, placeName, placeRatingStars, images, categoryName, placeDescription, socialMedia) {
+    constructor(idPlace, placeName, categoryName, placeDescription, placeRatingStars, images, socialMedia) {
         this.idPlace = idPlace;
         this.placeName = placeName;
         this.categoryName = categoryName;

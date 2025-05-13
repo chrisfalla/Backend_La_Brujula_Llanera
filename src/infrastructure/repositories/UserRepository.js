@@ -9,21 +9,23 @@ export default class UserRepository extends IUserRepository {
     }
     async createUser(user) {
         const newUser = await this.userModel.create(user);
+        const userData = newUser.dataValues;
+        console.log("newUser2");
+        console.log(userData); 
         return new User(
-            newUser.idUser,
-            newUser.names,
-            newUser.lastNames,
-            newUser.phone,
-            newUser.email,
-            newUser.birthday,
-            newUser.hasAceptedTC,
-            newUser.isBlocked,
-            newUser.avatar,
-            newUser.idRoleFk,
-            newUser.createdAt,
-            newUser.updatedAt,
-            newUser.password,
-            newUser.idGender
+            userData.idUser,
+            userData.names,
+            userData.phone,
+            userData.email,
+            userData.birthday,
+            userData.hasAceptedTC,
+            userData.isBlocked,
+            userData.avatar,
+            userData.idRoleFk,
+            userData.createdAt,
+            userData.updatedAt,
+            userData.password,
+            userData.idGender
         );
     }
     async getUserById(idUser) {
