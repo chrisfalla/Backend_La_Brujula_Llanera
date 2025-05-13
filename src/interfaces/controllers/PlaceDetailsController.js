@@ -7,6 +7,8 @@ export default class PlaceDetailsController {
         try {
             const { idPlace } = req.params; 
             const placeDetails = await this.placeDetailUseCase.execute(idPlace);
+            console.log("placeDetails");
+            console.log(placeDetails);
             if (!placeDetails) {
                 return res.status(404).json({ message: "Place not found" });
             }

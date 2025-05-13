@@ -1,3 +1,5 @@
+import PlaceDetailDTO from "../DTOs/PlaceDetailDTO.js";
+
 export default class PlaceDetailUseCase {
   constructor(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, reviewRepository, socialMediaByPlaceRepository) {
     this.placeRepository = placeRepository;
@@ -34,19 +36,15 @@ export default class PlaceDetailUseCase {
       typeSocialMediaId: social.idSocialMedia,
       value: social.value
     }));
-  
-    const result = {
-      idPlace: place.idPlace,
-      placeName: place.name,
-      categoryName: placeCategory.name,
-      placeDescription: place.description,
-      placeRatingStars: ratingStars?.averageRating || 0,
-      images: allImages,
-      socialMedia: socialMedia
-    };
-  
-    console.log(result); // Aquí puedes ver todos los atributos
-  
-    return result;
+
+    return new PlaceDetailDTO(
+      place.idPlace,
+      place.name,
+      placeCategory.name,
+      place.description,
+      ratingStars?.averageRating || 0,
+      allImages,
+      socialMedia
+    );
   }
 }

@@ -1,5 +1,5 @@
 export default class CreateUserDTO {
-    constructor(names, phone, email, birthday, hasAceptedTC, isBlocked, avatar, idRoleFk, password, idGender) {
+    constructor({ names, phone, email, birthday, hasAceptedTC, isBlocked, avatar, idRoleFk, password, idGender }) {
         this.names = names;
         this.phone = phone;
         this.email = email;
