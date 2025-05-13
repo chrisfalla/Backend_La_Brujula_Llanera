@@ -52,6 +52,7 @@ import UserController from './src/interfaces/controllers/UserController.js';
 import UserRoute from './src/interfaces/routes/UserRoute.js';
 import LoginUserUseCase from './src/application/use-cases/LoginUserUseCase.js';
 import RegisterUserUseCase from './src/application/use-cases/RegisterUserUseCase.js';
+import ForgotPasswordUseCase from './src/application/use-cases/ForgotPasswordUseCase.js';
 
 const app = express();
 
@@ -108,7 +109,8 @@ const placeDetailRoute = new PlaceDetailRoute(placeDetailController);
 const userRepository = new UserRepository(userModel);
 const registerUserUseCase = new RegisterUserUseCase(userRepository);
 const loginUserUseCase = new LoginUserUseCase(userRepository);
-const userController = new UserController(loginUserUseCase, registerUserUseCase);
+const forgotPasswordUseCase = new ForgotPasswordUseCase(userRepository);
+const userController = new UserController(loginUserUseCase, registerUserUseCase, forgotPasswordUseCase);
 const userRoute = new UserRoute(userController);
 
 

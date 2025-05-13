@@ -15,4 +15,7 @@ export default class IUserRepository {
     async getUserByEmail(email) {
         throw new Error('Method not implemented');
     }
+    async changePassword(idUser, newPassword) {
+        throw new Error('Method not implemented');
+    }
 }
