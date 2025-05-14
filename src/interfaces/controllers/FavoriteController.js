@@ -1,6 +1,20 @@
 export default class FavoriteController {
-    constructor(favoriteUseCase) {
+    constructor(favoriteUseCase, getFavoritePlacesByUserUseCase) {
         this.favoriteUseCase = favoriteUseCase;
+        this.getFavoritePlacesByUserUseCase = getFavoritePlacesByUserUseCase;
+    }
+    async getFavoritesByUserId(req, res) {
+        const { idUserFk } = req.params;
+
+        try {
+            const favorites = await this.getFavoritePlacesByUserUseCase.GetFavoritePlaces(idUserFk);
+            if (!favorites) {
+                return res.status(404).json({ message: "No favorites found for this user." });
+            }
+            res.status(200).json(favorites);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 
     async createFavorite(req, res) {

@@ -1,7 +1,7 @@
 import PromotedPlacesByTagDTO from '../DTOs/PromotedPlacesByTagDTO.js';
 
 export default class PromotedPlacesByTag {
-    constructor(tagByPlaceRepository, placeRepository, imageByPlaceRepository, reviewRepository, imageCategoryRepository, addressRepository, addresByPlaceRepository, tagRepository) {
+    constructor(tagByPlaceRepository, placeRepository, imageByPlaceRepository, reviewRepository, imageCategoryRepository, addressRepository, addresByPlaceRepository, tagRepository, categoryRepository) {
         this.tagByPlaceRepository = tagByPlaceRepository;
         this.placeRepository = placeRepository;
         this.imageByPlaceRepository = imageByPlaceRepository;

@@ -54,6 +54,8 @@ import LoginUserUseCase from './src/application/use-cases/LoginUserUseCase.js';
 import RegisterUserUseCase from './src/application/use-cases/RegisterUserUseCase.js';
 import ForgotPasswordUseCase from './src/application/use-cases/ForgotPasswordUseCase.js';
 import GetUserUseCase from './src/application/use-cases/GetUserUseCase.js';
+import GetFavoritePlacesByUserUseCase from './src/application/use-cases/GetFavoritePlacesByUserUseCase.js';
+
 
 const app = express();
 
@@ -98,8 +100,9 @@ const placeController = new PlaceController(getTopRatedPlacesByCategory, getTopR
 const homeRoute = new HomeRoute(placeController);
 
 const favoriteRepository = new FavoriteRepository(favoriteModel);
+const getFavoritePlacesByUserUseCase = new GetFavoritePlacesByUserUseCase(placeRepository, reviewRepository, imageByPlaceRepository, imageCategoryRepository, favoriteRepository);
 const favoriteUseCase = new FavoriteUseCase(favoriteRepository);
-const favoriteController = new FavoriteController(favoriteUseCase);
+const favoriteController = new FavoriteController(favoriteUseCase, getFavoritePlacesByUserUseCase);
 const favoriteRoute = new FavoriteRoute(favoriteController);
 
 const socialMediaByPlaceRepository = new SocialMediaByPlaceRepository(socialMediaByPlaceModel);

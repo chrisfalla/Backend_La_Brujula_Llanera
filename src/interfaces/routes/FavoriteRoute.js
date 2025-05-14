@@ -17,7 +17,9 @@ class FavoriteRoute {
   initializeRoutes() {
     this.createFavorite();
     this.deleteFavorite();
+    this.getFavorites();
   }
+
   createFavorite(){
     /**
      * @swagger
@@ -69,6 +71,28 @@ class FavoriteRoute {
      *         description: Error while deleting the favorite
      */
     this.router.delete('/:idUserFk/:idPlaceFk', (req, res) => this.favoriteController.deleteFavorite(req, res));
+  }
+  getFavorites(){
+    /**
+     * @swagger
+     * /favorites/{idUserFk}:
+     *   get:
+     *     summary: Get favorites by user ID
+     *     tags: [Favorites]
+     *     parameters:
+     *       - in: path
+     *         name: idUserFk
+     *         required: true
+     *         description: ID of the user
+     *     responses:
+     *       200:
+     *         description: List of favorites for the user
+     *       404:
+     *         description: No favorites found for this user
+     *       500:
+     *         description: Error while retrieving favorites
+     */
+    this.router.get('/:idUserFk', (req, res) => this.favoriteController.getFavoritesByUserId(req, res));
   }
 
   getRouter() {
