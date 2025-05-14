@@ -33,4 +33,22 @@ export default class FavoriteRepository extends IFavoriteRepository {
 
         return result;
     }
+    async getFavoritesByUserId(idUserFk) {
+        const result = await this.favoriteModel.findAll({
+            where: {
+                idUserFk,
+            },
+        });
+
+        return result.map((favorite) => {
+            const { idFavorite, idUserFk, idPlaceFk, createdAt, updatedAt } = favorite.toJSON();
+            return new Favorite(
+                idFavorite,
+                idUserFk,
+                idPlaceFk,
+                createdAt,
+                updatedAt
+            );
+        });
+    }
 }
