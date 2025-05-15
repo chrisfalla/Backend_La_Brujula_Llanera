@@ -55,6 +55,9 @@ import RegisterUserUseCase from './src/application/use-cases/RegisterUserUseCase
 import ForgotPasswordUseCase from './src/application/use-cases/ForgotPasswordUseCase.js';
 import GetUserUseCase from './src/application/use-cases/GetUserUseCase.js';
 import GetFavoritePlacesByUserUseCase from './src/application/use-cases/GetFavoritePlacesByUserUseCase.js';
+import GetReviewsByPlaceUseCase from './src/application/use-cases/GetReviewsByPlaceUseCase.js';
+import ReviewController from './src/interfaces/controllers/ReviewController.js';
+import ReviewRoute from './src/interfaces/routes/ReviewRoute.js';
 
 
 const app = express();
@@ -118,6 +121,9 @@ const forgotPasswordUseCase = new ForgotPasswordUseCase(userRepository);
 const userController = new UserController(loginUserUseCase, registerUserUseCase, forgotPasswordUseCase, getUserUseCase);
 const userRoute = new UserRoute(userController);
 
+const getReviewsByPlaceUseCase = new GetReviewsByPlaceUseCase(reviewRepository, userRepository);
+const reviewController = new ReviewController(getReviewsByPlaceUseCase);
+const reviewRoute = new ReviewRoute(reviewController);
 
 // Routes 
 app.use(cors());
@@ -129,6 +135,7 @@ app.use('/home', homeRoute.getRouter());
 app.use('/favorites', favoriteRoute.getRouter());
 app.use('/placeDetail', placeDetailRoute.getRouter());
 app.use('/user', userRoute.getRouter());
+app.use("/review", reviewRoute.getRouter());
 
 // Ruta base
 app.get('/', (req, res) => {
