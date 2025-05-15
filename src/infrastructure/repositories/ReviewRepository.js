@@ -17,5 +17,9 @@ export default class ReviewRepository extends IReviewRepository {
     });
 
     return result ? result.toJSON() : null;
-}
+  }
+  async getReviewsByPlaceId(placeId) {
+    const result = await this.reviewModel.findAll({ where: { idPlaceFk: placeId } });
+    return result.map(r => r.toJSON());
+  }
 }
