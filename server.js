@@ -45,7 +45,6 @@ import PlaceDetailController from './src/interfaces/controllers/PlaceDetailsCont
 import PlaceDetailRoute  from './src/interfaces/routes/PlaceDetailsRoute.js';
 import SocialMediaByPlaceRepository from './src/infrastructure/repositories/SocialMediaByPlaceRepository.js';
 import SocialMediaByPlaceModel from './src/infrastructure/models/SocialMediaByPlaceModel.js';
-import { compareSync } from 'bcrypt';
 import UserModel from './src/infrastructure/models/UserModel.js';
 import UserRepository from './src/infrastructure/repositories/UserRepository.js';
 import UserController from './src/interfaces/controllers/UserController.js';
@@ -58,7 +57,7 @@ import GetFavoritePlacesByUserUseCase from './src/application/use-cases/GetFavor
 import GetReviewsByPlaceUseCase from './src/application/use-cases/GetReviewsByPlaceUseCase.js';
 import ReviewController from './src/interfaces/controllers/ReviewController.js';
 import ReviewRoute from './src/interfaces/routes/ReviewRoute.js';
-
+import { compareSync } from 'bcrypt';
 
 const app = express();
 

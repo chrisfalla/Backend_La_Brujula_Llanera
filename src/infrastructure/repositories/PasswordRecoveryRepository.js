@@ -1,0 +1,62 @@
+import IPasswordRecoveryRepository from "../../domain/repositories/IPasswordRecoveryRepository";
+export default class PasswordRecoveryRepository extends IPasswordRecoveryRepository{
+    constructor(passwordRecoveryModel){
+        super();
+        this.passwordRecoveryModel = passwordRecoveryModel;
+    }
+    // Necesito estructurarlo para que sea de: Actualizar, crear, validar si ya esta generado 
+    //(es decir now < expiresAt) es decir aun no ha expirado el codigo
+    async generateVerificationCode(idUser) {
+        const codeValue = Math.floor(100000 + Math.random() * 900000);
+        const expiresAt = new Date(Date.now() + 3600000); 
+        const newPasswordRecovery = await this.passwordRecoveryModel.create({
+            idUserFk: idUser,
+            codeValue,
+            expiresAt,
+        });
+        return newPasswordRecovery;
+    }
+    async validateExpirationCode(idUser) {
+        const existingRecovery = await this.passwordRecoveryModel.findOne({
+            where: { idUserFk: idUser },
+        });
+
+        if (!existingRecovery) return null;
+
+        const now = new Date();
+        const isExpired = existingRecovery.expiresAt < now;
+        return !isExpired ? existingRecovery : null;
+    }
+    async updateVerificationCode(idUser){
+        const existingRecovery = await this.passwordRecoveryModel.findOne({
+            where: { idUserFk: idUser },
+        });
+        const codeValue = Math.floor(100000 + Math.random() * 900000);
+        const expiresAt = new Date(Date.now() + 3600000); 
+        if (!existingRecovery) {
+            return await this.generateVerificationCode(idUser);
+        }
+        if (existingRecovery){
+            const now = new Date();
+            const isUsed = existingRecovery.isUsed;
+            const isExpired = existingRecovery.expiresAt < now;
+            if (isUsed || isExpired) {
+                await this.passwordRecoveryModel.update(
+                    {
+                        codeValue,
+                        expiresAt,
+                        isUsed: false,
+                        attempts: 0,
+                    },
+                    {
+                        where: { idUserFk: idUser },
+                    }
+                );
+                const updatedRecovery = await this.passwordRecoveryModel.findOne({
+                    where: { idUserFk: idUser },
+                });
+                return updatedRecovery;
+            }
+        } 
+    }
+}
