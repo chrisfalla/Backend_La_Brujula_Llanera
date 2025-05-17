@@ -9,6 +9,8 @@ import FavoriteController from './src/interfaces/controllers/FavoriteController.
 import FavoriteUseCase from './src/application/use-cases/FavoriteUseCase.js';
 import FavoriteRepository from './src/infrastructure/repositories/FavoriteRepository.js'; 
 import FavoriteModel from './src/infrastructure/models/FavoriteModel.js';
+import TermsAndConditionsRoute from './src/interfaces/routes/TermsAndConditionsRoute.js';
+import TermsAndConditionsController from './src/interfaces/controllers/TermsAndConditionsController.js';
 import categoryRouter from './src/interfaces/routes/CategoryRoute.js'; 
 import CategoryController from './src/interfaces/controllers/CategoryController.js';
 import CategoryUseCase from './src/application/use-cases/CategoryUseCase.js';
@@ -125,6 +127,9 @@ const getReviewsByPlaceUseCase = new GetReviewsByPlaceUseCase(reviewRepository, 
 const reviewController = new ReviewController(getReviewsByPlaceUseCase);
 const reviewRoute = new ReviewRoute(reviewController);
 
+const termsAndConditionsController = new TermsAndConditionsController();
+const termsAndConditionsRoute = new TermsAndConditionsRoute(termsAndConditionsController);
+
 // Routes 
 app.use(cors());
 app.use(express.json());
@@ -136,6 +141,7 @@ app.use('/favorites', favoriteRoute.getRouter());
 app.use('/placeDetail', placeDetailRoute.getRouter());
 app.use('/user', userRoute.getRouter());
 app.use("/review", reviewRoute.getRouter());
+app.use("/terms-and-conditions", termsAndConditionsRoute.getRouter());
 
 // Ruta base
 app.get('/', (req, res) => {
