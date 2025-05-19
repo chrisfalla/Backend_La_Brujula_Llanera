@@ -1,4 +1,5 @@
-import IPasswordRecoveryRepository from "../../domain/repositories/IPasswordRecoveryRepository";
+import IPasswordRecoveryRepository from "../../domain/repositories/IPasswordRecoveryRepository.js";
+
 export default class PasswordRecoveryRepository extends IPasswordRecoveryRepository{
     constructor(passwordRecoveryModel){
         super();
@@ -13,6 +14,7 @@ export default class PasswordRecoveryRepository extends IPasswordRecoveryReposit
             idUserFk: idUser,
             codeValue,
             expiresAt,
+            createdAt: new Date(),
         });
         return newPasswordRecovery;
     }
@@ -20,12 +22,12 @@ export default class PasswordRecoveryRepository extends IPasswordRecoveryReposit
         const existingRecovery = await this.passwordRecoveryModel.findOne({
             where: { idUserFk: idUser },
         });
-
+    
         if (!existingRecovery) return null;
-
+    
         const now = new Date();
-        const isExpired = existingRecovery.expiresAt < now;
-        return !isExpired ? existingRecovery : null;
+        const isValid = existingRecovery.expiresAt >= now && !existingRecovery.isUsed;
+        return isValid ? existingRecovery : null;
     }
     async updateVerificationCode(idUser){
         const existingRecovery = await this.passwordRecoveryModel.findOne({

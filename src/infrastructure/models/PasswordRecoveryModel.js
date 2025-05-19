@@ -34,7 +34,7 @@ const PasswordRecoveryModel = sequelize.define("PasswordRecovery", {
     },
 }, {
     tableName: "PasswordRecovery",
-    timestamps: true,
+    timestamps: false,
 });
 
 export default PasswordRecoveryModel;

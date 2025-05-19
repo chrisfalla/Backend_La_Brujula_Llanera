@@ -57,6 +57,11 @@ import GetFavoritePlacesByUserUseCase from './src/application/use-cases/GetFavor
 import GetReviewsByPlaceUseCase from './src/application/use-cases/GetReviewsByPlaceUseCase.js';
 import ReviewController from './src/interfaces/controllers/ReviewController.js';
 import ReviewRoute from './src/interfaces/routes/ReviewRoute.js';
+import PasswordRecoveryModel from './src/infrastructure/models/PasswordRecoveryModel.js';
+import PasswordRecoveryRepository from './src/infrastructure/repositories/PasswordRecoveryRepository.js';
+import PasswordRecoveryUseCase from './src/application/use-cases/PasswordRecoveryUseCase.js';
+import PasswordRecoveryController from './src/interfaces/controllers/PasswordRecoveryController.js';
+import PasswordRecoveryRoute from './src/interfaces/routes/PasswordRecoveryRoute.js';
 import { compareSync } from 'bcrypt';
 
 const app = express();
@@ -76,6 +81,7 @@ const categoryModel = CategoryModel;
 const favoriteModel = FavoriteModel;
 const socialMediaByPlaceModel = SocialMediaByPlaceModel;
 const userModel = UserModel;
+const passwordRecoveryModel = PasswordRecoveryModel;
 
 const tagRepository = new TagRepository(tagModel);
 const tagUseCase = new TagUseCase(tagRepository);
@@ -124,6 +130,12 @@ const getReviewsByPlaceUseCase = new GetReviewsByPlaceUseCase(reviewRepository, 
 const reviewController = new ReviewController(getReviewsByPlaceUseCase);
 const reviewRoute = new ReviewRoute(reviewController);
 
+const passwordRecoveryRepository = new PasswordRecoveryRepository(passwordRecoveryModel);
+const passwordRecoveryUseCase = new PasswordRecoveryUseCase(passwordRecoveryRepository, userRepository);
+const passwordRecoveryController = new PasswordRecoveryController(passwordRecoveryUseCase);
+const passwordRecoveryRoute = new PasswordRecoveryRoute(passwordRecoveryController);
+
+
 // Routes 
 app.use(cors());
 app.use(express.json());
@@ -135,6 +147,7 @@ app.use('/favorites', favoriteRoute.getRouter());
 app.use('/placeDetail', placeDetailRoute.getRouter());
 app.use('/user', userRoute.getRouter());
 app.use("/review", reviewRoute.getRouter());
+app.use('/recovery', passwordRecoveryRoute.getRouter());
 
 // Ruta base
 app.get('/', (req, res) => {
