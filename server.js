@@ -47,7 +47,6 @@ import PlaceDetailController from './src/interfaces/controllers/PlaceDetailsCont
 import PlaceDetailRoute  from './src/interfaces/routes/PlaceDetailsRoute.js';
 import SocialMediaByPlaceRepository from './src/infrastructure/repositories/SocialMediaByPlaceRepository.js';
 import SocialMediaByPlaceModel from './src/infrastructure/models/SocialMediaByPlaceModel.js';
-import { compareSync } from 'bcrypt';
 import UserModel from './src/infrastructure/models/UserModel.js';
 import UserRepository from './src/infrastructure/repositories/UserRepository.js';
 import UserController from './src/interfaces/controllers/UserController.js';
@@ -60,7 +59,13 @@ import GetFavoritePlacesByUserUseCase from './src/application/use-cases/GetFavor
 import GetReviewsByPlaceUseCase from './src/application/use-cases/GetReviewsByPlaceUseCase.js';
 import ReviewController from './src/interfaces/controllers/ReviewController.js';
 import ReviewRoute from './src/interfaces/routes/ReviewRoute.js';
-
+import PasswordRecoveryModel from './src/infrastructure/models/PasswordRecoveryModel.js';
+import PasswordRecoveryRepository from './src/infrastructure/repositories/PasswordRecoveryRepository.js';
+import PasswordRecoveryUseCase from './src/application/use-cases/PasswordRecoveryUseCase.js';
+import PasswordRecoveryController from './src/interfaces/controllers/PasswordRecoveryController.js';
+import PasswordRecoveryRoute from './src/interfaces/routes/PasswordRecoveryRoute.js';
+import EmailRepository from './src/infrastructure/repositories/EmailRepository.js';
+import { compareSync } from 'bcrypt';
 
 const app = express();
 
@@ -79,6 +84,7 @@ const categoryModel = CategoryModel;
 const favoriteModel = FavoriteModel;
 const socialMediaByPlaceModel = SocialMediaByPlaceModel;
 const userModel = UserModel;
+const passwordRecoveryModel = PasswordRecoveryModel;
 
 const tagRepository = new TagRepository(tagModel);
 const tagUseCase = new TagUseCase(tagRepository);
@@ -127,6 +133,13 @@ const getReviewsByPlaceUseCase = new GetReviewsByPlaceUseCase(reviewRepository, 
 const reviewController = new ReviewController(getReviewsByPlaceUseCase);
 const reviewRoute = new ReviewRoute(reviewController);
 
+const passwordRecoveryRepository = new PasswordRecoveryRepository(passwordRecoveryModel);
+const emailRepository = new EmailRepository();
+const passwordRecoveryUseCase = new PasswordRecoveryUseCase(passwordRecoveryRepository, userRepository, emailRepository);
+const passwordRecoveryController = new PasswordRecoveryController(passwordRecoveryUseCase);
+const passwordRecoveryRoute = new PasswordRecoveryRoute(passwordRecoveryController);
+
+
 const termsAndConditionsController = new TermsAndConditionsController();
 const termsAndConditionsRoute = new TermsAndConditionsRoute(termsAndConditionsController);
 
@@ -141,6 +154,7 @@ app.use('/favorites', favoriteRoute.getRouter());
 app.use('/placeDetail', placeDetailRoute.getRouter());
 app.use('/user', userRoute.getRouter());
 app.use("/review", reviewRoute.getRouter());
+app.use('/recovery', passwordRecoveryRoute.getRouter());
 app.use("/terms-and-conditions", termsAndConditionsRoute.getRouter());
 
 // Ruta base
