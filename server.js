@@ -139,6 +139,7 @@ const passwordRecoveryUseCase = new PasswordRecoveryUseCase(passwordRecoveryRepo
 const passwordRecoveryController = new PasswordRecoveryController(passwordRecoveryUseCase);
 const passwordRecoveryRoute = new PasswordRecoveryRoute(passwordRecoveryController);
 
+
 const termsAndConditionsController = new TermsAndConditionsController();
 const termsAndConditionsRoute = new TermsAndConditionsRoute(termsAndConditionsController);
 
