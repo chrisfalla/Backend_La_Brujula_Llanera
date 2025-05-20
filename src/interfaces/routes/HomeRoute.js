@@ -62,7 +62,7 @@ export default class HomeRoute{
          * @swagger
          * /home/top-rated-by-tags:
          *   get:
-         *     summary: Obtiene los lugares mejor valorados filtrados por un tag
+         *     summary: Gets the top-rated places filtered by tag
          *     tags: [Home]
          *     parameters:
          *       - in: query
@@ -73,7 +73,7 @@ export default class HomeRoute{
          *         description: ID del tag a filtrar
          *     responses:
          *       200:
-         *         description: Lista de lugares mejor valorados con el tag especificado
+         *         description: List of top-rated places filtered by tag
          *         content:
          *           application/json:
          *             schema:
@@ -92,9 +92,9 @@ export default class HomeRoute{
          *                   idCategorie:
          *                     type: integer
          *       400:
-         *         description: Datos inválidos en la solicitud
+         *         description: Invalid data provided
          *       500:
-         *         description: Error del servidor
+         *         description: Internal server error
          */
         this.router.get("/top-rated-by-tags", (req, res) => this.placeController.PromotedPlacesByTagCT(req, res));
     }    
@@ -104,7 +104,7 @@ export default class HomeRoute{
          * @swagger
          * /home/top-rated/{idCategory}:
          *   get:
-         *     summary: Obtiene los lugares mejor valorados de una categoría
+         *     summary: Get the top-rated places by category
          *     tags: [Home]
          *     parameters:
          *       - in: path
@@ -112,10 +112,10 @@ export default class HomeRoute{
          *         required: false
          *         schema:
          *           type: integer
-         *         description: ID de la categoría
+         *         description: category id
          *     responses:
          *       200:
-         *         description: Lista de lugares mejor valorados
+         *         description: List of top-rated places by category
          *         content:
          *           application/json:
          *             schema:
@@ -134,9 +134,9 @@ export default class HomeRoute{
          *                   idCategorie:
          *                     type: integer
          *       404:
-         *         description: No se encontraron lugares
+         *         description: There are not places founded
          *       500:
-         *         description: Error del servidor
+         *         description: Internal server error
          */
         this.router.get("/top-rated/:idCategory?", (req, res) => this.placeController.PromotedPlacesByCategoryCT(req, res));
     }
