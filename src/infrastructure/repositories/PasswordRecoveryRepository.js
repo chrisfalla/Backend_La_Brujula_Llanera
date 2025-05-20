@@ -5,8 +5,6 @@ export default class PasswordRecoveryRepository extends IPasswordRecoveryReposit
         super();
         this.passwordRecoveryModel = passwordRecoveryModel;
     }
-    // Necesito estructurarlo para que sea de: Actualizar, crear, validar si ya esta generado 
-    //(es decir now < expiresAt) es decir aun no ha expirado el codigo
     async generateVerificationCode(idUser) {
         const codeValue = Math.floor(100000 + Math.random() * 900000);
         const expiresAt = new Date(Date.now() + 3600000); 

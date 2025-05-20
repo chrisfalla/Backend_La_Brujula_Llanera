@@ -23,7 +23,7 @@ class PasswordRecoveryRoute{
          * @swagger
          * /recovery/code:
          *   post:
-         *     summary: Verifica si el código de recuperación sigue vigente o genera uno nuevo
+         *     summary: Verify if the system generates a new code or return the same one
          *     tags: [PasswordRecovery]
          *     requestBody:
          *       required: true
@@ -40,7 +40,7 @@ class PasswordRecoveryRoute{
          *                 example: usuario@example.com
          *     responses:
          *       200:
-         *         description: Código vigente o generado exitosamente
+         *         description: Code Used or Generated Succesfully
          *         content:
          *           application/json:
          *             schema:
@@ -51,9 +51,9 @@ class PasswordRecoveryRoute{
          *                 code:
          *                   type: integer
          *       400:
-         *         description: Email no encontrado
+         *         description: Email not found
          *       500:
-         *         description: Error interno del servidor
+         *         description: Internal Server Error
          */
         this.router.post('/code', this.passwordRecoveryController.validateEmail.bind(this.passwordRecoveryController));
     }    
