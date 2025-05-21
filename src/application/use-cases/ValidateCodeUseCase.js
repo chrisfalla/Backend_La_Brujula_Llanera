@@ -23,7 +23,7 @@ export default class ValidateCodeUseCase {
             throw new Error('Code expired or already used');
         }
         if (codeRecovery.attempts >= 5) {
-            throw new Error('Maximum attempts reached');
+            throw new Error('Maximum attempts reached: please generate a new code');
         }
         if (!isValidCode) {
             await this.passwordRecoveryRepository.passwordRecoveryModel.increment(
