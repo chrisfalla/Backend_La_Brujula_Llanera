@@ -65,6 +65,8 @@ import PasswordRecoveryUseCase from './src/application/use-cases/PasswordRecover
 import PasswordRecoveryController from './src/interfaces/controllers/PasswordRecoveryController.js';
 import PasswordRecoveryRoute from './src/interfaces/routes/PasswordRecoveryRoute.js';
 import EmailRepository from './src/infrastructure/repositories/EmailRepository.js';
+import ValidateCodeUseCase from './src/application/use-cases/ValidateCodeUseCase.js';
+
 import { compareSync } from 'bcrypt';
 
 const app = express();
@@ -133,12 +135,13 @@ const getReviewsByPlaceUseCase = new GetReviewsByPlaceUseCase(reviewRepository, 
 const reviewController = new ReviewController(getReviewsByPlaceUseCase);
 const reviewRoute = new ReviewRoute(reviewController);
 
+
 const passwordRecoveryRepository = new PasswordRecoveryRepository(passwordRecoveryModel);
 const emailRepository = new EmailRepository();
 const passwordRecoveryUseCase = new PasswordRecoveryUseCase(passwordRecoveryRepository, userRepository, emailRepository);
-const passwordRecoveryController = new PasswordRecoveryController(passwordRecoveryUseCase);
+const validateCodeUseCase = new ValidateCodeUseCase(passwordRecoveryRepository, userRepository);
+const passwordRecoveryController = new PasswordRecoveryController(passwordRecoveryUseCase, validateCodeUseCase);
 const passwordRecoveryRoute = new PasswordRecoveryRoute(passwordRecoveryController);
-
 
 const termsAndConditionsController = new TermsAndConditionsController();
 const termsAndConditionsRoute = new TermsAndConditionsRoute(termsAndConditionsController);
