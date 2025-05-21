@@ -1,4 +1,5 @@
 import IPasswordRecoveryRepository from "../../domain/repositories/IPasswordRecoveryRepository.js";
+import RecoveryPasswordDTO from "../../application/DTOs/RecoveryPasswordDTO.js";
 
 export default class PasswordRecoveryRepository extends IPasswordRecoveryRepository{
     constructor(passwordRecoveryModel){
@@ -58,5 +59,12 @@ export default class PasswordRecoveryRepository extends IPasswordRecoveryReposit
                 return updatedRecovery;
             }
         } 
+    }
+    async getCodeByUser(idUser){
+        const existingRecovery = await this.passwordRecoveryModel.findOne({
+            where: { idUserFk: idUser },
+        });
+        if (!existingRecovery) return null;
+        return new RecoveryPasswordDTO(existingRecovery.idPasswordRecovery, existingRecovery.codeValue, existingRecovery.expiresAt, existingRecovery.attempts, existingRecovery.idUserFk, existingRecovery.isUsed);
     }
 }
