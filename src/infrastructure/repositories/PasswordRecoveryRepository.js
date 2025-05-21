@@ -25,7 +25,7 @@ export default class PasswordRecoveryRepository extends IPasswordRecoveryReposit
         if (!existingRecovery) return null;
     
         const now = new Date();
-        const isValid = existingRecovery.expiresAt >= now && !existingRecovery.isUsed;
+        const isValid = existingRecovery.expiresAt >= now && !existingRecovery.isUsed && existingRecovery.attempts < 5;
         return isValid ? existingRecovery : null;
     }
     async updateVerificationCode(idUser){
@@ -41,7 +41,7 @@ export default class PasswordRecoveryRepository extends IPasswordRecoveryReposit
             const now = new Date();
             const isUsed = existingRecovery.isUsed;
             const isExpired = existingRecovery.expiresAt < now;
-            if (isUsed || isExpired) {
+            if (isUsed || isExpired || existingRecovery.attempts >= 5) {
                 await this.passwordRecoveryModel.update(
                     {
                         codeValue,

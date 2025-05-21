@@ -22,15 +22,21 @@ export default class ValidateCodeUseCase {
         if (isExpired || isUsed) {
             throw new Error('Code expired or already used');
         }
+        if (codeRecovery.attempts >= 5) {
+            throw new Error('Maximum attempts reached: please generate a new code');
+        }
         if (!isValidCode) {
-            await codeRecovery.increment('attempts', { by: 1 });
+            await this.passwordRecoveryRepository.passwordRecoveryModel.increment(
+                'attempts',
+                {
+                    by: 1,
+                    where: { idUserFk: userId }
+                }
+            );
             throw new Error('Invalid code');
         }
-        if (codeRecovery.attempts >= 3) {
-            throw new Error('Maximum attempts reached');
-        }
 
-        this.passwordRecoveryRepository.passwordRecoveryModel.update(
+        await this.passwordRecoveryRepository.passwordRecoveryModel.update(
             { isUsed: true },
             { where: { idUserFk: userId } }
         );
