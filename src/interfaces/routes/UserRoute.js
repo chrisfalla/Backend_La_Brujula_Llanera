@@ -17,6 +17,40 @@ class UserRoute {
     this.loginUser();
     this.registerUser();
     this.forgotPassword();
+    this.updateUserInfo();
+  }
+  updateUserInfo(){
+    /**
+     * @swagger
+     * /user/update:
+     *   post:
+     *     summary: Update user information
+     *     tags: [User]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               idUser:
+     *                 type: integer
+     *               names:
+     *                 type: string
+     *               email:
+     *                 type: string
+     *               phone:
+     *                 type: string
+     *             required:
+     *               - idUser
+     *               - names
+     *               - email
+     *               - phone
+     *     responses:
+     *       200:
+     *         description: User information updated successfully
+    */
+    this.router.post('/update', (req, res) => this.userController.updateUserInfo(req, res));
   }
   loginUser(){
     /**
@@ -123,6 +157,7 @@ class UserRoute {
     */
     this.router.post('/forgot-password', (req, res) => this.userController.forgotPassword(req, res));
   }
+
   getRouter() {
     return this.router;
   }
