@@ -66,6 +66,7 @@ import PasswordRecoveryController from './src/interfaces/controllers/PasswordRec
 import PasswordRecoveryRoute from './src/interfaces/routes/PasswordRecoveryRoute.js';
 import EmailRepository from './src/infrastructure/repositories/EmailRepository.js';
 import ValidateCodeUseCase from './src/application/use-cases/ValidateCodeUseCase.js';
+import AddCommentUseCase from './src/application/use-cases/AddCommentUseCase.js';
 
 import { compareSync } from 'bcrypt';
 
@@ -131,10 +132,10 @@ const forgotPasswordUseCase = new ForgotPasswordUseCase(userRepository);
 const userController = new UserController(loginUserUseCase, registerUserUseCase, forgotPasswordUseCase, getUserUseCase);
 const userRoute = new UserRoute(userController);
 
+const addCommentUseCase = new AddCommentUseCase(reviewRepository);
 const getReviewsByPlaceUseCase = new GetReviewsByPlaceUseCase(reviewRepository, userRepository);
-const reviewController = new ReviewController(getReviewsByPlaceUseCase);
+const reviewController = new ReviewController(getReviewsByPlaceUseCase, addCommentUseCase);
 const reviewRoute = new ReviewRoute(reviewController);
-
 
 const passwordRecoveryRepository = new PasswordRecoveryRepository(passwordRecoveryModel);
 const emailRepository = new EmailRepository();

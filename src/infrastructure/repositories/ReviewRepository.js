@@ -22,4 +22,25 @@ export default class ReviewRepository extends IReviewRepository {
     const result = await this.reviewModel.findAll({ where: { idPlaceFk: placeId } });
     return result.map(r => r.toJSON());
   }
+  async addCommentByPlace(userId, placeId, comment, ratingValue) {
+    const result = await this.reviewModel.create({
+      comment,
+      ratingValue,
+      idPlaceFk: placeId,
+      idUserFk: userId
+    });
+    return result.toJSON();
+  }
+  async getReviewByUserId(userId, placeId) {
+    const result = await this.reviewModel.findOne({ where: { idPlaceFk: placeId, idUserFk: userId } });
+    return result ? result.toJSON() : null;
+  }
+  async updateCommentByPlace(userId, placeId, comment, ratingValue) {
+    const result = await this.reviewModel.update(
+      { comment, ratingValue },
+      { where: { idPlaceFk: placeId, idUserFk: userId } }
+    );
+    return result[0] > 0;
+  }
+
 }

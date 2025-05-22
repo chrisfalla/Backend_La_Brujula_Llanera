@@ -1,6 +1,7 @@
 export default class ReviewController {
-    constructor(getReviewsByPlaceUseCase) {
+    constructor(getReviewsByPlaceUseCase, addCommentUseCase) {
         this.getReviewsByPlaceUseCase = getReviewsByPlaceUseCase;
+        this.addCommentUseCase = addCommentUseCase;
     }
 
     async getReviewsByPlaceId(req, res) {
@@ -19,4 +20,20 @@ export default class ReviewController {
             return res.status(500).json({ message: "Internal server error" });
         }
     }
+    async addCommentByPlace(req, res) {
+        try {
+            const { comment, ratingValue, userId, placeId } = req.body;
+
+            if (!userId || !placeId || !comment || !ratingValue) {
+                return res.status(400).json({ message: "Missing required parameters" });
+            }
+
+            const newReview = await this.addCommentUseCase.addComment(userId, placeId, comment, ratingValue);
+            return res.status(201).json(newReview);
+        } catch (error) {
+            console.error("Error adding comment:", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
 }
