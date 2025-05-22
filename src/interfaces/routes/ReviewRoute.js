@@ -16,6 +16,35 @@ class ReviewRoute {
     }
     initializeRoutes() {
         this.getReviewsByPlaceId();
+        this.addCommentByPlace();
+    }
+    addCommentByPlace(){
+        /**
+         * @swagger
+         * /review:
+         *   post:
+         *     summary: Add a comment by place
+         *     tags: [Review Details]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               comment:
+         *                 type: string
+         *               ratingValue:
+         *                 type: integer
+         *               userId:
+         *                 type: integer
+         *               placeId:
+         *                 type: integer
+         *     responses:
+         *       201:
+         *         description: Comment added successfully
+         */
+        this.router.post('/', (req, res) => this.reviewController.addCommentByPlace(req, res));
     }
     getReviewsByPlaceId() {
         /**
