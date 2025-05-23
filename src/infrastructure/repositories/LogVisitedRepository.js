@@ -16,4 +16,17 @@ export default class LogVisitedRepository extends ILogVisitRepository {
 
         return result.map(logVisit => logVisit.toJSON());
     }
+    async addLogVisit(logVisit) {
+        const newLogVisit = await this.logVisitModel.create(logVisit);
+        return newLogVisit.toJSON();
+    }
+    async getLogByUserPlace(idUser, idPlace) {
+        const logVisit = await this.logVisitModel.findOne({
+            where: {
+                idUserFk: idUser,
+                idPlaceFk: idPlace
+            }
+        });
+        return logVisit ? logVisit.toJSON() : null;
+    }
 }

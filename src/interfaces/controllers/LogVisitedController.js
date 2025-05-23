@@ -1,19 +1,30 @@
-import { GetMoreVisitedPlaces } from "../../application/use-cases/GetMoreVisitedPlaces.js";
+import AddLogDTO from "../../application/DTOs/AddLogDTO.js";
 
-export class LogVisitedController {
-    static async getMoreVisitedPlaces(req, res) {
+export default class LogVisitedController {
+    constructor(addLogUseCase) {
+        this.addLogUseCase = addLogUseCase;
+    }
+
+    async addLogVisit(req, res) {
         try {
-            const getMoreVisitedPlaces = new GetMoreVisitedPlaces();
-            const logVisits = await getMoreVisitedPlaces.execute();
+            const { idDeviceInfoFk, idPlaceFk, idUserFk } = req.body;
+            if (!idDeviceInfoFk || !idPlaceFk || !idUserFk) {
+                return res.status(400).json({ message: 'Missing required fields.' });
+            }
+            const logVisitInfo = new AddLogDTO(idDeviceInfoFk, idUserFk, idPlaceFk);
 
-            if (!logVisits || logVisits.length === 0) {
-                return res.status(404).json({ message: 'No popular places found.' });
+            const wasAdded = await this.addLogUseCase.addLog(logVisitInfo);
+
+            if (wasAdded === false) {
+                // Ya existe el log, pero respondemos con 200
+                return res.status(200).json({ message: 'Log visit already exists.' });
             }
 
-            return res.status(200).json(logVisits);
+            // Se agregó correctamente
+            return res.status(201).json({ message: 'Log visit added successfully' });
         } catch (error) {
             console.error(error);
-            return res.status(500).json({ message: 'Error while getting the visited places.' });
+            return res.status(500).json({ message: 'Error while adding log visit.' });
         }
     }
 }
