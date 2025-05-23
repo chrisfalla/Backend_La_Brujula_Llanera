@@ -142,12 +142,12 @@ class UserRoute {
      *           schema:
      *             type: object
      *             properties:
-     *               idUser:
-     *                 type: integer
+     *               email:
+     *                 type: string
      *               newPassword:
      *                 type: string
      *             required:
-     *               - idUser
+     *               - email
      *               - newPassword
      *     responses:
      *       200:
