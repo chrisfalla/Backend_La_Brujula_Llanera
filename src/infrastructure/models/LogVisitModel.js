@@ -8,8 +8,13 @@ const LogVisitModel = sequelize.define('LogVisit', {
         autoIncrement: true,
         field: 'idLogVisit',
     },
-    idDeviceDateTime: {
-        type: DataTypes.STRING,
+    deviceDateTime: {
+        type: DataTypes.DATE,
+        allowNull: false, 
+        defaultValue: DataTypes.NOW,
+    },
+    idDeviceInfoFk: {
+        type: DataTypes.INTEGER,
         allowNull: false, 
     },
     idPlaceFk: {
@@ -19,10 +24,6 @@ const LogVisitModel = sequelize.define('LogVisit', {
     idUserFk: {
         type: DataTypes.INTEGER,
         allowNull: false, 
-    },
-    visitDate: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW, 
     },
     createdAt: {
         type: DataTypes.DATE,

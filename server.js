@@ -68,6 +68,9 @@ import EmailRepository from './src/infrastructure/repositories/EmailRepository.j
 import ValidateCodeUseCase from './src/application/use-cases/ValidateCodeUseCase.js';
 import AddCommentUseCase from './src/application/use-cases/AddCommentUseCase.js';
 import UpdateUserInfoUseCase from './src/application/use-cases/UpdateUserInfoUseCase.js';
+import AddLogUseCase from './src/application/use-cases/AddLogUseCase.js';
+import LogVisitedController from './src/interfaces/controllers/LogVisitedController.js';
+import LogRoute from './src/interfaces/routes/LogRoute.js';
 
 import { compareSync } from 'bcrypt';
 
@@ -149,6 +152,10 @@ const passwordRecoveryRoute = new PasswordRecoveryRoute(passwordRecoveryControll
 const termsAndConditionsController = new TermsAndConditionsController();
 const termsAndConditionsRoute = new TermsAndConditionsRoute(termsAndConditionsController);
 
+const addLogUseCase = new AddLogUseCase(logVisitedRepository);
+const logVisitedController = new LogVisitedController(addLogUseCase);
+const logRoute = new LogRoute(logVisitedController);
+
 // Routes 
 app.use(cors());
 app.use(express.json());
@@ -162,6 +169,7 @@ app.use('/user', userRoute.getRouter());
 app.use("/review", reviewRoute.getRouter());
 app.use('/recovery', passwordRecoveryRoute.getRouter());
 app.use("/terms-and-conditions", termsAndConditionsRoute.getRouter());
+app.use('/log', logRoute.getRouter());
 
 // Ruta base
 app.get('/', (req, res) => {
