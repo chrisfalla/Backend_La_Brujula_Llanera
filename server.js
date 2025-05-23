@@ -67,6 +67,7 @@ import PasswordRecoveryRoute from './src/interfaces/routes/PasswordRecoveryRoute
 import EmailRepository from './src/infrastructure/repositories/EmailRepository.js';
 import ValidateCodeUseCase from './src/application/use-cases/ValidateCodeUseCase.js';
 import AddCommentUseCase from './src/application/use-cases/AddCommentUseCase.js';
+import UpdateUserInfoUseCase from './src/application/use-cases/UpdateUserInfoUseCase.js';
 
 import { compareSync } from 'bcrypt';
 
@@ -125,11 +126,12 @@ const placeDetailController = new PlaceDetailController(placeDetailUseCase);
 const placeDetailRoute = new PlaceDetailRoute(placeDetailController);
 
 const userRepository = new UserRepository(userModel);
+const updateUserInfoUseCase = new UpdateUserInfoUseCase(userRepository);
 const getUserUseCase = new GetUserUseCase(userRepository);
 const registerUserUseCase = new RegisterUserUseCase(userRepository);
 const loginUserUseCase = new LoginUserUseCase(userRepository);
 const forgotPasswordUseCase = new ForgotPasswordUseCase(userRepository);
-const userController = new UserController(loginUserUseCase, registerUserUseCase, forgotPasswordUseCase, getUserUseCase);
+const userController = new UserController(loginUserUseCase, registerUserUseCase, forgotPasswordUseCase, getUserUseCase, updateUserInfoUseCase);
 const userRoute = new UserRoute(userController);
 
 const addCommentUseCase = new AddCommentUseCase(reviewRepository);
