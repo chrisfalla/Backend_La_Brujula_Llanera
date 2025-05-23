@@ -76,4 +76,11 @@ export default class UserRepository extends IUserRepository {
         );
         return updatedUser;
     }
+    async updateUserInfo(idUser, names, email, phone) {
+        const updatedUser = await this.userModel.update(
+            { names, email, phone },
+            { where: { idUser } }
+        );
+        return updatedUser;
+    }
 }

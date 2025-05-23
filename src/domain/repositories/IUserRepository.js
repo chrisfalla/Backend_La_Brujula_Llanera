@@ -5,4 +5,5 @@ export default class IUserRepository {
     async deleteUser(idUser) { throw new Error('Method not implemented'); }
     async getUserByEmail(email) { throw new Error('Method not implemented'); }
     async changePassword(idUser, newPassword) { throw new Error('Method not implemented');}
+    async updateUserInfo(idUser, names, email, phone) { throw new Error('Method not implemented'); }
 }
