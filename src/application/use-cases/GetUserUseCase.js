@@ -10,4 +10,12 @@ export default class GetUserUseCase {
         }
         return user;
     }
+
+    async getUserByEmail(email) {
+        const user = await this.userRepository.getUserByEmail(email);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
+    }
 }
