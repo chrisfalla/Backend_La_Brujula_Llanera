@@ -13,6 +13,5 @@ export default class ForgotPasswordUseCase {
         } catch (error) {
             throw new Error(error.message);
         }
-        
     }
 }

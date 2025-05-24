@@ -128,8 +128,7 @@ class UserRoute {
     */
     this.router.post('/register', (req, res) => this.userController.registerUser(req, res));
   }
-  forgotPassword(){
-    /**
+  forgotPassword(){    /**
      * @swagger
      * /user/forgot-password:
      *   post:
@@ -154,7 +153,7 @@ class UserRoute {
      *         description: Password updated successfully
      *       404:
      *         description: User not found
-    */
+     */
     this.router.post('/forgot-password', (req, res) => this.userController.forgotPassword(req, res));
   }
 
