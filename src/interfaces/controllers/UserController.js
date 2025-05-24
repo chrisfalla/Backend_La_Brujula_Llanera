@@ -69,17 +69,24 @@ export default class UserController {
                 return res.status(400).json({ message: 'Missing required parameters: email and newPassword are required.' });
             }
             
+            const { email, newPassword } = req.body;
+            if (!email || !newPassword) {
+                return res.status(400).json({ message: 'Missing required parameters' });
+            }
             const newHashsedPassword = await bcrypt.hash(newPassword, 10);
             const result = await this.forgotPasswordUseCase.forgotPassword(email, newHashsedPassword);
             
             if (!result) {
                 return res.status(404).json({ message: 'Password recovery record not found or invalid.' });
+            const user = await this.forgotPasswordUseCase.forgotPassword(email, newHashsedPassword);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
             }
             
             return res.status(200).json({ 
                 message: 'Password Updated Successfully', 
                 idUser: result.idUser 
-            });
+           , idUser: user.idUser });
         } catch (error) {
             console.error('[FORGOT PASSWORD] Error general:', error);
             return res.status(500).json({ message: 'Error while resetting password', error: error.message });
