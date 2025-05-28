@@ -13,11 +13,39 @@ export default class PlaceDetailRoute {
         this.placeDetailsController = placeDetailsController;
         this.initializeRoutes();
     }
-    
+
     initializeRoutes() {
         this.getPlaceDetails();
+        this.getPlacesByCategory();
     }
-    
+
+    getPlacesByCategory() {
+        /**
+         * @swagger
+         * /placeDetail/placesByCategory/{idCategory}:
+         *   get:
+         *     summary: Get Places by Category
+         *     tags: [Place Details]
+         *     parameters:
+         *       - name: idCategory
+         *         in: path
+         *         required: true
+         *         description: ID of the category to retrieve places for
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Places retrieved successfully
+         *       404:
+         *         description: No places found for this category
+         *       500:
+         *         description: Internal server error
+         */
+        this.router.get('/placesByCategory/:idCategory', (req, res) =>
+            this.placeDetailsController.getPlacesByCategory(req, res)
+        );
+    }
+
     getPlaceDetails() {
         /**
          * @swagger
@@ -40,8 +68,11 @@ export default class PlaceDetailRoute {
          *       500:
          *         description: Internal server error
          */
-        this.router.get('/:idPlace', (req, res) => this.placeDetailsController.getPlaceDetails(req, res));
+        this.router.get('/:idPlace', (req, res) =>
+            this.placeDetailsController.getPlaceDetails(req, res)
+        );
     }
+
     getRouter() {
         return this.router;
     }
