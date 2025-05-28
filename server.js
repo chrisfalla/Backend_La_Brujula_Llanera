@@ -71,6 +71,7 @@ import UpdateUserInfoUseCase from './src/application/use-cases/UpdateUserInfoUse
 import AddLogUseCase from './src/application/use-cases/AddLogUseCase.js';
 import LogVisitedController from './src/interfaces/controllers/LogVisitedController.js';
 import LogRoute from './src/interfaces/routes/LogRoute.js';
+import GetPlacesByCategoryUseCase from './src/application/use-cases/GetPlacesByCategoryUseCase.js';
 
 import { compareSync } from 'bcrypt';
 
@@ -123,9 +124,11 @@ const favoriteUseCase = new FavoriteUseCase(favoriteRepository);
 const favoriteController = new FavoriteController(favoriteUseCase, getFavoritePlacesByUserUseCase);
 const favoriteRoute = new FavoriteRoute(favoriteController);
 
+
 const socialMediaByPlaceRepository = new SocialMediaByPlaceRepository(socialMediaByPlaceModel);
+const getPlacesByCategoryUseCase = new GetPlacesByCategoryUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, addressRepository, addresByPlaceRepository);
 const placeDetailUseCase = new PlaceDetailUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, reviewRepository, socialMediaByPlaceRepository);
-const placeDetailController = new PlaceDetailController(placeDetailUseCase);
+const placeDetailController = new PlaceDetailController(placeDetailUseCase, getPlacesByCategoryUseCase);
 const placeDetailRoute = new PlaceDetailRoute(placeDetailController);
 
 const userRepository = new UserRepository(userModel);
