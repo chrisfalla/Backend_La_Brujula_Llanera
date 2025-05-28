@@ -89,7 +89,7 @@ export default class UserController {
             });
         } catch (error) {
             return res.status(500).json({
-                message: 'Error while resetting password',
+                message: 'Error while resetting password', error: error.message,
                 errorMessage: error.message,
                 stack: error.stack // <-- para más detalles del error
             });
