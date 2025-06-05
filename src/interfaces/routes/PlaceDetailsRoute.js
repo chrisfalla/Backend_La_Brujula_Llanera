@@ -17,6 +17,33 @@ export default class PlaceDetailRoute {
     initializeRoutes() {
         this.getPlaceDetails();
         this.getPlacesByCategory();
+        this.getPlacesByName();
+    }
+    getPlacesByName() {
+        /**
+         * @swagger
+         * /placeDetail/placesByName/{name}:
+         *   get:
+         *     summary: Get Places by Name
+         *     tags: [Place Details]
+         *     parameters:
+         *       - name: name
+         *         in: path
+         *         required: true
+         *         description: Name of the place to search for
+         *         schema:
+         *           type: string
+         *     responses:
+         *       200:
+         *         description: Places retrieved successfully
+         *       404:
+         *         description: No places found with this name
+         *       500:
+         *         description: Internal server error
+         */
+        this.router.get('/placesByName/:name', (req, res) =>
+            this.placeDetailsController.getPlacesByName(req, res)
+        );
     }
 
     getPlacesByCategory() {

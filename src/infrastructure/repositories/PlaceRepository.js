@@ -25,4 +25,14 @@ export default class PlaceRepository extends IPlaceRepository {
     const result = await this.placeModel.findByPk(idPlace);
     return result ? result.toJSON() : null;
   }
+  async getPlaceByName(name) {
+    const result = await this.placeModel.findOne({
+      where: {
+        name: {
+          [Op.iLike]: `%${name}%`
+        }
+      }
+    });
+    return result ? result.toJSON() : null;
+  }
 }
