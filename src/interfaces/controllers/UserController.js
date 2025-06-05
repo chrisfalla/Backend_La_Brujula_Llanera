@@ -62,30 +62,40 @@ export default class UserController {
             console.error(error);
             return res.status(500).json({ message: 'Error while registering user' });
         }
-    }    async forgotPassword(req, res) {
+    }    
+    async forgotPassword(req, res) {
         try {
             const { email, newPassword } = req.body;
-            
+    
             if (!email || !newPassword) {
                 return res.status(400).json({ message: 'Missing required parameters: email and newPassword are required.' });
             }
-
+    
             const newHashedPassword = await bcrypt.hash(newPassword, 10);
             const result = await this.forgotPasswordUseCase.forgotPassword(email, newHashedPassword);
-            
+    
             if (!result) {
                 return res.status(404).json({ message: 'User not found or password recovery failed.' });
             }
-            
-            return res.status(200).json({ 
-                message: 'Password Updated Successfully', 
-                idUser: result.idUser 
+    
+            return res.status(200).json({
+                message: 'Password Updated Successfully',
+                idUser: result.idUser,
+                debug: { // <-- agregar info de depuración (temporal)
+                    email,
+                    hashedPassword: newHashedPassword,
+                    result
+                }
             });
         } catch (error) {
-            console.error('[FORGOT PASSWORD] Error general:', error);
-            return res.status(500).json({ message: 'Error while resetting password', error: error.message });
+            return res.status(500).json({
+                message: 'Error while resetting password hola', error: error.message,
+                errorMessage: error.message,
+                stack: error.stack // <-- para más detalles del error
+            });
         }
     }
+    
     async updateUserInfo(req, res) {
         try {
             const { idUser, names, email, phone } = req.body;
