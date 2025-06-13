@@ -5,10 +5,22 @@ export default class TagByPlaceRepository extends ITagByPlaceRepository {
     super();
     this.tagByPlaceModel = tagByPlaceModel;
   }
+
   async getPlacesByTagId(idTag) {
     const result = await this.tagByPlaceModel.findAll({
       where: { idTagFk: idTag }
     });
     return result.map(r => r.toJSON());
+  }
+
+  async addTagsByPlace(placeId, tagIds) {
+    // Creamos un array de objetos con las relaciones a insertar
+    const recordsToInsert = tagIds.map(tagId => ({
+      idPlaceFk: placeId,
+      idTagFk: tagId
+    }));
+
+    // Insertamos todos de golpe
+    await this.tagByPlaceModel.bulkCreate(recordsToInsert, { ignoreDuplicates: true });
   }
 }

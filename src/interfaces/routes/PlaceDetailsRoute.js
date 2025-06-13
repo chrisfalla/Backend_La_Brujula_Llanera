@@ -18,6 +18,66 @@ export default class PlaceDetailRoute {
         this.getPlaceDetails();
         this.getPlacesByCategory();
         this.getPlacesByName();
+        this.addPlace();
+        this.postAddressByPlace();
+    }
+    addPlace() {
+        /**
+         * @swagger
+         * /placeDetail:
+         *   post:
+         *     summary: Add a new Place
+         *     tags: [Place Details]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               name:
+         *                 type: string
+         *               description:
+         *                 type: string
+         *               nameCategory:
+         *                 type: string
+         *     responses:
+         *       201:
+         *         description: Place added successfully
+         *       500:
+         *         description: Internal server error
+         */
+        this.router.post('/', (req, res) =>
+            this.placeDetailsController.addPlace(req, res)
+        );
+    }
+    postAddressByPlace() {
+        /**
+         * @swagger
+         * /placeDetail/postAddressByPlace:
+         *   post:
+         *     summary: Post Address by Place
+         *     tags: [Place Details]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               idPlace:
+         *                 type: string
+         *               description:
+         *                 type: string
+         *     responses:
+         *       200:
+         *         description: Address posted successfully
+         *       500:
+         *         description: Internal server error
+         */
+        this.router.post('/postAddressByPlace', (req, res) =>
+            this.placeDetailsController.postAddressByPlace(req, res)
+        );
     }
     getPlacesByName() {
         /**

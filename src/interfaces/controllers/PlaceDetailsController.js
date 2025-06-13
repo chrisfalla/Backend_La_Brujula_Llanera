@@ -1,8 +1,10 @@
 export default class PlaceDetailsController {
-    constructor(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase) {
+    constructor(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase, addPlaceUseCase, postAddressByPlaceUseCase) {
         this.placeDetailUseCase = placeDetailUseCase;
         this.getPlacesByCategoryUseCase = getPlacesByCategoryUseCase;
         this.getPlacesByNameUseCase = getPlacesByNameUseCase;
+        this.addPlaceUseCase = addPlaceUseCase;
+        this.postAddressByPlaceUseCase = postAddressByPlaceUseCase;
     }
 
     async getPlaceDetails(req, res) {
@@ -43,6 +45,26 @@ export default class PlaceDetailsController {
             return res.status(200).json(places);
         } catch (error) {
             console.error("Error fetching places by name:", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+    async addPlace(req, res) {
+        try {
+            const { name, description, nameCategory } = req.body; 
+            const newPlace = await this.addPlaceUseCase.addPlaceUC(name, description, nameCategory);
+            return res.status(201).json(newPlace);
+        } catch (error) {
+            console.error("Error adding place:", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+    async postAddressByPlace(req, res) {
+        try {
+            const { description, idPlace } = req.body; 
+            const address = await this.postAddressByPlaceUseCase.addAddressByPlace(description, idPlace);
+            return res.status(201).json(address);
+        } catch (error) {
+            console.error("Error adding address by place:", error);
             return res.status(500).json({ message: "Internal server error" });
         }
     }

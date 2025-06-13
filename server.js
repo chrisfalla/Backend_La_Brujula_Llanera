@@ -73,6 +73,8 @@ import LogVisitedController from './src/interfaces/controllers/LogVisitedControl
 import LogRoute from './src/interfaces/routes/LogRoute.js';
 import GetPlacesByCategoryUseCase from './src/application/use-cases/GetPlacesByCategoryUseCase.js';
 import GetPlacesByNameUseCase from './src/application/use-cases/GetPlacesByNameUseCase.js';
+import AddPlaceUseCase from './src/application/use-cases/AddPlaceUseCase.js';
+import PostAddressByPlaceUseCase from './src/application/use-cases/PostAddressByPlaceUseCase.js';
 
 import { compareSync } from 'bcrypt';
 
@@ -126,11 +128,14 @@ const favoriteController = new FavoriteController(favoriteUseCase, getFavoritePl
 const favoriteRoute = new FavoriteRoute(favoriteController);
 
 
+const addPlaceUseCase = new AddPlaceUseCase(placeRepository, categoryRepository);
+const postAddressByPlaceUseCase = new PostAddressByPlaceUseCase(addressRepository, addresByPlaceRepository);
+
 const socialMediaByPlaceRepository = new SocialMediaByPlaceRepository(socialMediaByPlaceModel);
 const getPlacesByCategoryUseCase = new GetPlacesByCategoryUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, addressRepository, addresByPlaceRepository);
 const getPlacesByNameUseCase = new GetPlacesByNameUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, addressRepository, addresByPlaceRepository);
 const placeDetailUseCase = new PlaceDetailUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, reviewRepository, socialMediaByPlaceRepository);
-const placeDetailController = new PlaceDetailController(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase);
+const placeDetailController = new PlaceDetailController(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase, addPlaceUseCase, postAddressByPlaceUseCase);
 const placeDetailRoute = new PlaceDetailRoute(placeDetailController);
 
 const userRepository = new UserRepository(userModel);
@@ -160,6 +165,8 @@ const termsAndConditionsRoute = new TermsAndConditionsRoute(termsAndConditionsCo
 const addLogUseCase = new AddLogUseCase(logVisitedRepository);
 const logVisitedController = new LogVisitedController(addLogUseCase);
 const logRoute = new LogRoute(logVisitedController);
+
+
 
 // Routes 
 app.use(cors());

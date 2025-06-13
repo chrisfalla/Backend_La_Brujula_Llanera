@@ -13,4 +13,11 @@ export default class AddressByPlaceRepository extends IAddressByPlace {
         });
         return addressByPlace;
     }
+    async addAddressByPlace(idPlace, idAddress) {
+        const newAddressByPlace = await this.addressByPlaceModel.create({
+            idPlaceFk: idPlace,
+            idAddressFk: idAddress,
+        });
+        return newAddressByPlace;
+    }
 }
