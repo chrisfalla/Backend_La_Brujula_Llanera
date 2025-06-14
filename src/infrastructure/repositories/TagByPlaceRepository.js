@@ -21,6 +21,12 @@ export default class TagByPlaceRepository extends ITagByPlaceRepository {
     }));
 
     // Insertamos todos de golpe
-    await this.tagByPlaceModel.bulkCreate(recordsToInsert, { ignoreDuplicates: true });
+    await this.tagByPlaceModel.bulkCreate(recordsToInsert);
+  }
+  async getTagsByPlaceId(placeId) {
+    const result = await this.tagByPlaceModel.findAll({
+      where: { idPlaceFk: placeId }
+    });
+    return result.map(r => r.toJSON());
   }
 }

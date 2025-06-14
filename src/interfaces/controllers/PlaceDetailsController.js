@@ -1,10 +1,11 @@
 export default class PlaceDetailsController {
-    constructor(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase, addPlaceUseCase, postAddressByPlaceUseCase) {
+    constructor(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase, addPlaceUseCase, postAddressByPlaceUseCase, postTagByPlaceUseCase) {
         this.placeDetailUseCase = placeDetailUseCase;
         this.getPlacesByCategoryUseCase = getPlacesByCategoryUseCase;
         this.getPlacesByNameUseCase = getPlacesByNameUseCase;
         this.addPlaceUseCase = addPlaceUseCase;
         this.postAddressByPlaceUseCase = postAddressByPlaceUseCase;
+        this.postTagByPlaceUseCase = postTagByPlaceUseCase;
     }
 
     async getPlaceDetails(req, res) {
@@ -68,4 +69,15 @@ export default class PlaceDetailsController {
             return res.status(500).json({ message: "Internal server error" });
         }
     }
+    async AddTagsByPlace(req, res) {
+        try {
+          const { placeId } = req.params;
+          const { tagNames } = req.body;
+          const result = await this.postTagByPlaceUseCase.AddTagsByPlace(placeId, tagNames);
+          res.status(200).json(result);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Error while adding tags to place' });
+        }
+      }
 }

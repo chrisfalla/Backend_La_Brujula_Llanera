@@ -20,6 +20,45 @@ export default class PlaceDetailRoute {
         this.getPlacesByName();
         this.addPlace();
         this.postAddressByPlace();
+        this.addTagsByPlace();
+    }
+    addTagsByPlace() {
+        /**
+         * @swagger
+         * /placeDetail/addTags/{placeId}:
+         *   post:
+         *     summary: Add Tags to a Place
+         *     tags: [Place Details]
+         *     parameters:
+         *       - in: path
+         *         name: placeId
+         *         required: true
+         *         schema:
+         *           type: string
+         *         description: ID of the Place
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               tagNames:
+         *                 type: array
+         *                 items:
+         *                   type: string
+         *                 description: List of Tag names to be added to the Place
+         *     responses:
+         *       200:
+         *         description: Tags added successfully to the Place
+         *       404:
+         *         description: Place or Tags not found
+         *       500:
+         *         description: Server error
+         */
+        this.router.post('/addTags/:placeId', (req, res) =>
+            this.placeDetailsController.AddTagsByPlace(req, res)
+        );
     }
     addPlace() {
         /**

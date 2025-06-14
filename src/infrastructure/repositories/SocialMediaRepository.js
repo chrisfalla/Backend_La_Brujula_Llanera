@@ -16,4 +16,14 @@ export default class SocialMediaRepository extends ISocialMediaRepository {
         });
         return result ? result.toJSON() : null;
     }
+    async getSocialMediaByNames(names) {
+        const result = await this.socialMediaModel.findAll({
+            where: {
+                name: {
+                    [Op.in]: names
+                }
+            }
+        });
+        return result.map(socialMedia => socialMedia.toJSON());
+    }
 }
