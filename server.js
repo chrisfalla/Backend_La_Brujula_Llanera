@@ -76,6 +76,7 @@ import GetPlacesByNameUseCase from './src/application/use-cases/GetPlacesByNameU
 import AddPlaceUseCase from './src/application/use-cases/AddPlaceUseCase.js';
 import PostAddressByPlaceUseCase from './src/application/use-cases/PostAddressByPlaceUseCase.js';
 import PostTagByPlaceUseCase from './src/application/use-cases/PostTagBYPlaceUseCase.js';
+import AddImagesByPlaceUseCase from './src/application/use-cases/AddImagesByPlaceUseCase.js';
 
 import { compareSync } from 'bcrypt';
 
@@ -131,12 +132,13 @@ const favoriteRoute = new FavoriteRoute(favoriteController);
 const addPlaceUseCase = new AddPlaceUseCase(placeRepository, categoryRepository);
 const postTagByPlaceUseCase = new PostTagByPlaceUseCase(tagRepository, tagByPlaceRepository);
 const postAddressByPlaceUseCase = new PostAddressByPlaceUseCase(addressRepository, addresByPlaceRepository);
+const addImagesByPlaceUseCase = new AddImagesByPlaceUseCase(placeRepository, imageCategoryRepository, imageByPlaceRepository);
 
 const socialMediaByPlaceRepository = new SocialMediaByPlaceRepository(socialMediaByPlaceModel);
 const getPlacesByCategoryUseCase = new GetPlacesByCategoryUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, addressRepository, addresByPlaceRepository);
 const getPlacesByNameUseCase = new GetPlacesByNameUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, addressRepository, addresByPlaceRepository);
 const placeDetailUseCase = new PlaceDetailUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, reviewRepository, socialMediaByPlaceRepository);
-const placeDetailController = new PlaceDetailController(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase, addPlaceUseCase, postAddressByPlaceUseCase, postTagByPlaceUseCase);
+const placeDetailController = new PlaceDetailController(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase, addPlaceUseCase, postAddressByPlaceUseCase, postTagByPlaceUseCase, addImagesByPlaceUseCase);
 const placeDetailRoute = new PlaceDetailRoute(placeDetailController);
 
 const userRepository = new UserRepository(userModel);

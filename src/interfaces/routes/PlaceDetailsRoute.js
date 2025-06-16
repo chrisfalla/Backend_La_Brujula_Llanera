@@ -21,7 +21,71 @@ export default class PlaceDetailRoute {
         this.addPlace();
         this.postAddressByPlace();
         this.addTagsByPlace();
+        this.addImagesByPlace();
     }
+    addImagesByPlace() {
+        /**
+         * @swagger
+         * /placeDetail/images/{placeId}:
+         *   post:
+         *     summary: Asocia imágenes por categoría a un lugar (por URL)
+         *     tags: [Place Details]
+         *     parameters:
+         *       - in: path
+         *         name: placeId
+         *         required: true
+         *         schema:
+         *           type: string
+         *         description: ID del lugar al que se asocian las imágenes
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               ProfileDetail:
+         *                 type: string
+         *                 format: uri
+         *               Logo:
+         *                 type: string
+         *                 format: uri
+         *               SmallCard:
+         *                 type: string
+         *                 format: uri
+         *               MostVisited:
+         *                 type: string
+         *                 format: uri
+         *               Gallery:
+         *                 type: array
+         *                 items:
+         *                   type: string
+         *                   format: uri
+         *             example:
+         *               ProfileDetail: "https://cdn.com/profile.jpg"
+         *               Logo: "https://cdn.com/logo.jpg"
+         *               SmallCard: "https://cdn.com/card.jpg"
+         *               MostVisited: "https://cdn.com/visited.jpg"
+         *               Gallery:
+         *                 - "https://cdn.com/gallery1.jpg"
+         *                 - "https://cdn.com/gallery2.jpg"
+         *                 - "https://cdn.com/gallery3.jpg"
+         *     responses:
+         *       200:
+         *         description: Imágenes guardadas correctamente
+         *       400:
+         *         description: Solicitud inválida
+         *       500:
+         *         description: Error del servidor
+         */
+        this.router.post(
+          "/images/:placeId",
+          (req, res) => this.placeDetailsController.addImages(req, res)
+        );
+      }
+      
+      
+    
     addTagsByPlace() {
         /**
          * @swagger

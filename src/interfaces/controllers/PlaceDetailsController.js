@@ -1,11 +1,12 @@
 export default class PlaceDetailsController {
-    constructor(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase, addPlaceUseCase, postAddressByPlaceUseCase, postTagByPlaceUseCase) {
+    constructor(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase, addPlaceUseCase, postAddressByPlaceUseCase, postTagByPlaceUseCase, AddImagesByPlaceUseCase) {
         this.placeDetailUseCase = placeDetailUseCase;
         this.getPlacesByCategoryUseCase = getPlacesByCategoryUseCase;
         this.getPlacesByNameUseCase = getPlacesByNameUseCase;
         this.addPlaceUseCase = addPlaceUseCase;
         this.postAddressByPlaceUseCase = postAddressByPlaceUseCase;
         this.postTagByPlaceUseCase = postTagByPlaceUseCase;
+        this.AddImagesByPlaceUseCase = AddImagesByPlaceUseCase;
     }
 
     async getPlaceDetails(req, res) {
@@ -80,4 +81,21 @@ export default class PlaceDetailsController {
           res.status(500).json({ message: 'Error while adding tags to place' });
         }
       }
+    async addImages(req, res) {
+        try {
+            const { placeId } = req.params;
+            const images = req.body;  
+
+            if (!images || typeof images !== 'object') {
+                return res.status(400).json({ message: 'Invalid images format' });
+            }
+
+            const result = await this.AddImagesByPlaceUseCase.addImages(placeId, images);
+            return res.status(200).json(result);
+        } catch (error) {
+            console.error("Error adding images by place:", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+    
 }

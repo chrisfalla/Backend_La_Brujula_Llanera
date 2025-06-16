@@ -38,4 +38,12 @@ export default class ImageByPlaceRepository extends IImageByPlaceRepository {
 
     return result.map(img => img.toJSON());
   }
+  async addImageByPlace(urlImage, idPlace, idImageCategory) {
+    const newImage = await this.imageByPlaceModel.create({
+      urlImage: urlImage,
+      idPlaceFk: idPlace,
+      idImageCategorieFk: idImageCategory
+    });
+    return newImage.toJSON();
+  }
 }
