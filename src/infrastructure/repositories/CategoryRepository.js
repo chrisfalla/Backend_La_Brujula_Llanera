@@ -48,5 +48,11 @@ export default class CategoryRepository extends ICategoryRepository {
     });
     return records.map(record => new Category(record.dataValues));
   }
+  async getByName(name) {
+    const record = await this.CategoryModel.findOne({
+      where: { name: name },
+    });
+    return record ? new Category(record.dataValues) : null;
+  }
   
 }

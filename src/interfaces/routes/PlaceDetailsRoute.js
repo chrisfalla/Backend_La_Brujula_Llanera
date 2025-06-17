@@ -18,6 +18,169 @@ export default class PlaceDetailRoute {
         this.getPlaceDetails();
         this.getPlacesByCategory();
         this.getPlacesByName();
+        this.addPlace();
+        this.postAddressByPlace();
+        this.addTagsByPlace();
+        this.addImagesByPlace();
+    }
+    addImagesByPlace() {
+        /**
+         * @swagger
+         * /placeDetail/images/{placeId}:
+         *   post:
+         *     summary: Asocia imágenes por categoría a un lugar (por URL)
+         *     tags: [Place Details]
+         *     parameters:
+         *       - in: path
+         *         name: placeId
+         *         required: true
+         *         schema:
+         *           type: string
+         *         description: ID del lugar al que se asocian las imágenes
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               ProfileDetail:
+         *                 type: string
+         *                 format: uri
+         *               Logo:
+         *                 type: string
+         *                 format: uri
+         *               SmallCard:
+         *                 type: string
+         *                 format: uri
+         *               MostVisited:
+         *                 type: string
+         *                 format: uri
+         *               Gallery:
+         *                 type: array
+         *                 items:
+         *                   type: string
+         *                   format: uri
+         *             example:
+         *               ProfileDetail: "https://cdn.com/profile.jpg"
+         *               Logo: "https://cdn.com/logo.jpg"
+         *               SmallCard: "https://cdn.com/card.jpg"
+         *               MostVisited: "https://cdn.com/visited.jpg"
+         *               Gallery:
+         *                 - "https://cdn.com/gallery1.jpg"
+         *                 - "https://cdn.com/gallery2.jpg"
+         *                 - "https://cdn.com/gallery3.jpg"
+         *     responses:
+         *       200:
+         *         description: Imágenes guardadas correctamente
+         *       400:
+         *         description: Solicitud inválida
+         *       500:
+         *         description: Error del servidor
+         */
+        this.router.post(
+          "/images/:placeId",
+          (req, res) => this.placeDetailsController.addImages(req, res)
+        );
+      }
+      
+      
+    
+    addTagsByPlace() {
+        /**
+         * @swagger
+         * /placeDetail/addTags/{placeId}:
+         *   post:
+         *     summary: Add Tags to a Place
+         *     tags: [Place Details]
+         *     parameters:
+         *       - in: path
+         *         name: placeId
+         *         required: true
+         *         schema:
+         *           type: string
+         *         description: ID of the Place
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               tagNames:
+         *                 type: array
+         *                 items:
+         *                   type: string
+         *                 description: List of Tag names to be added to the Place
+         *     responses:
+         *       200:
+         *         description: Tags added successfully to the Place
+         *       404:
+         *         description: Place or Tags not found
+         *       500:
+         *         description: Server error
+         */
+        this.router.post('/addTags/:placeId', (req, res) =>
+            this.placeDetailsController.AddTagsByPlace(req, res)
+        );
+    }
+    addPlace() {
+        /**
+         * @swagger
+         * /placeDetail:
+         *   post:
+         *     summary: Add a new Place
+         *     tags: [Place Details]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               name:
+         *                 type: string
+         *               description:
+         *                 type: string
+         *               nameCategory:
+         *                 type: string
+         *     responses:
+         *       201:
+         *         description: Place added successfully
+         *       500:
+         *         description: Internal server error
+         */
+        this.router.post('/', (req, res) =>
+            this.placeDetailsController.addPlace(req, res)
+        );
+    }
+    postAddressByPlace() {
+        /**
+         * @swagger
+         * /placeDetail/postAddressByPlace:
+         *   post:
+         *     summary: Post Address by Place
+         *     tags: [Place Details]
+         *     requestBody:
+         *       required: true
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object
+         *             properties:
+         *               idPlace:
+         *                 type: string
+         *               description:
+         *                 type: string
+         *     responses:
+         *       200:
+         *         description: Address posted successfully
+         *       500:
+         *         description: Internal server error
+         */
+        this.router.post('/postAddressByPlace', (req, res) =>
+            this.placeDetailsController.postAddressByPlace(req, res)
+        );
     }
     getPlacesByName() {
         /**

@@ -21,6 +21,7 @@ class TagRoute {
     this.deleteTag();
     this.updateTag();
   }
+  
   getAllTags(){
     /**
      * @swagger

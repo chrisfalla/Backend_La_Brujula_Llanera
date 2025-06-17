@@ -5,4 +5,7 @@ export default class IImageByPlaceRepository {
     async getImageByPlaceId(placeId, idImageCategory) {
         throw new Error("Method not implemented.");
       }
+    async addImageByPlace(urlImage, idPlace, idImageCategory) {
+        throw new Error("Method not implemented.");
+      }
 }

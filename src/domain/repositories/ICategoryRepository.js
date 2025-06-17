@@ -5,5 +5,6 @@ export default class ICategoryRepository {
     async update(id, category) { throw new Error('Not implemented'); }
     async delete(id) { throw new Error('Not implemented'); }
     async getDefault(){ throw new Error('Not implemented'); }
+    async getByName(name){ throw new Error('Not implemented');}
   }
   

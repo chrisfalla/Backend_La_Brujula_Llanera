@@ -21,4 +21,17 @@ export default class SocialMediaByPlaceRepository {
       idSocialMedia: socialMedia.socialMedia.idSocialMedia,
     }));
   }
+  async addSocialMediaByPlace(value, idPlace, idSocialMedia) {
+    const newSocialMediaByPlace = await this.SocialMediaByPlaceModel.create({
+      value,
+      idPlace,
+      idSocialMedia,
+    });
+
+    return {
+      value: newSocialMediaByPlace.value,
+      idSocialMedia: newSocialMediaByPlace.idSocialMedia,
+    };
+  }
+
 }
