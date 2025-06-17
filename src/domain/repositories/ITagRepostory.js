@@ -6,4 +6,7 @@ export default class ITagRepository{
     async delete(id) { throw new Error('Not implemented'); }
     async getDefault() { throw new Error('Not implemented'); }
     async getByIds(ids) { throw new Error('Not implemented'); }
+    async getTagsByNames(names) {
+        throw new Error('Not implemented');
+    }
 }

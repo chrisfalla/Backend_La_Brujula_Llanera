@@ -35,4 +35,12 @@ export default class PlaceRepository extends IPlaceRepository {
     });
     return result ? result.toJSON() : null;
   }
+  async addPlace(name, description, idCategory) {
+    const newPlace = await this.placeModel.create({
+      name: name,
+      description: description,
+      idCategorie: idCategory
+    });
+    return newPlace.toJSON();
+  }
 }

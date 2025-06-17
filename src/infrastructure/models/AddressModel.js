@@ -8,16 +8,6 @@ const AddressModel = sequelize.define('Address', {
         autoIncrement: true,
         field: 'idAddress',
     },
-    latitud: {
-        type: DataTypes.DECIMAL(9, 6),
-        allowNull: false,
-        field: 'latitud',
-    },
-    longintude: {
-        type: DataTypes.DECIMAL(9, 6),
-        allowNull: false,
-        field: 'longintude',
-    },
     description: {
         type: DataTypes.STRING(255),
         allowNull: false,

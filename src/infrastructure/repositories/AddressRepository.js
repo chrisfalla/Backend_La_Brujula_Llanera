@@ -13,4 +13,8 @@ export default class AddressRepository extends IAddressRepository {
         });
         return address;
     }
+    async addAddress(description) {
+        const newAddress = await this.addressModel.create({description});
+        return newAddress;
+    }
 }

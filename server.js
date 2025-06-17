@@ -73,6 +73,10 @@ import LogVisitedController from './src/interfaces/controllers/LogVisitedControl
 import LogRoute from './src/interfaces/routes/LogRoute.js';
 import GetPlacesByCategoryUseCase from './src/application/use-cases/GetPlacesByCategoryUseCase.js';
 import GetPlacesByNameUseCase from './src/application/use-cases/GetPlacesByNameUseCase.js';
+import AddPlaceUseCase from './src/application/use-cases/AddPlaceUseCase.js';
+import PostAddressByPlaceUseCase from './src/application/use-cases/PostAddressByPlaceUseCase.js';
+import PostTagByPlaceUseCase from './src/application/use-cases/PostTagBYPlaceUseCase.js';
+import AddImagesByPlaceUseCase from './src/application/use-cases/AddImagesByPlaceUseCase.js';
 
 import { compareSync } from 'bcrypt';
 
@@ -95,12 +99,8 @@ const socialMediaByPlaceModel = SocialMediaByPlaceModel;
 const userModel = UserModel;
 const passwordRecoveryModel = PasswordRecoveryModel;
 
-const tagRepository = new TagRepository(tagModel);
-const tagUseCase = new TagUseCase(tagRepository);
-const tagController = new TagController(tagUseCase);
-const tagRoute = new TagRoute(tagController);
-
 const categoryRepository = new CategoryRepository(categoryModel);
+const tagRepository = new TagRepository(tagModel);
 const categoryUseCase = new CategoryUseCase(categoryRepository);
 const categoryController = new CategoryController(categoryUseCase);
 const categoryRoute = new categoryRouter(categoryController);
@@ -119,18 +119,26 @@ const getTopRatedPlacesByCategory = new GetTopRatedPlacesByCategory(placeReposit
 const placeController = new PlaceController(getTopRatedPlacesByCategory, getTopRatedPlacesByTags, getMoreVisitedPlaces);
 const homeRoute = new HomeRoute(placeController);
 
+const tagUseCase = new TagUseCase(tagRepository);
+const tagController = new TagController(tagUseCase);
+const tagRoute = new TagRoute(tagController);
+
 const favoriteRepository = new FavoriteRepository(favoriteModel);
 const getFavoritePlacesByUserUseCase = new GetFavoritePlacesByUserUseCase(placeRepository, reviewRepository, imageByPlaceRepository, imageCategoryRepository, favoriteRepository);
 const favoriteUseCase = new FavoriteUseCase(favoriteRepository);
 const favoriteController = new FavoriteController(favoriteUseCase, getFavoritePlacesByUserUseCase);
 const favoriteRoute = new FavoriteRoute(favoriteController);
 
+const addPlaceUseCase = new AddPlaceUseCase(placeRepository, categoryRepository);
+const postTagByPlaceUseCase = new PostTagByPlaceUseCase(tagRepository, tagByPlaceRepository);
+const postAddressByPlaceUseCase = new PostAddressByPlaceUseCase(addressRepository, addresByPlaceRepository);
+const addImagesByPlaceUseCase = new AddImagesByPlaceUseCase(placeRepository, imageCategoryRepository, imageByPlaceRepository);
 
 const socialMediaByPlaceRepository = new SocialMediaByPlaceRepository(socialMediaByPlaceModel);
 const getPlacesByCategoryUseCase = new GetPlacesByCategoryUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, addressRepository, addresByPlaceRepository);
 const getPlacesByNameUseCase = new GetPlacesByNameUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, addressRepository, addresByPlaceRepository);
 const placeDetailUseCase = new PlaceDetailUseCase(placeRepository, categoryRepository, imageCategoryRepository, imageByPlaceRepository, reviewRepository, socialMediaByPlaceRepository);
-const placeDetailController = new PlaceDetailController(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase);
+const placeDetailController = new PlaceDetailController(placeDetailUseCase, getPlacesByCategoryUseCase, getPlacesByNameUseCase, addPlaceUseCase, postAddressByPlaceUseCase, postTagByPlaceUseCase, addImagesByPlaceUseCase);
 const placeDetailRoute = new PlaceDetailRoute(placeDetailController);
 
 const userRepository = new UserRepository(userModel);
@@ -160,6 +168,8 @@ const termsAndConditionsRoute = new TermsAndConditionsRoute(termsAndConditionsCo
 const addLogUseCase = new AddLogUseCase(logVisitedRepository);
 const logVisitedController = new LogVisitedController(addLogUseCase);
 const logRoute = new LogRoute(logVisitedController);
+
+
 
 // Routes 
 app.use(cors());

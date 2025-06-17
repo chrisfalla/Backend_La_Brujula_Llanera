@@ -1,5 +1,5 @@
 export default class TagController {
-  constructor(tagUseCase){
+  constructor(tagUseCase) {
     this.tagUseCase = tagUseCase;
   }
   async getAllTags(req, res) {
@@ -74,4 +74,5 @@ export default class TagController {
       res.status(500).json({ message: 'Error while getting Tags' });
     }
   }
+  
 }

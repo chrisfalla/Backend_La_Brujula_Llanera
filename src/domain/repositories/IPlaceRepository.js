@@ -14,4 +14,7 @@ export default class IPlaceRepository {
     async getPlaceByName(name) {
         throw new Error("Method not implemented.");
     }
+    async addPlace(name, description, idCategory){
+        throw new Error("Method not implemented.");
+    }
 }

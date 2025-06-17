@@ -54,5 +54,13 @@ export default class TagRepository extends ITagRepository {
     });
     return records.map(record => new Tag(record.dataValues));
   }
+  async getTagsByNames(names) {
+    const records = await this.tagModel.findAll({
+      where: {
+        name: names,
+      },
+    });
+    return records.map(record => new Tag(record.dataValues));
+  }
  
 }
