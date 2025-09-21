@@ -77,8 +77,13 @@ import AddPlaceUseCase from './src/application/use-cases/AddPlaceUseCase.js';
 import PostAddressByPlaceUseCase from './src/application/use-cases/PostAddressByPlaceUseCase.js';
 import PostTagByPlaceUseCase from './src/application/use-cases/PostTagBYPlaceUseCase.js';
 import AddImagesByPlaceUseCase from './src/application/use-cases/AddImagesByPlaceUseCase.js';
+import DashBoardUseCase from './src/application/use-cases/DashboardUserCase.js';
+import SocialMediaRepository from "./src/infrastructure/repositories/SocialMediaRepository.js"
+import DashBoardController from './src/interfaces/controllers/DashBoardController.js';
+import DashBoardRoute from './src/interfaces/routes/DashBoardRoute.js';
 
 import { compareSync } from 'bcrypt';
+import SocialMediaModel from './src/infrastructure/models/SocialMediaModel.js';
 
 const app = express();
 
@@ -98,6 +103,7 @@ const favoriteModel = FavoriteModel;
 const socialMediaByPlaceModel = SocialMediaByPlaceModel;
 const userModel = UserModel;
 const passwordRecoveryModel = PasswordRecoveryModel;
+const socialMediaModel = SocialMediaModel;
 
 const categoryRepository = new CategoryRepository(categoryModel);
 const tagRepository = new TagRepository(tagModel);
@@ -169,7 +175,10 @@ const addLogUseCase = new AddLogUseCase(logVisitedRepository);
 const logVisitedController = new LogVisitedController(addLogUseCase);
 const logRoute = new LogRoute(logVisitedController);
 
-
+const socialMediaRepository = new SocialMediaRepository(socialMediaModel);
+const dashBoardUseCase = new DashBoardUseCase(tagByPlaceRepository, socialMediaByPlaceRepository, imageByPlaceRepository, addresByPlaceRepository, tagRepository, addressRepository, socialMediaRepository, imageCategoryRepository, placeRepository, categoryRepository);
+const dashboardController = new DashBoardController(dashBoardUseCase);
+const dashboardRoute = new DashBoardRoute(dashboardController);
 
 // Routes 
 app.use(cors());
@@ -185,6 +194,7 @@ app.use("/review", reviewRoute.getRouter());
 app.use('/recovery', passwordRecoveryRoute.getRouter());
 app.use("/terms-and-conditions", termsAndConditionsRoute.getRouter());
 app.use('/log', logRoute.getRouter());
+app.use('/dashboard', dashboardRoute.getRouter())
 
 // Ruta base
 app.get('/', (req, res) => {

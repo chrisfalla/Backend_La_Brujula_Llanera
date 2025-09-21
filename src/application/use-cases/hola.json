@@ -1,0 +1,22 @@
+{
+    "place": {
+        "name": "La Llamarada",
+        "description": "Hola",
+        "category": "Restaurante"
+    },
+    "images": {
+        "mostVisited": "hola0.png",
+        "smallCard": "hola1.png",
+        "profileDetail": "hola2.png",
+        "gallery": ["hla1.png", "hola2.png"],
+        "logo": "hola3.png"
+    },
+    "socialMedia": {
+        "phone": "3125678902",
+        "whatsApp": "3125678902",
+        "email": "LaConchaDeLaLora@gmail.com",
+        "instagram": "conchalora"
+    },
+    "tags": ["Nature", "Gastronomy"],
+    "address": "Cra8 15 53"
+}
