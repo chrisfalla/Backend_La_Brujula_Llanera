@@ -13,6 +13,14 @@ export default class AddressRepository extends IAddressRepository {
         });
         return address;
     }
+    async getAddressByDescription(description){
+        const address = await this.addressModel.findOne({
+            where: {
+                description: description,
+            },
+        });
+        return address;
+    }
     async addAddress(description) {
         const newAddress = await this.addressModel.create({description});
         return newAddress;

@@ -1,4 +1,4 @@
-import ISocialMediaRepository from "../../domain/repositories/ISocialMediaRepository";
+import ISocialMediaRepository from "../../domain/repositories/ISocialMediaRepository.js";
 import { Op } from 'sequelize';
 
 export default class SocialMediaRepository extends ISocialMediaRepository {
@@ -6,11 +6,11 @@ export default class SocialMediaRepository extends ISocialMediaRepository {
         super();
         this.socialMediaModel = socialMediaModel;
     }
-    async getSocialMediaByName(name) {
+    async getSocialMediaByName(socialMediaName) {
         const result = await this.socialMediaModel.findOne({
             where: {
-                name: {
-                    [Op.iLike]: `%${name}%`
+                socialMediaName: {
+                    [Op.iLike]: `%${socialMediaName}%`
                 }
             }
         });
